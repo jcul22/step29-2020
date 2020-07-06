@@ -17,7 +17,7 @@
  * that has information about the session.
  */
 function openSessionInfo() {
-  document.getElementById('session-info-div').style.display = 'none'; 
+  document.getElementById('session-info-div').style.display = 'block'; 
 }
 
 /**
@@ -25,17 +25,16 @@ function openSessionInfo() {
  * that has information about the session.
  */
 function closeSessionInfo() {
-  document.getElementById('session-info-div').style.display = 'block';
+  document.getElementById('session-info-div').style.display = 'none';
 }
 
 /**
  * function copyTextToClipboard() copies the text in the input field
- * with the id "session-id-field" into the clipboard.
+ * with the id 'session-id-field' into the clipboard.
  */
 function copyTextToClipboard() {
-  const sessionIDText = document.getElementById("session-id-field");
-  sessionIDText.select();
+  const sessionIdElement = document.getElementById('session-id-field');
+  sessionIdElement.select();
   document.execCommand('copy');
-  alert("Copied the text: " + sessionIDText.value);
-
+  alert('Copied the text: ' + sessionIdElement.value);
 }

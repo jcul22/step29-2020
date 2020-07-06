@@ -1,0 +1,96 @@
+body, 
+html { 
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.center-text {
+  text-align: center;
+}
+
+#session-screen {
+  background: rgb(0,0,0);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%,
+    rgba(109,109,109,1) 44%, rgba(255,255,255,1) 91%);
+  bottom: 0;
+  height: 85%;
+  width: 100%;
+}
+
+#session-info-div {
+  background-color: #fff;
+  border: 5px solid #fd5d00;
+  bottom: 0;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  display: none;
+  height: 400px;
+  left: 0;
+  margin: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: .3s;
+  width: 400px;
+}
+
+#close {
+  cursor: pointer;
+  padding: 12px 14px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#close:hover {
+  background: #bbb;
+}
+
+#header-bar {
+  height: 15%;
+  top: 0;
+  width: auto;
+}
+
+#session-info-img {
+  max-height: 15%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+#session-id-div {  
+  align-items: center;
+  display: flex;
+  width: 40%;
+}
+
+#session-id-label {
+  margin: 5px 10px 5px 10px;
+}
+
+#session-id-field {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin: 5px 10px 5px 0;
+  padding: 10px;	
+  vertical-align: middle;
+}
+
+#session-info-attendees {
+  height: 80%;
+  margin: 5px;
+  overflow-y: auto;
+  width: auto;
+}
+
+#session-status {
+  background-color: #fd5d00;
+  border-bottom: 1px outset;
+  color: white;
+  padding: 5px 0 5px;
+  text-align: center;
+  width: 100%;
+}

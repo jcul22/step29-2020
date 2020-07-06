@@ -1,30 +1,28 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>VMN</title>
-    <link rel="stylesheet" href="session-style.css" />
-    <script src="script-session.js"></script>
-  </head>
-  <body>
+<html lang="en">
+  <meta charset="UTF-8"/>
+  <title>VMN</title>
+  <link rel="stylesheet" href="styles/session-style.css"/>
+  <script src="scripts/script-session.js"></script>
+  <div id="header-bar">
     <h1 class="center-text">Virtual Movie Night</h1>
-    <div id="status" class="center-text">Connecting...</div>
-    <div id="session-screen"></div>
-    <img src="session-info-img.png" 
+    <img src="images/session-info-img.png" 
         id="session-info-img" onclick="openSessionInfo()"
         alt="Once clicked, contains information about the session">
-    <div id="session-info-div">
-      <span id="close" onclick="closeSessionInfo()">X</span>
-      <div id="session-id-div">
-        <label id="session-id-label" for="session-id">Session-ID:
-        </label>
-        <input type="text" id="session-id-field" name="session-id"
-            value="example123" readonly onclick="copyTextToClipboard()">
-      </div>
-      <div id="session-info-attendees">
-        <h2 class="center-text">Attendees</h2>
-      </div>
+  </div>
+  <div id="session-status" class="center-text">Connecting...</div>
+  <div id="session-screen"></div>
+  <div id="session-info-div">
+    <span id="close" onclick="closeSessionInfo()">X</span>
+    <div id="session-id-div">
+      <label id="session-id-label" for="session-id-field">Session-ID:
+      </label>
+      <input type="text" id="session-id-field" name="session-id"
+          readonly onclick="copyTextToClipboard()">
     </div>
-    <div id="snackbar"></div>
-  </body>
+    <div id="session-info-attendees">
+      <h2 class="center-text">Attendees</h2>
+    </div>
+  </div>
+  <div id="alert-membership"></div>
 </html>
