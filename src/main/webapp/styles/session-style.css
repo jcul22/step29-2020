@@ -53,12 +53,25 @@ html {
   width: auto;
 }
 
-#session-info-img {
-  max-height: 15%;
+#session-info-span {
+  background-size: cover;
+  border-radius: 50%;
+  border: 5px solid #fd5d00;
+  display: inline-block;
+  height: inherit;
   position: absolute;
   right: 0;
+  text-align: center;
   top: 0;
-  width: auto;
+  width: 5%;
+}
+
+#session-info-span-text {
+  left: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #session-id-div {  

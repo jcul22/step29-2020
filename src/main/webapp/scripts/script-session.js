@@ -21,7 +21,7 @@ function openSessionInfo() {
 }
 
 /**
- * function closeSessionContainer() closes the div container
+ * function closeSessionInfo() closes the div container
  * that has information about the session.
  */
 function closeSessionInfo() {
@@ -33,8 +33,14 @@ function closeSessionInfo() {
  * with the id 'session-id-field' into the clipboard.
  */
 function copyTextToClipboard() {
-  const sessionIdElement = document.getElementById('session-id-field');
+  const /** HTMLElement */ sessionIdElement =
+      document.getElementById('session-id-field');
   sessionIdElement.select();
   document.execCommand('copy');
-  alert('Copied the text: ' + sessionIdElement.value);
 }
+
+module.exports = {
+  openSessionInfo: openSessionInfo,
+  closeSessionInfo: closeSessionInfo,
+  copyTextToClipboard: copyTextToClipboard
+};
