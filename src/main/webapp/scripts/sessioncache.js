@@ -14,8 +14,11 @@ class SessionCache {
    * @param {Object} urlParams Represents the URLSearchParams of the
    *    session the client is in, holds information such as the
    *    session ID and the screen name of the current user.
+   * @param {number=} [refreshCadence = 30000] Represents the cadence at
+   *    which the sessionInformation is refreshed. By default, the rate is 
+   *    30,000 milliseconds (or 30 seconds).  
    */
-  constructor(urlParams) {
+  constructor(urlParams, refreshCadence = 30000) {
     /** 
      * Poll responsible for contacting the server for information about
      * the current session.
@@ -23,43 +26,46 @@ class SessionCache {
      */
     this.sessionInformationPoll_ = null;
 
-    /** 
-     * Poll responsible for updating the server of information about Date
-     * last polled. 
-     * @private {Object} 
-     */
-    this.trackForInactivityPoll_ = null;
-
     /**
-     * Holds the value being tracked by the SessionCache, the
-     * information about the session
+     * Holds what is being tracked by the SessionCache, the
+     * information about the session.
      * @private {Object}
      */
     this.sessionInformation_ = null;
 
     /**
-     * Represents the cadence at which the keys of the cacheObject
-     * have their values refreshed. For the purpose of this class,
-     * all of the keys refresh at the same rate of 30,000 milliseconds
-     * (or 30 seconds). 
-     * @private @const {number}
+     * @private {number}
      */
-    this.REFRESH_CADENCE_ = 30000;
+    this.refreshCadence_ = refreshCadence;
 
     /**
      * @private {Object}
      */
     this.urlParams_ = urlParams;
-
-    this.refreshKeys_();
   }
 
   /**
-   * Gathers the results from the various polls assigned to the keys
-   * and updates their values. Keys are updated every 30 seconds.
+   * Refreshes the result from the session information poll 
+   * and updates the . Keys are updated every 30 seconds.
    * @private
    */
-  refreshKeys_() {
+  refreshSessionInformation_() {
+    throw new Error('Unimplemented');
+  }
+
+  /** 
+   * This method begins polling for session information and starts
+   * refreshing.
+   */
+  start() {
+    throw new Error('Unimplemented');
+  }
+
+  /** 
+   * This method stops polling for session information and stops
+   * refreshing.
+   */
+  stop() {
     throw new Error('Unimplemented');
   }
 
@@ -74,42 +80,11 @@ class SessionCache {
   }
 
   /**
-   * Method updateDatePolledRequest_() is the fetch api request 
-   * responsible for updating the server with the last time the 
-   * current user polled.
-   * @private
+   * Returns information about the session, given how updated the 
+   * cache is in refreshing.
+   * @return {Object} The Session object.
    */
-  updateDatePolledRequest_() {
-    throw new Error('Unimplemented');
-  }
-
-  /**
-   * Returns the value of the key specified if being tracked by
-   * the cache.
-   * @param {string} key 
-   * @return {Object} The value.
-   */
-  getValue(key) {
-    throw new Error('Unimplemented');
-  }
-
-  /**
-   * Method updateControllerRequest_() is the fetch api request 
-   * responsible for updating the server with who the controller 
-   * should be.
-   * @param {string} name
-   * @private
-   */
-  updateControllerRequest_(name) {
-    throw new Error('Unimplemented');
-  }
-
-  /**
-   * Updates the controller of the session to be that of the 
-   * person passed in.
-   * @param {string} name 
-   */
-  updateController(name) {
+  getSessionInformation() {
     throw new Error('Unimplemented');
   }
 }

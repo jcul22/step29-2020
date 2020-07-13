@@ -11,7 +11,7 @@
   */ 
  class Poller {
   /**
-   * Initializes a Poll object.
+   * Initializes a Poller object.
    * @param {function(): ?Object} pollingFunction Represents the function 
    *    that is polled.
    * @param {number=} [pollingPeriod = 30000] Represents the 
@@ -53,10 +53,10 @@
   }
 
   /** 
-   * This method begins polling 
+   * This method begins polling. 
    */
   start() {
-
+    throw new Error('Unimplemented');
   }
 
   /** 
@@ -64,7 +64,7 @@
    * function instance.
    */
   stop() {
-
+    throw new Error('Unimplemented');
   }
 
   /**
