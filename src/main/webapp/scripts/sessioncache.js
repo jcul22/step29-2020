@@ -31,11 +31,11 @@ class SessionCache {
     this.trackForInactivityPoll_ = null;
 
     /**
-     * Holds the different keys being tracked by the SessionCache and 
-     * their respective values.
+     * Holds the value being tracked by the SessionCache, the
+     * information about the session
      * @private {Object}
      */
-    this.cache_ = { session: null };
+    this.sessionInformation_ = null;
 
     /**
      * Represents the cadence at which the keys of the cacheObject
