@@ -4,6 +4,13 @@
   * be used to periodically update the server of necessary updates. 
   * By default, polling objects poll indefinitely over a
   * period of 30 seconds.
+  * 
+  * For example, if a fetchAPIRequest is one that contacts a servlet
+  * to doGet some value, a Poll object will repeatedly doGet the value, 
+  * attaching it to one of its fields which can then be retrieved with 
+  * getResult(). The core nature is that it executes a function over
+  * and over, and doesn't necessarily have to be used to doGet some value,
+  * but can doPost, updating the server also.
   */ 
  class Poll {
   /**
@@ -27,8 +34,6 @@
      */
     this.result_ = null;
 
-    
-
     /**
      * @private @const {number}
      */
@@ -44,6 +49,10 @@
      *    occured. 
      */
     this.attempts_ = 0;
+
+    this.fetchAPIRequest_ = fetchAPIRequest;
+
+    this.poll_();
   }
 
   /**
@@ -52,7 +61,7 @@
    * @private
    */ 
   poll_() {
-    return;
+    throw new Error('Unimplemented');
   }
 
   /**
@@ -61,7 +70,7 @@
    * @return {?Object} The result.
    */
   getResult() {
-    return;
+    throw new Error('Unimplemented');
   }
 }
 
