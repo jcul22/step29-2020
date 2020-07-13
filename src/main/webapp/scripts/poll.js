@@ -14,9 +14,10 @@
    * Initializes a Poll object.
    * @param {function(): ?Object} pollingFunction Represents the function 
    *    that is polled.
-   * @param {number=} [pollingPeriod] Represents the cadence at which 
-   *    the fetchRequest is called upon. Must be provided in milliseconds
-   *    and is by default 30,000 milliseconds (or 30 seconds). 
+   * @param {number=} [pollingPeriod = 30000] Represents the 
+   *    cadence at which the fetchRequest is called upon. 
+   *    Must be provided in milliseconds and is by default
+   *    30,000 milliseconds (or 30 seconds). 
    */
   constructor(pollingFunction, pollingPeriod = 30000) {
     /** 
@@ -49,6 +50,21 @@
    */ 
   poll_() {
     throw new Error('Unimplemented');
+  }
+
+  /** 
+   * This method begins polling 
+   */
+  start() {
+
+  }
+
+  /** 
+   * This method stops polling, calls clearTimeout on the current poll
+   * function instance.
+   */
+  stop() {
+
   }
 
   /**
