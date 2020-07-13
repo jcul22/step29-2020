@@ -12,19 +12,17 @@
  class Poller {
   /**
    * Initializes a Poller object.
-   * @param {function(): ?Object} pollingFunction Represents the function 
+   * @param {function(): any} pollingFunction Represents the function 
    *    that is polled.
    * @param {number=} [pollingPeriod = 30000] Represents the 
-   *    cadence at which the fetchRequest is called upon. 
+   *    cadence at which the pollingFunction is called upon. 
    *    Must be provided in milliseconds and is by default
    *    30,000 milliseconds (or 30 seconds). 
    */
   constructor(pollingFunction, pollingPeriod = 30000) {
     /** 
-     * Represents the output of the fetchRequest function, is constantly
-     * being updated. Can be null, ie in the case of if the 
-     * fetchAPIRequest is meant to update the server instead of
-     * checking for some new result. 
+     * Represents the output of the pollingFunction, is constantly
+     * being updated.
      * @private {?Object} 
      */
     this.result_ = null;
@@ -44,8 +42,8 @@
   }
 
   /**
-   * This method periodically executes (time dictated by pollingTime)
-   * the given API request from fetchAPIRequest, updating the result.
+   * This method periodically executes (time dictated by pollingPeriod)
+   * the pollingFunction, updating the result.
    * @private
    */ 
   poll_() {
@@ -89,4 +87,4 @@
   }
 }
 
-export { Poll };
+export { Poller };

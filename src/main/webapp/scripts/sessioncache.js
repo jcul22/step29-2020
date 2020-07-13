@@ -20,11 +20,11 @@ class SessionCache {
    */
   constructor(urlParams, refreshCadence = 30000) {
     /** 
-     * Poll responsible for contacting the server for information about
+     * Poller responsible for contacting the server for information about
      * the current session.
      * @private {Object} 
      */
-    this.sessionInformationPoll_ = null;
+    this.sessionInformationPoller_ = null;
 
     /**
      * Holds what is being tracked by the SessionCache, the
@@ -45,8 +45,9 @@ class SessionCache {
   }
 
   /**
-   * Refreshes the result from the session information poll 
-   * and updates the . Keys are updated every 30 seconds.
+   * Refreshes the result from the session information poller 
+   * and updates the sessionInformation field.
+   * Keys are updated every 30 seconds.
    * @private
    */
   refreshSessionInformation_() {

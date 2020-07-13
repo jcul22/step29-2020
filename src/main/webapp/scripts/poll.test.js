@@ -1,8 +1,27 @@
-import { Poll } from './poll';
+import { Poller } from './poll';
 
-test.only('We can check if poll() is called + correct return value', () => {
+test('We can check if correct errors are thrown - start', () => {
   try {
-    const poll = new Poll();
+    const poll = new Poller();
+    poll.start();
+  } catch (e) {
+    expect(e.message).toBe('Unimplemented');
+  }
+});
+
+test('We can check if correct errors are thrown - stop', () => {
+  try {
+    const poll = new Poller();
+    poll.stop();
+  } catch (e) {
+    expect(e.message).toBe('Unimplemented');
+  }
+});
+
+test('We can check if correct errors are thrown - getLastResult', () => {
+  try {
+    const poll = new Poller();
+    poll.getLastResult();
   } catch (e) {
     expect(e.message).toBe('Unimplemented');
   }
