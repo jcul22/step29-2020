@@ -1,5 +1,5 @@
 const {openSessionInfo, closeSessionInfo, copyTextToClipboard} =
-    require('./script-session');
+    require('./session-script');
 
 test('display none to block', () => {
   document.body.innerHTML = '<div id="container"></div>';
