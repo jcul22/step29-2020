@@ -2,6 +2,7 @@ package com.google.sps.data;
 
 import java.util.Date;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.data.EntityConstants;
 
 /** Class that represents a user in the session as an attendee. */
 public class Attendee implements AttendeeInterface{
@@ -38,19 +39,23 @@ public class Attendee implements AttendeeInterface{
     return timeLastPolled;
   }
 
-  /** Compares two Attendee objects to see if the values are the same. */
-  public boolean isEqual(Attendee x) {
-    boolean isEqual = false;
-      if(this.sessionId == x.sessionId) {
-        if(this.screenName == x.screenName) {
-          if(this.timeLastPolled == x.timeLastPolled) {
-            isEqual = true;
-          } 
-        }
-      }
-    return isEqual;
+  /** Compares two objects to see if the values are the same. */
+  public boolean isEqual(Object obj) {
+    // self check
+    if (this == obj)
+      return true; 
+    // null check 
+    if (obj == null) 
+      return false;
+    // type check
+    if(obj.getClass() != getClass()) 
+      return false;
+    Attendee otherAttendee = (Attendee) obj; 
+    // field comparison
+    return sessionId.equals(otherAttendee.sessionId)
+        && screenName.equals(otherAttendee.screenName)
+        && timeLastPolled.equals(otherAttendee.timeLastPolled);   
   }
-
 
   /**
    * Returns a new Entity of kind "Attendee" from an Attendee object.
@@ -58,10 +63,14 @@ public class Attendee implements AttendeeInterface{
    *     an Entity.
    */
   public Entity toEntity(Attendee attendee) {
-    Entity attendeeEntity = new Entity("Attendee");
-    attendeeEntity.setProperty("sessionId", attendee.sessionId);
-    attendeeEntity.setProperty("screenName", attendee.screenName);
-    attendeeEntity.setProperty("timeLastPolled", attendee.timeLastPolled);
+    Entity attendeeEntity = 
+        new Entity(EntityConstants.AttendeeEntity.TABLE_NAME);
+    attendeeEntity.setProperty 
+        (EntityConstants.AttendeeEntity.SESSION_ID, attendee.sessionId);
+    attendeeEntity.setProperty
+        (EntityConstants.AttendeeEntity.SCREEN_NAME, attendee.screenName);
+    attendeeEntity.setProperty
+        (EntityConstants.AttendeeEntity.TIME_LAST_POLLED, attendee.timeLastPolled);
     return attendeeEntity;
   }
 
@@ -71,9 +80,12 @@ public class Attendee implements AttendeeInterface{
    *     properties similar to the fields of a attendee object.
    */
   public static Attendee fromEntity(Entity attendeeEntity) {
-    String sessionId = (String) attendeeEntity.getProperty("sessionId");    
-    String screenName = (String) attendeeEntity.getProperty("screenName");
-    Date timeLastPolled = (Date) attendeeEntity.getProperty("timeLastPolled");
+    String sessionId = (String) attendeeEntity.getProperty
+        (EntityConstants.AttendeeEntity.SESSION_ID);    
+    String screenName = (String) attendeeEntity.getProperty
+        (EntityConstants.AttendeeEntity.SCREEN_NAME);
+    Date timeLastPolled = (Date) attendeeEntity.getProperty
+        (EntityConstants.AttendeeEntity.TIME_LAST_POLLED);
     return new Attendee(sessionId, screenName, timeLastPolled);
   }
 }

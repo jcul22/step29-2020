@@ -9,9 +9,6 @@ interface AttendeeInterface{
   String getSessionId();
   String getScreenName();
   Date getTimeLastPolled();
-  boolean isEqual(Attendee x);
+  boolean isEqual(Object obj);
   Entity toEntity(Attendee attendee);
 }
-
-
-
