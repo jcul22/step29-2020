@@ -1,3 +1,6 @@
+import { Poller } from "./poller";
+import { Session } from "./session";
+
 /** 
  * SessionCache bridges the gap between the client and server.
  * Allows client to indirectly stay in contact with the server,
@@ -17,14 +20,18 @@ class SessionCache {
    * @param {number=} [refreshCadence = 30000] Represents the cadence at
    *    which the sessionInformation is refreshed. By default, the rate is 
    *    30,000 milliseconds (or 30 seconds).  
+   * @param {number=} [pollingCadence = 30000] Represents the 
+   *    cadence at which the server is polled. By default, the rate is 
+   *    30,000 milliseconds (or 30 seconds). 
    */
-  constructor(urlParams, refreshCadence = 30000) {
+  constructor(urlParams, refreshCadence = 30000, pollingCadence = 30000) {
     /** 
      * Poller responsible for contacting the server for information about
      * the current session.
      * @private {Object} 
      */
-    this.sessionInformationPoller_ = null;
+    this.sessionInformationPoller_ = 
+        new Poller(this.sessionInformationFetchRequest_, pollingCadence);
 
     /**
      * Holds what is being tracked by the SessionCache, the
