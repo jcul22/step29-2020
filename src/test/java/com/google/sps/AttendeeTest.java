@@ -34,15 +34,7 @@ public class AttendeeTest {
   public void attendeeTester() {
     
     // Creates test data. 
-    DateFormat dateformat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-    String dateStr = "05/09/20 10:30:22";
     Date date = new Date();
-    try {
-        date = dateformat.parse(dateStr);
-        System.out.println(date);
-      } catch (ParseException e) { 
-          System.out.println("Unparseable using " + dateformat); 
-      }
     Attendee Test = new Attendee("12345", "Taniece", date);
     Entity testEntity = Test.toEntity(Test);
     Attendee newTestAttendee = Attendee.fromEntity(testEntity);
