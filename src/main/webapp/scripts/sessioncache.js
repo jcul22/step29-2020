@@ -31,7 +31,7 @@ class SessionCache {
      * @private {Object} 
      */
     this.sessionInformationPoller_ = 
-        new Poller(this.sessionInformationFetchRequest_, pollingCadence);
+        new Poller(this.sessionInformationRequest_, pollingCadence);
 
     /**
      * Holds what is being tracked by the SessionCache, the
@@ -96,8 +96,10 @@ class SessionCache {
    * the client is in.
    * @private
    */
-  sessionInformationRequest_() {
-    throw new Error('Unimplemented');
+  async sessionInformationRequest_() {
+    const response = await fetch('/get-session-info');
+    const sessionInfo = await response.json();
+    return sessionInfo;
   }
 
   /**
