@@ -32,6 +32,16 @@
      */
     this.pollingPeriod_ = pollingPeriod;
 
+    /**
+     * Represents the handler returned by the setTimeout that continues
+     * to poll.
+     * @private {?number}
+     */
+    this.setTimeoutId_ = 0;
+    
+    /**
+     * @private {function(): any}
+     */
     this.pollingFunction_ = pollingFunction;
   }
 
@@ -42,12 +52,7 @@
    */ 
   poll_() {
     this.result_ = this.pollingFunction_();
-    /**
-     * Represents the handler returned by the setTimeout that continues
-     * to poll.
-     * @private {number}
-     */
-    this.setTimeoutIdOfPoll_ = setTimeout(() => {
+    this.setTimeoutId_ = setTimeout(() => {
       this.poll_();
     }, this.pollingPeriod_);
   }
@@ -64,7 +69,7 @@
    * function instance.
    */
   stop() {
-    clearTimeout(this.setTimeoutIdOfPoll_);
+    clearTimeout(this.setTimeoutId_);
   }
 
   /**

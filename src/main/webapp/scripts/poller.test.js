@@ -11,7 +11,7 @@ afterEach(() => {
 });
 
 test('Test to see if stop is working correctly!', (done) => {
-  const poll = new Poller(pollingFunction, 1000);
+  const poll = new Poller(testPollingFunction, 1000);
   poll.start();
   setTimeout(() => {
     poll.stop();
@@ -25,7 +25,7 @@ test('Test to see if stop is working correctly!', (done) => {
 
 test('We can check if poll() is called correct amount' + 
     'of times + correct return value', (done) => {
-      const poll = new Poller(pollingFunction, 1000);
+      const poll = new Poller(testPollingFunction, 1000);
       poll.start();
       setTimeout(() => {
         expect(clearTimeoutSpy).toHaveBeenCalledTimes(0);
@@ -37,7 +37,7 @@ test('We can check if poll() is called correct amount' +
 });
 
 test('stopping before starting', () => {
-  const poll = new Poller(pollingFunction, 1000);
+  const poll = new Poller(testPollingFunction, 1000);
   poll.stop();
   expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
   expect(pollSpy).toHaveBeenCalledTimes(0);
@@ -46,7 +46,7 @@ test('stopping before starting', () => {
 });
 
 test('starting up, immediately stopping', () => {
-  const poll = new Poller(pollingFunction, 1000);
+  const poll = new Poller(testPollingFunction, 1000);
   poll.start();
   poll.stop();
   expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
@@ -56,7 +56,7 @@ test('starting up, immediately stopping', () => {
 });
 
 test('starting up after stopping', (done) => {
-  const poll = new Poller(pollingFunction, 1000);
+  const poll = new Poller(testPollingFunction, 1000);
   poll.start();
   poll.stop();
   poll.start();
@@ -69,6 +69,6 @@ test('starting up after stopping', (done) => {
   }, 5000);
 });
 
-function pollingFunction() {
+function testPollingFunction() {
   return true;
 }
