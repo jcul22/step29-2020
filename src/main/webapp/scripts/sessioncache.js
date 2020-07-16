@@ -51,14 +51,25 @@ class SessionCache {
     this.urlParams_ = urlParams;
   }
 
-  /**
-   * Refreshes the result from the session information poller 
+/**
+   * Refreshes (rate dictated by the refreshCadence) 
+   * the result from the session information poller 
    * and updates the sessionInformation field.
-   * Keys are updated every 30 seconds.
    * @private
    */
-  refreshSessionInformation_() {
-    throw new Error('Unimplemented');
+  async refreshSessionInformation_() {
+    this.sessionInformation_ = 
+        await this.sessionInformationPoller_.getLastResult().then(
+            result => {
+              return result;
+            });
+    /**
+     * Represents the handler returned by the setTimeout that refreshes.
+     * @private {number}
+     */
+    this.setTimeoutIdOfRefresh_ = setTimeout(() => {
+      this.refreshSessionInformation_();
+    }, this.refreshCadence_);
   }
 
   /** 
