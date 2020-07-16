@@ -3,29 +3,33 @@ class Session {
 // for client to server information needed for other components of Virtual Movie Night.
  
     constructor() {
-        this.sessionId;
-        this.instanceIp;
-        this.listOfAttendees;
-        this.controllerIp;
+        const expected = {
+            sessionId: 'JTC6',
+            screenNameOfController: 'chris',
+            ipOfVM: '01',
+            listOfAttendees: ['chris', 'bryan']
+            };
+        this.sessionId = expected.sessionId;
+        this.ipOfVM = expected.ipOfVM;
+        this.listOfAttendees = expected.listOfAttendees;
+        this.screenNameOfController = expected.screenNameOfController; 
     }
     
     getSessionId() {
         return this.sessionId;
     } 
 
-    getInstanceIp() {
-        return this.instanceIp;
+    getIpOfVM() {
+        return this.ipOfVM;
     } 
 
     getListOfAttendees() { 
-       return this.listOfAttendees;
-    
-        
+       return this.listOfAttendees;    
     }
     
-    getControllerIp() {
-        return this.controllerIp; 
-    } 
+    getScreenNameOfController(){
+       return this.screenNameOfController; 
+    }
     
 }
 export { Session };

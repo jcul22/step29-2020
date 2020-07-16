@@ -3,9 +3,14 @@
 
 class User {
     constructor() {
-        this.screenName;
-        this.controllerStatus;
-        this.userIp;
+        const expected = {
+            sessionId: 'JTC6',
+            controllerStatus = true,
+            userIp = "129.23.321.12"
+        };
+        this.sessionId = expected.sessionId;
+        this.controllerStatus = expected.controllerStatus;
+        this.userIp = expected.userIp;
     
     }
     getScreenName() {
