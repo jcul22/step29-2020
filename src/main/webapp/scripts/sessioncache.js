@@ -108,7 +108,7 @@ class SessionCache {
    * @return {Object} The Session object.
    */
   getSessionInformation() {
-    throw new Error('Unimplemented');
+    return new Session(this.sessionInformation_);
   }
 }
 
