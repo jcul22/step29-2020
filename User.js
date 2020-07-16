@@ -2,27 +2,24 @@
 // created in addition to the session class. The test for this JS class file utilizes Jest.IO
 
 class User {
-    constructor(screenName){
-        this.screenName = screenName;
+    constructor() {
+        this.screenName;
+        this.controllerStatus;
+        this.userIp;
+    
     }
-    constructor(controllerStatus){
-        this.controllerStatus = controllerStatus;
-    }
-    constructor(userIp){
-        this.userIp = userIp;
-    } 
-
-    get screenName() {
+    getScreenName() {
         return this.screenName;
     }
     
-    get controllerStatus() {
+    getControllerStatus() {
         return this.controllerStatus;
     }
     
-    get UserIp() {
+    getUserIp() {
         return this.userIp;
     }
     
     
 } 
+export { User };

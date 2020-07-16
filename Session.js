@@ -2,37 +2,30 @@ class Session {
 // To be utilized when unwrapping JSON from the future servlets. Will be on the client side and be used as a buffer  
 // for client to server information needed for other components of Virtual Movie Night.
  
-    constructor(sessionId) {
-        this.sessionId = sessionId;
-    }
-    constructor(instanceIp) {
-        this.instanceIp = instanceIp;
-    } 
-    constructor(listOfAttendees){
-        this.listOfAttendees = listOfAttendees;
+    constructor() {
+        this.sessionId;
+        this.instanceIp;
+        this.listOfAttendees;
+        this.controllerIp;
     }
     
-    constructor(controllerIp){
-        this.controllerIp = controllerIp;
-    }
+    getSessionId() {
+        return this.sessionId;
+    } 
 
+    getInstanceIp() {
+        return this.instanceIp;
+    } 
 
+    getListOfAttendees() { 
+       return this.listOfAttendees;
     
-    get SessionId() {
-        return sessionId;
+        
+    }
+    
+    getControllerIp() {
+        return this.controllerIp; 
     } 
-
-    get InstanceIp() {
-        return instnaceIp;
-    } 
-
-    get ControllerIp() {
-        return controllerIp; 
-    } 
-
-    get ListofAttendees() { 
-        return listOfAttendees;
-    } 
+    
 }
-
 export { Session };
