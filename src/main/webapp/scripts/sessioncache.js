@@ -77,7 +77,8 @@ class SessionCache {
    * refreshing.
    */
   start() {
-    throw new Error('Unimplemented');
+    this.sessionInformationPoller_.start();
+    this.refreshSessionInformation_();
   }
 
   /** 
@@ -85,7 +86,8 @@ class SessionCache {
    * refreshing.
    */
   stop() {
-    throw new Error('Unimplemented');
+    this.sessionInformationPoller_.stop();
+    clearTimeout(this.setTimeoutIdOfRefresh_);
   }
 
   /**
