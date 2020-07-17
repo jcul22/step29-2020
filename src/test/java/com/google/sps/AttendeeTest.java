@@ -14,10 +14,9 @@ import org.junit.Before;
 import com.google.sps.data.Attendee;
 import com.google.sps.data.AttendeeInterface;
 
+/** Class that test the methods in the Attendee class. */
 @RunWith(JUnit4.class)
-
 public class AttendeeTest {
-  
   private final LocalServiceTestHelper helper =
   new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 

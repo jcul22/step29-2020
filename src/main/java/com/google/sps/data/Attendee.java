@@ -51,7 +51,7 @@ public class Attendee implements AttendeeInterface {
     if(obj.getClass() != getClass())
       return false;
     return this.isEqualTo((Attendee) obj);
-    }
+  }
 
   /** Compares an AttendeeInterface to itself. */
   public boolean isEqualTo(AttendeeInterface attendee) {
