@@ -5,7 +5,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.EntityConstants;
 
 /** Class that represents a user in the session as an attendee. */
-public class Attendee implements AttendeeInterface{
+public class Attendee implements AttendeeInterface {
 
   // The id of the session this attendee is in.
   private final String sessionId;
@@ -38,19 +38,24 @@ public class Attendee implements AttendeeInterface{
   public Date getTimeLastPolled() {
     return timeLastPolled;
   }
-
-  /** Compares two objects to see if the values are the same. */
-  public boolean isEqual(Object obj) {
+  
+  @Override
+  public boolean equals(Object obj) {
     // self check
     if (this == obj)
-      return true; 
-    // null check 
-    if (obj == null) 
+      return true;
+    // null check
+    if (obj == null)
       return false;
     // type check
-    if(obj.getClass() != getClass()) 
+    if(obj.getClass() != getClass())
       return false;
-    Attendee otherAttendee = (Attendee) obj; 
+    return this.isEqualTo((Attendee) obj);
+    }
+
+  /** Compares two objects to see if the values are the same. */
+  public boolean isEqualTo(AttendeeInterface obj) {
+    Attendee otherAttendee = (Attendee) obj;
     // field comparison
     return sessionId.equals(otherAttendee.sessionId)
         && screenName.equals(otherAttendee.screenName)
@@ -61,16 +66,17 @@ public class Attendee implements AttendeeInterface{
    * Returns a new Entity of kind "Attendee" from an Attendee object.
    * @param {Attendee} attendee - the Attendee object that will be made into
    *     an Entity.
+   *
    */
-  public Entity toEntity(Attendee attendee) {
+  public Entity toEntity() {
     Entity attendeeEntity = 
         new Entity(EntityConstants.AttendeeEntity.TABLE_NAME);
     attendeeEntity.setProperty 
-        (EntityConstants.AttendeeEntity.SESSION_ID, attendee.sessionId);
+        (EntityConstants.AttendeeEntity.SESSION_ID, this.sessionId);
     attendeeEntity.setProperty
-        (EntityConstants.AttendeeEntity.SCREEN_NAME, attendee.screenName);
+        (EntityConstants.AttendeeEntity.SCREEN_NAME, this.screenName);
     attendeeEntity.setProperty
-        (EntityConstants.AttendeeEntity.TIME_LAST_POLLED, attendee.timeLastPolled);
+        (EntityConstants.AttendeeEntity.TIME_LAST_POLLED, this.timeLastPolled);
     return attendeeEntity;
   }
 

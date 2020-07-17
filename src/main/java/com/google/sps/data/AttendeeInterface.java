@@ -4,11 +4,12 @@ import java.util.Date;
 import com.google.appengine.api.datastore.Entity;
 
 /** Interface for the Attendee class. */
-interface AttendeeInterface{
-  
+public interface AttendeeInterface {
   String getSessionId();
   String getScreenName();
   Date getTimeLastPolled();
-  boolean isEqual(Object obj);
-  Entity toEntity(Attendee attendee);
+  //Compares two objects to see if the values are the same.
+  boolean isEqualTo(AttendeeInterface obj);
+  //Returns a new Entity from an AttendeeInterface object.
+  Entity toEntity();
 }

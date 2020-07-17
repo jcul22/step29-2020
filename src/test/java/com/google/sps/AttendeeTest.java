@@ -12,10 +12,14 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import org.junit.After;
 import org.junit.Before;
 import com.google.sps.data.Attendee;
+import com.google.sps.data.AttendeeInterface;
 
 @RunWith(JUnit4.class)
 
 public class AttendeeTest {
+  // Creates test data. 
+  Date date = new Date();
+  AttendeeInterface attendee = new Attendee("12345", "Taniece", date);
 
   private final LocalServiceTestHelper helper =
   new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -31,20 +35,18 @@ public class AttendeeTest {
   }
 
   @Test
-  public void attendeeTester() {
-    
-    // Creates test data. 
-    Date date = new Date();
-    Attendee Test = new Attendee("12345", "Taniece", date);
-    Entity testEntity = Test.toEntity(Test);
-    Attendee newTestAttendee = Attendee.fromEntity(testEntity);
+  // Test if the get constructors return the right values.
+  public void testGetters() {
+    Assert.assertEquals("12345", attendee.getSessionId());
+    Assert.assertEquals("Taniece", attendee.getScreenName());
+    Assert.assertEquals(date, attendee.getTimeLastPolled());
+  }
 
-    // Test if the constructors return the right values
-    Assert.assertEquals("12345", Test.getSessionId());
-    Assert.assertEquals("Taniece", Test.getScreenName());
-    Assert.assertEquals(date, Test.getTimeLastPolled());
-    
-    // Test if the two Attendee objects are equal
-    Assert.assertTrue(Test.isEqual(newTestAttendee));
+  @Test
+  // Test if object is the same after been converted to an entitty and back. 
+  public void testConversionBetweenEntityAndAttendee() {
+    Entity testEntity = attendee.toEntity();
+    AttendeeInterface newAttendee = Attendee.fromEntity(testEntity);
+    Assert.assertTrue(attendee.equals(newAttendee));
   }
 }
