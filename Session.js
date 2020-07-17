@@ -4,12 +4,6 @@ class Session {
 // for other components of Virtual Movie Night.
  
     constructor() {
-        const expected = {
-            sessionId: 'JTC6',
-            screenNameOfController: 'chris',
-            ipOfVM: '01',
-            listOfAttendees: ['chris', 'bryan']
-        };
         this.sessionId = expected.sessionId;
         this.ipOfVM = expected.ipOfVM;
         this.listOfAttendees = expected.listOfAttendees;
@@ -18,22 +12,18 @@ class Session {
     
     setSessionId(id) { 
         this.sessionId = id;
-        return this.sessionId;
     }
 
     setIpOfVM(ip) {
         this.ipOfVM = ip;
-        return ip;
     }
 
     setListOfAttendees(attendees) {
         this.listOfAttendees = attendees;
-        return attendees;
     }
 
-    setScreenNameOfController(controller){
+    setScreenNameOfController(controller) {
         this.screenNameOfController = controller;
-        return controller;
     }
 
     getSessionId() {
@@ -48,17 +38,15 @@ class Session {
        return this.listOfAttendees;    
     }
     
-    getScreenNameOfController(){
+    getScreenNameOfController() {
        return this.screenNameOfController; 
     }
     
-    static fromSession(session) { 
-        sess = new Session(); 
-        setSessionId();
-        setIpOfVM();
-        setListOfAttendees();
-        setScreenNameOfController();
-        return sess;
+    static fromObject(obj) {  
+        setSessionId(obj.sessionId);
+        setIpOfVM(obj.ipOfVM);
+        setListOfAttendees(obj.listOfAttendees);
+        setScreenNameOfController(obj.ScreenNameOfController);
     }
     
 }
