@@ -17,10 +17,7 @@ import com.google.sps.data.AttendeeInterface;
 @RunWith(JUnit4.class)
 
 public class AttendeeTest {
-  // Creates test data. 
-  Date date = new Date();
-  AttendeeInterface attendee = new Attendee("12345", "Taniece", date);
-
+  
   private final LocalServiceTestHelper helper =
   new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -35,18 +32,23 @@ public class AttendeeTest {
   }
 
   @Test
-  // Test if the get constructors return the right values.
   public void testGetters() {
-    Assert.assertEquals("12345", attendee.getSessionId());
-    Assert.assertEquals("Taniece", attendee.getScreenName());
-    Assert.assertEquals(date, attendee.getTimeLastPolled());
+    // Creates test data. 
+    Date date = new Date();
+    AttendeeInterface attendee = new Attendee("12345", "Taniece", date);
+
+    Assert.assertEquals(attendee.getSessionId(), "12345");
+    Assert.assertEquals(attendee.getScreenName(), "Taniece");
+    Assert.assertEquals(attendee.getTimeLastPolled(), date);
   }
 
   @Test
-  // Test if object is the same after been converted to an entitty and back. 
   public void testConversionBetweenEntityAndAttendee() {
+    // Creates test data. 
+    AttendeeInterface attendee = new Attendee("12345", "Taniece", new Date());
     Entity testEntity = attendee.toEntity();
     AttendeeInterface newAttendee = Attendee.fromEntity(testEntity);
+
     Assert.assertTrue(attendee.equals(newAttendee));
   }
 }

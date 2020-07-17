@@ -53,21 +53,16 @@ public class Attendee implements AttendeeInterface {
     return this.isEqualTo((Attendee) obj);
     }
 
-  /** Compares two objects to see if the values are the same. */
-  public boolean isEqualTo(AttendeeInterface obj) {
-    Attendee otherAttendee = (Attendee) obj;
+  /** Compares an AttendeeInterface to itself. */
+  public boolean isEqualTo(AttendeeInterface attendee) {
+    Attendee otherAttendee = (Attendee) attendee;
     // field comparison
     return sessionId.equals(otherAttendee.sessionId)
         && screenName.equals(otherAttendee.screenName)
         && timeLastPolled.equals(otherAttendee.timeLastPolled);   
   }
 
-  /**
-   * Returns a new Entity of kind "Attendee" from an Attendee object.
-   * @param {Attendee} attendee - the Attendee object that will be made into
-   *     an Entity.
-   *
-   */
+  /** Returns a new Entity of kind "Attendee" from an Attendee object. */
   public Entity toEntity() {
     Entity attendeeEntity = 
         new Entity(EntityConstants.AttendeeEntity.TABLE_NAME);

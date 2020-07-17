@@ -8,8 +8,8 @@ public interface AttendeeInterface {
   String getSessionId();
   String getScreenName();
   Date getTimeLastPolled();
-  //Compares two objects to see if the values are the same.
-  boolean isEqualTo(AttendeeInterface obj);
-  //Returns a new Entity from an AttendeeInterface object.
+  // Compares an AttendeeInterface to itself. 
+  boolean isEqualTo(AttendeeInterface attendee);
+  // Returns a new Entity from an AttendeeInterface object.
   Entity toEntity();
 }
