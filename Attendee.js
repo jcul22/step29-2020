@@ -33,11 +33,12 @@ class Attendee {
         return this.timeLastPolled;
     }
 
-    obj = new Session();
-    static fromObject(obj) {  
-        setSessionId(obj.sessionId);
-        setScreenName(obj.screenName);
-        setListOfAttendees(obj.timeLastPolled);
+    static fromObject(obj) { 
+        const attendee = new Attendee(); 
+        setSessionId(attendee.sessionId);
+        setScreenName(attendee.screenName);
+        setListOfAttendees(attendee.timeLastPolled);
+        return attendee;
     }
     
 } 

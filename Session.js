@@ -42,12 +42,13 @@ class Session {
        return this.screenNameOfController; 
     }
     
-    obj = new Session();
+    
     static fromObject(obj) {  
-        setSessionId(obj.sessionId);
-        setIpOfVM(obj.ipOfVM);
-        setListOfAttendees(obj.listOfAttendees);
-        setScreenNameOfController(obj.ScreenNameOfController);
+        const session = new Session();
+        setSessionId(session.sessionId);
+        setIpOfVM(session.ipOfVM);
+        setListOfAttendees(session.listOfAttendees);
+        setScreenNameOfController(session.ScreenNameOfController);
     }
     
 }
