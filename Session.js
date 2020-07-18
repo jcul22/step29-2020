@@ -4,10 +4,10 @@ class Session {
 // for other components of Virtual Movie Night.
  
     constructor() {
-        this.sessionId = expected.sessionId;
-        this.ipOfVM = expected.ipOfVM;
-        this.listOfAttendees = expected.listOfAttendees;
-        this.screenNameOfController = expected.screenNameOfController; 
+        this.sessionId;
+        this.ipOfVM;
+        this.listOfAttendees;
+        this.screenNameOfController; 
     }
     
     setSessionId(id) { 
@@ -42,6 +42,7 @@ class Session {
        return this.screenNameOfController; 
     }
     
+    obj = new Session();
     static fromObject(obj) {  
         setSessionId(obj.sessionId);
         setIpOfVM(obj.ipOfVM);

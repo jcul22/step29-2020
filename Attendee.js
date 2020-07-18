@@ -4,45 +4,40 @@
 
 class Attendee {
     constructor() {
-        this.sessionId = expected.sessionId;
-        this.controllerStatus = expected.controllerStatus;
-        this.attendeeIp = expected.attendeeIp;
+        this.sessionId;
+        this.screenName;
+        this.TimeLastPolled;
     }
         
     setSessionId(id) { 
         this.sessionId = id;
     }
 
-    setControllerStatus(status) {
-        this.controllerStatus = status;
+    setScreenName(name) {
+        this.screenName = name;
     }
 
-    setAttendeeIp(ip) {
-        this.attendeeIp = ip;
+    setTimeLastPolled(time) {
+        this.timeLastPolled = time;
+    }
+
+    getSessionId() {
+        return this.sessionId;
     }
 
     getScreenName() {
         return this.screenName;
     }
-    
-    getControllerStatus() {
-        return this.controllerStatus;
+
+    getTimeLastPolled() {
+        return this.timeLastPolled;
     }
-    
-    getUserIp() {
-        return this.attendeeIp;
-    }
-    static fromAttendee() { 
-        newAttendee = new Attendee();
-        setSessionId();
-        setUserIp();
-        setControllerStatus();
-        return newAttendee;
-    }
+
+    obj = new Session();
     static fromObject(obj) {  
         setSessionId(obj.sessionId);
-        setIpOfVM(obj.controllerStatus);
-        setListOfAttendees(obj.attendeeIp);
+        setScreenName(obj.screenName);
+        setListOfAttendees(obj.timeLastPolled);
     }
     
 } 
