@@ -41,25 +41,27 @@ public class Attendee implements AttendeeInterface {
   
   @Override
   public boolean equals(Object obj) {
-    // self check
-    if (this == obj)
+    // Self check
+    if (this == obj) {
       return true;
-    // null check
-    if (obj == null)
-      return false;
-    // type check
-    if(obj.getClass() != getClass())
-      return false;
+    }
+    // Null check
+    if (obj == null) {
+      return false;  
+    } 
+    // Type check
+    if(obj.getClass() != getClass()) {
+      return false;  
+    } 
     return this.isEqualTo((Attendee) obj);
   }
 
   /** Compares an AttendeeInterface to itself. */
   public boolean isEqualTo(AttendeeInterface attendee) {
-    Attendee otherAttendee = (Attendee) attendee;
-    // field comparison
-    return sessionId.equals(otherAttendee.sessionId)
-        && screenName.equals(otherAttendee.screenName)
-        && timeLastPolled.equals(otherAttendee.timeLastPolled);   
+    // Field comparison
+    return sessionId.equals(attendee.getSessionId())
+        && screenName.equals(attendee.getScreenName())
+        && timeLastPolled.equals(attendee.getTimeLastPolled());   
   }
 
   /** Returns a new Entity of kind "Attendee" from an Attendee object. */

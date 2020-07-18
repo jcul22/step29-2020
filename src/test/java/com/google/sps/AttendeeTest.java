@@ -35,7 +35,6 @@ public class AttendeeTest {
     // Creates test data. 
     Date date = new Date();
     AttendeeInterface attendee = new Attendee("12345", "Taniece", date);
-
     Assert.assertEquals(attendee.getSessionId(), "12345");
     Assert.assertEquals(attendee.getScreenName(), "Taniece");
     Assert.assertEquals(attendee.getTimeLastPolled(), date);
@@ -47,7 +46,6 @@ public class AttendeeTest {
     AttendeeInterface attendee = new Attendee("12345", "Taniece", new Date());
     Entity testEntity = attendee.toEntity();
     AttendeeInterface newAttendee = Attendee.fromEntity(testEntity);
-
     Assert.assertTrue(attendee.equals(newAttendee));
   }
 }
