@@ -13,8 +13,6 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /** Class that tests the methods in the Session class. */
 @RunWith(JUnit4.class)
 public class SessionTest {
