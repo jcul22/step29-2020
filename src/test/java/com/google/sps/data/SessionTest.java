@@ -17,7 +17,7 @@ import java.util.List;
 @RunWith(JUnit4.class)
 public class SessionTest {
   private final LocalServiceTestHelper helper =
-  new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+    new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
   @Before
   public void setUp() {
@@ -32,14 +32,14 @@ public class SessionTest {
   @Test
   public void testGetter() {
     // Creates test data. 
-    Optional<String> controllerStr = Optional.of("Taniece");
-    Optional<String> vmStr = Optional.of( "VM1" );
+    Optional<String> controller = Optional.of("Taniece");
+    Optional<String> ipOfVm = Optional.of("123.123.12.1");
     List<String> attendees = new ArrayList<>();
     attendees.add("Taniece");
-    SessionInterface session = new Session("12345", controllerStr, vmStr, attendees);
+    SessionInterface session = new Session("12345", controller, ipOfVm, attendees);
     Assert.assertEquals(session.getSessionId(), "12345");
-    Assert.assertEquals(session.getScreenNameOfController(), controllerStr);
-    Assert.assertEquals(session.getIpOfVM(), vmStr);
+    Assert.assertEquals(session.getScreenNameOfController(), controller);
+    Assert.assertEquals(session.getIpOfVM(), ipOfVm);
     Assert.assertEquals(session.getListOfAttendees(), attendees);
   }
   
@@ -47,25 +47,43 @@ public class SessionTest {
   @Test
   public void testOptionalValues() {
     // Creates test data. 
-    Optional<String> controllerStr = Optional.of("Taniece");
-    Optional<String> vmStr = Optional.of( "VM1" );
+    Optional<String> controller = Optional.of("Taniece");
+    Optional<String> ipOfVm = Optional.of("123.123.12.1");
     List<String> attendees = new ArrayList<>();
     attendees.add("Taniece");
-    SessionInterface session = new Session("12345", controllerStr, vmStr, attendees);
+    SessionInterface session = new Session("12345", controller, ipOfVm, attendees);
     Assert.assertEquals(session.getScreenNameOfController().get(), "Taniece");
-    Assert.assertEquals(session.getIpOfVM().get(), "VM1");
+    Assert.assertEquals(session.getIpOfVM().get(), "123.123.12.1");
   }
 
   @Test
   public void testConversionBetweenEntityAndSession() {
     // Creates test data. 
-    Optional<String> controllerStr = Optional.of("Taniece");
-    Optional<String> vmStr = Optional.of( "VM1" );
+    Optional<String> controller = Optional.of("Taniece");
+    Optional<String> ipOfVm = Optional.of("123.123.12.1");
     List<String> attendees = new ArrayList<>();
     attendees.add("Taniece");
-    SessionInterface session = new Session("12345", controllerStr, vmStr, attendees);
+    SessionInterface session = new Session("12345", controller, ipOfVm, attendees);
     Entity sessionEntity = session.toEntity();
     SessionInterface newSession = Session.fromEntity(sessionEntity);
     Assert.assertTrue(session.equals(newSession));
+  }
+
+  @Test
+  public void testEqualsMethod() {
+    // Creates test data.
+    Optional<String> controller1 = Optional.of("Jasmine");
+    Optional<String> ipOfVm1 = Optional.of("123.321.12.1");
+    List<String> attendees1 = new ArrayList<>();
+    attendees1.add("Jasmine");
+    SessionInterface session1 = 
+        new Session("12345", controller1, ipOfVm1, attendees1);
+    Optional<String> controller2 = Optional.of("Chris");
+    Optional<String> ipOfVm2 = Optional.of("123.321.12.1");
+    List<String> attendees2 = new ArrayList<>();
+    attendees2.add("Chris");
+    SessionInterface session2 = 
+        new Session("54321", controller2, ipOfVm2, attendees2);
+    Assert.assertFalse(session1.equals(session2));
   }
 }
