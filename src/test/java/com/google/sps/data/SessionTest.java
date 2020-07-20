@@ -10,6 +10,10 @@ import org.junit.Before;
 import com.google.sps.data.Session;
 import com.google.sps.data.SessionInterface;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 /** Class that tests the methods in the Session class. */
 @RunWith(JUnit4.class)
@@ -32,10 +36,13 @@ public class SessionTest {
     // Creates test data. 
     Optional<String> controllerStr = Optional.of("Taniece");
     Optional<String> vmStr = Optional.of( "VM1" );
-    SessionInterface session = new Session("12345", controllerStr, vmStr);
+    List<String> attendees = new ArrayList<>();
+    attendees.add("Taniece");
+    SessionInterface session = new Session("12345", controllerStr, vmStr, attendees);
     Assert.assertEquals(session.getSessionId(), "12345");
     Assert.assertEquals(session.getScreenNameOfController(), controllerStr);
     Assert.assertEquals(session.getIpOfVM(), vmStr);
+    Assert.assertEquals(session.getListOfAttendees(), attendees);
   }
   
   // Test if Optional variables are converted properly.
@@ -44,17 +51,21 @@ public class SessionTest {
     // Creates test data. 
     Optional<String> controllerStr = Optional.of("Taniece");
     Optional<String> vmStr = Optional.of( "VM1" );
-    SessionInterface session = new Session("12345", controllerStr, vmStr);
+    List<String> attendees = new ArrayList<>();
+    attendees.add("Taniece");
+    SessionInterface session = new Session("12345", controllerStr, vmStr, attendees);
     Assert.assertEquals(session.getScreenNameOfController().get(), "Taniece");
     Assert.assertEquals(session.getIpOfVM().get(), "VM1");
   }
 
   @Test
-  public void testConversionBetweenEntityAnd() {
+  public void testConversionBetweenEntityAndSession() {
     // Creates test data. 
     Optional<String> controllerStr = Optional.of("Taniece");
     Optional<String> vmStr = Optional.of( "VM1" );
-    SessionInterface session = new Session("12345", controllerStr, vmStr);
+    List<String> attendees = new ArrayList<>();
+    attendees.add("Taniece");
+    SessionInterface session = new Session("12345", controllerStr, vmStr, attendees);
     Entity sessionEntity = session.toEntity();
     SessionInterface newSession = Session.fromEntity(sessionEntity);
     Assert.assertTrue(session.equals(newSession));
