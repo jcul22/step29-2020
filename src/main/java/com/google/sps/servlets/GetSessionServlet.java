@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some information about the session. */
+/** Servlet that returns a Session object */
 @WebServlet("/get-session")
 public class GetSessionServlet extends HttpServlet {
 

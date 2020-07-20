@@ -17,13 +17,14 @@ class SessionCache {
    *    session the client is in, holds information such as the
    *    session ID and the screen name of the current user.
    * @param {number=} [refreshCadence = 30000] Represents the cadence at
-   *    which the sessionInformation is refreshed. By default, the rate is
+   *    which the Session object is refreshed. By default, the rate is
    *    30,000 milliseconds (or 30 seconds).  
    */
   constructor(urlParams, refreshCadence = 30000) {
     /**
      * function sessionRequest_() is the fetch api request
-     * responsible for gathering information about the current session.
+     * responsible for contacting the server to retrieve the Session
+     * object.
      * @private
      */
     async function sessionRequest_() {
@@ -36,8 +37,8 @@ class SessionCache {
     }
 
     /** 
-     * Poller responsible for contacting the server for information about
-     * the current session.
+     * Poller responsible for contacting the server to retrieve the Session
+     * object.
      * @private {Object} 
      */
     this.sessionPoller_ = 
@@ -45,14 +46,14 @@ class SessionCache {
   }
 
   /** 
-   * This method begins polling for session information.
+   * This method begins polling for the Session object.
    */
   start() {
     this.sessionPoller_.start();
   }
 
   /** 
-   * This method stops polling for session information.
+   * This method stops polling for the Session object.
    */
   stop() {
     this.sessionPoller_.stop();
@@ -61,7 +62,7 @@ class SessionCache {
   /**
    * Returns a promise containing the Session object, given how updated the 
    * cache is in refreshing.
-   * @return {Object} The Session object.
+   * @return {Object} The Promise object
    */
   async getSession() {
     const /** Object */ session =
