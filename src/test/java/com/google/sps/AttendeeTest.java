@@ -1,7 +1,4 @@
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,5 +44,13 @@ public class AttendeeTest {
     Entity testEntity = attendee.toEntity();
     AttendeeInterface newAttendee = Attendee.fromEntity(testEntity);
     Assert.assertTrue(attendee.equals(newAttendee));
+  }
+
+  @Test
+  public void testEqualsMethod() {
+    // Creates test data.
+    AttendeeInterface attendee1 = new Attendee("12345", "Jasmine", new Date());
+    AttendeeInterface attendee2 = new Attendee("54321", "Chris", new Date());
+    Assert.assertFalse(attendee1.equals(attendee2));
   }
 }
