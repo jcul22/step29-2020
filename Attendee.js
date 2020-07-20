@@ -35,9 +35,9 @@ class Attendee {
 
     static fromObject(obj) { 
         const attendee = new Attendee(); 
-        setSessionId(attendee.sessionId);
-        setScreenName(attendee.screenName);
-        setListOfAttendees(attendee.timeLastPolled);
+        attendee.setSessionId(obj.sessionId);
+        attendee.setScreenName(obj.screenName);
+        attendee.setListOfAttendees(obj.timeLastPolled);
         return attendee;
     }
     

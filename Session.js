@@ -45,10 +45,11 @@ class Session {
     
     static fromObject(obj) {  
         const session = new Session();
-        setSessionId(session.sessionId);
-        setIpOfVM(session.ipOfVM);
-        setListOfAttendees(session.listOfAttendees);
-        setScreenNameOfController(session.ScreenNameOfController);
+        session.setSessionId(obj.sessionId);
+        session.setIpOfVM(obj.ipOfVM);
+        session.ssetListOfAttendees(obj.listOfAttendees);
+        sess.ionsetScreenNameOfController(obj.ScreenNameOfController);
+        return session;
     }
     
 }
