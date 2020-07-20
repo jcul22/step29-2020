@@ -1,7 +1,6 @@
 // The Attendee class can be utililized to keep certain information of the attendee, 
 // a class for the user needed to be created in addition to the session class. 
 // The test for this JS class file utilizes Jest.IO
-
 class Attendee {
     constructor() {
         this.sessionId;
@@ -39,7 +38,6 @@ class Attendee {
         attendee.setScreenName(obj.screenName);
         attendee.setListOfAttendees(obj.timeLastPolled);
         return attendee;
-    }
-    
+    }    
 } 
 export { Attendee };

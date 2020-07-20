@@ -1,15 +1,14 @@
-class Session { 
 // To be utilized when unwrapping JSON from the future servlets. Will be on the 
 // client side and be used as a buffer for client to server information needed  
 // for other components of Virtual Movie Night.
- 
+class Session { 
     constructor() {
         this.sessionId;
         this.ipOfVM;
         this.listOfAttendees;
         this.screenNameOfController; 
     }
-    
+ 
     setSessionId(id) { 
         this.sessionId = id;
     }
@@ -41,8 +40,7 @@ class Session {
     getScreenNameOfController() {
        return this.screenNameOfController; 
     }
-    
-    
+   
     static fromObject(obj) {  
         const session = new Session();
         session.setSessionId(obj.sessionId);
