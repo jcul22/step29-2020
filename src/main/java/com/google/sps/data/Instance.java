@@ -1,0 +1,84 @@
+package com.google.sps.data;
+
+import com.google.appengine.api.datastore.Entity;
+import java.util.Optional;
+import com.google.sps.data.EntityConstants;
+
+/** Class that represents an instance. */
+public class Instance implements InstanceInterface {
+  
+  // The name of this instance.
+  private final String instanceName;
+
+  // The session associated with this instance.
+  private Optional<String> sessionId;
+
+  /** Initializes an Instance object
+   * @param {String} instanceName - the name of the instance.
+   * @param {Optional<String>} sessionID - the session id 
+   *    associated with the instance. 
+   */
+  public Instance (String instanceName, Optional<String> sessionId) {
+    this.instanceName = instanceName;
+    this.sessionId = sessionId;
+  }
+
+  public String getInstanceName() {
+    return instanceName;
+  } 
+
+  public Optional<String> getSessionId() {
+    return sessionId;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    // Self check
+    if (this == obj) {
+      return true;   
+    }
+    // Null check 
+    if (obj == null) {
+      return false;  
+    }
+    // Type check
+    if(obj.getClass() != getClass()) {
+      return false; 
+    }
+    return this.isEqualTo((Instance) obj);
+  }
+
+  /** Compares an InstanceInterface to itself. */
+  public boolean isEqualTo(InstanceInterface instance) {
+    // Field comparison
+    return instanceName.equals(instance.getInstanceName())
+        && sessionId.equals(instance.getSessionId());
+  }
+
+  /** Returns a new Entity of kind "Instance" from an Instance object. */
+  public Entity toEntity() {
+    Entity instanceEntity = 
+        new Entity(EntityConstants.InstanceEntity.TABLE_NAME);
+    instanceEntity.setProperty
+        (EntityConstants.InstanceEntity.INSTANCE_NAME, this.instanceName);
+    if (this.getSessionId().isPresent()) {
+      instanceEntity.setProperty
+        (EntityConstants.InstanceEntity.SESSION_ID, this.sessionId.get());
+    }
+    return instanceEntity;
+  }
+
+   /**
+   * Returns a new Instance from an entity of kind "Instance".
+   * @param {Entity} instanceEntity - entity of kind "Instance" with 
+   *    various properties similar to the fields of a instance object.
+   */
+  public static Instance fromEntity(Entity instanceEntity) {
+    String instanceName = (String) instanceEntity.getProperty(EntityConstants.InstanceEntity.INSTANCE_NAME);
+    Optional<String> sessionId = Optional.empty();
+    if (instanceEntity.hasProperty(EntityConstants.InstanceEntity.SESSION_ID)) {
+       sessionId = Optional.of((String) instanceEntity.getProperty(EntityConstants.InstanceEntity.SESSION_ID));
+    }  
+    return new Instance(instanceName, sessionId);
+  }
+}
