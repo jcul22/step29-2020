@@ -1,6 +1,5 @@
 import { Poller } from './poller';
 import { Session } from './session';
-import { rejects } from 'assert';
 
 /** 
  * SessionCache bridges the gap between the client and server.
@@ -41,8 +40,8 @@ class SessionCache {
      * the current session.
      * @private {Object} 
      */
-    this.sessionPoller = 
-        new Poller(this.sessionRequest_, refreshCadence);
+    this.sessionPoller_ = 
+        new Poller(sessionRequest_, refreshCadence);
   }
 
   /** 
@@ -60,28 +59,20 @@ class SessionCache {
   }
 
   /**
-   * Returns information about the session, given how updated the 
+   * Returns a promise containing the Session object, given how updated the 
    * cache is in refreshing.
    * @return {Object} The Session object.
    */
   async getSession() {
-    const promise = new Promise((resolve, reject) => {
-      let condition = await sessionPoller_.getLastResult();
-      if(condition) {
-        resolve(condition);
+    const /** Object */ session =
+        await this.sessionPoller_.getLastResult();
+    return new Promise((resolve, reject) => {
+      if(session) {
+        resolve(Session.fromObject(session));
       } else {
-        reject('No contact with server.');
+        reject(new Error('No contact with server.'));
       }
     });
-    promise.then(result => { 
-      return Session.fromObject(result);
-    }).
-    catch((errorMessage) => {
-      throw new Error(errorMessage);
-    });
-
-    // })
-    // return Session.fromObject(await this.sessionPoller_.getLastResult());
   }
 }
 
