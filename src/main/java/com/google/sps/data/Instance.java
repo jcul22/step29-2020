@@ -74,10 +74,14 @@ public class Instance implements InstanceInterface {
    *    various properties similar to the fields of a instance object.
    */
   public static Instance fromEntity(Entity instanceEntity) {
-    String instanceName = (String) instanceEntity.getProperty(EntityConstants.InstanceEntity.INSTANCE_NAME);
+    String instanceName = 
+        (String) instanceEntity.getProperty
+        (EntityConstants.InstanceEntity.INSTANCE_NAME);
     Optional<String> sessionId = Optional.empty();
-    if (instanceEntity.hasProperty(EntityConstants.InstanceEntity.SESSION_ID)) {
-       sessionId = Optional.of((String) instanceEntity.getProperty(EntityConstants.InstanceEntity.SESSION_ID));
+    if (instanceEntity.hasProperty
+      (EntityConstants.InstanceEntity.SESSION_ID)) {
+        sessionId = Optional.of((String) instanceEntity.getProperty
+        (EntityConstants.InstanceEntity.SESSION_ID));
     }  
     return new Instance(instanceName, sessionId);
   }
