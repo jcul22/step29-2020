@@ -17,24 +17,18 @@ public class Session implements SessionInterface {
   // The ip of the VM assigned to this session. 
   private Optional<String> ipOfVM;
 
-  // List of attendees in this session.
-  private List<String> listOfAttendees; 
-
   /** Initializes a Session object
    * @param {String} sessionID - the id used to identify a session.
    * @param {Optional<String>} screenNameOfController - the screen name
    *    of the attendee with the controller. 
    * @param {Optional<String>} ipOfVM - the ip of the VM assigned to 
    *    the session.
-   * @param {List<String>} listOfAttendees - a list of attendees in 
-   *    the session.
    */
   public Session (String sessionId, Optional<String> screenNameOfController,
-    Optional<String> ipOfVM, List<String> listOfAttendees) {
+    Optional<String> ipOfVM) {
       this.sessionId = sessionId;
       this.screenNameOfController = screenNameOfController;
       this.ipOfVM = ipOfVM;
-      this.listOfAttendees = listOfAttendees;
   }
 
   public String getSessionId() {
@@ -47,10 +41,6 @@ public class Session implements SessionInterface {
 
   public Optional<String> getIpOfVM() {
       return ipOfVM;
-  }
-
-  public List<String> getListOfAttendees() {
-      return listOfAttendees;
   }
 
   @Override
@@ -75,8 +65,7 @@ public class Session implements SessionInterface {
     // Field comparison
     return sessionId.equals(session.getSessionId())
         && screenNameOfController.equals(session.getScreenNameOfController())
-        && ipOfVM.equals(session.getIpOfVM())
-        && listOfAttendees.equals(session.getListOfAttendees());
+        && ipOfVM.equals(session.getIpOfVM());
   }
   
   /** Returns a new Entity of kind "Session" from a Session object. */
@@ -94,9 +83,6 @@ public class Session implements SessionInterface {
       sessionEntity.setProperty
         (EntityConstants.SessionEntity.IP_OF_VM, (this.ipOfVM.get()));
     }
-    sessionEntity.setProperty 
-        (EntityConstants.SessionEntity.LIST_OF_ATTENDEES, 
-        this.listOfAttendees);
     return sessionEntity;
   }
 
@@ -119,8 +105,6 @@ public class Session implements SessionInterface {
        ipOfVM = Optional.of((String) sessionEntity.getProperty
         (EntityConstants.SessionEntity.IP_OF_VM));
     }
-    List listOfAttendees = (List) sessionEntity.getProperty
-        (EntityConstants.SessionEntity.LIST_OF_ATTENDEES);
-    return new Session(sessionId, screenNameOfController, ipOfVM, listOfAttendees);
+    return new Session(sessionId, screenNameOfController, ipOfVM);
   }
 }

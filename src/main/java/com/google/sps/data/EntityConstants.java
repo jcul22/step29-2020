@@ -24,6 +24,5 @@ public final class EntityConstants {
     public final static String SESSION_ID = "SessionId";
     public final static String SCREEN_NAME_OF_CONTROLLER = "ScreenNameOfController";
     public final static String IP_OF_VM = "IpOfVM";
-    public final static String LIST_OF_ATTENDEES = "ListOfAttendee";
   }
 }

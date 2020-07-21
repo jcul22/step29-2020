@@ -9,7 +9,6 @@ public interface SessionInterface {
   String getSessionId();
   Optional<String> getScreenNameOfController();
   Optional<String> getIpOfVM();
-  List<String> getListOfAttendees();
   // Compares a SessionInterface to itself. 
   boolean isEqualTo(SessionInterface session);
   // Returns a new Entity from a SessionInterface object.

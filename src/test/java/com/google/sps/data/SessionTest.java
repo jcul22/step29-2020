@@ -34,13 +34,10 @@ public class SessionTest {
     // Creates test data. 
     Optional<String> controller = Optional.of("Taniece");
     Optional<String> ipOfVm = Optional.of("123.123.12.1");
-    List<String> attendees = new ArrayList<>();
-    attendees.add("Taniece");
-    SessionInterface session = new Session("12345", controller, ipOfVm, attendees);
+    SessionInterface session = new Session("12345", controller, ipOfVm);
     Assert.assertEquals(session.getSessionId(), "12345");
     Assert.assertEquals(session.getScreenNameOfController(), controller);
     Assert.assertEquals(session.getIpOfVM(), ipOfVm);
-    Assert.assertEquals(session.getListOfAttendees(), attendees);
   }
   
   // Test if Optional variables are converted properly.
@@ -49,9 +46,7 @@ public class SessionTest {
     // Creates test data. 
     Optional<String> controller = Optional.of("Taniece");
     Optional<String> ipOfVm = Optional.of("123.123.12.1");
-    List<String> attendees = new ArrayList<>();
-    attendees.add("Taniece");
-    SessionInterface session = new Session("12345", controller, ipOfVm, attendees);
+    SessionInterface session = new Session("12345", controller, ipOfVm);
     Assert.assertEquals(session.getScreenNameOfController().get(), "Taniece");
     Assert.assertEquals(session.getIpOfVM().get(), "123.123.12.1");
   }
@@ -61,9 +56,7 @@ public class SessionTest {
     // Creates test data. 
     Optional<String> controller = Optional.of("Taniece");
     Optional<String> ipOfVm = Optional.of("123.123.12.1");
-    List<String> attendees = new ArrayList<>();
-    attendees.add("Taniece");
-    SessionInterface session = new Session("12345", controller, ipOfVm, attendees);
+    SessionInterface session = new Session("12345", controller, ipOfVm);
     Entity sessionEntity = session.toEntity();
     SessionInterface newSession = Session.fromEntity(sessionEntity);
     Assert.assertTrue(session.equals(newSession));
@@ -74,16 +67,12 @@ public class SessionTest {
     // Creates test data.
     Optional<String> controller1 = Optional.of("Jasmine");
     Optional<String> ipOfVm1 = Optional.of("123.321.12.1");
-    List<String> attendees1 = new ArrayList<>();
-    attendees1.add("Jasmine");
     SessionInterface session1 = 
-        new Session("12345", controller1, ipOfVm1, attendees1);
+        new Session("12345", controller1, ipOfVm1);
     Optional<String> controller2 = Optional.of("Chris");
     Optional<String> ipOfVm2 = Optional.of("123.321.12.1");
-    List<String> attendees2 = new ArrayList<>();
-    attendees2.add("Chris");
     SessionInterface session2 = 
-        new Session("54321", controller2, ipOfVm2, attendees2);
+        new Session("54321", controller2, ipOfVm2);
     Assert.assertFalse(session1.equals(session2));
   }
 }
