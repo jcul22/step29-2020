@@ -1,20 +1,30 @@
 import { Attendee } from './Attendee';
 
 test('Check for correct value of screenName', () => {
-    const attendee = new Attendee(); 
-    attendee.setScreenName("Jaz"); 
-    const name = attendee.getScreenName();
-    expect(name).toBe(attendee.screenName); 
+    const attendee = new Attendee();
+    const expectedScreenName = "Jaz";
+    attendee.setScreenName_(expectedScreenName);
+    const gotScreenName = attendee.getScreenName();
+    expect(gotScreenName).toBe(expectedScreenName);
 }); 
 test('Check for correct value of sessionId', () => {
-    const attendee = new Attendee();
-    attendee.setSessionId("JTK614");
-    const id = attendee.getSessionId();
-    expect(id).toBe(attendee.sessionId);
+    const attendee = new Attendee(); 
+    const expectedId = "JTK614";
+    attendee.setSessionId_(expectedId);
+    const gotId = attendee.getSessionId();
+    expect(gotId).toBe(attendee.expectedId);
 }); 
 test('Check for correct value of userIp', () => {
     const attendee = new Attendee();
-    attendee.setTimeLastPolled("2 minutes ago"); 
-    const lastTimePolled = attendee.getTimeLastPolled(); 
-    expect(lastTimePolled).toBe(attendee.timeLastPolled);
+    const expectedTimePolled = "2 minutes ago";
+    attendee.setTimeLastPolled_(expectedTimePolled); 
+    const gotTimePolled = attendee.getTimeLastPolled(); 
+    expect(gotTimePolled).toBe(expectedTimePolled);
+});
+test('Check for correct value of fromObject', () => {
+    const obj = new Attendee(); 
+    obj.setSessionId_("LYW23902");
+    obj.setIpOfVM_("122.01.231.25");
+    obj.setListOfAttendees_(["Jasmine","Taniece", "Chris"]);
+    sess.fromObject(obj);
 });
