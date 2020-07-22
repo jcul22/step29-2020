@@ -2,12 +2,12 @@ import { Poller } from './poller';
 
 jest.setTimeout(15000);
 
-const setTimeoutSpy = jest.spyOn(window, 'setTimeout');
-const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
-const pollSpy = jest.spyOn(Poller.prototype, 'poll_');
+// Keeps track on the number of times the testPollingFunction
+// is executed.
+let pollCounter = 0;
 
 afterEach(() => {    
-  jest.clearAllMocks();
+  pollCounter = 0;
 });
 
 test('Test to see if stop is working correctly!', (done) => {
@@ -15,10 +15,8 @@ test('Test to see if stop is working correctly!', (done) => {
   poll.start();
   setTimeout(() => {
     poll.stop();
-    expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
-    expect(setTimeoutSpy).toHaveBeenCalledTimes(11);
-    expect(pollSpy).toHaveBeenCalledTimes(10);
-    expect(poll.getLastResult()).toBe(true);    
+    expect(pollCounter).toBeGreaterThan(9);
+    expect(poll.getLastResult()).toBe(true);   
     done();
   }, 10000);
 });
@@ -28,10 +26,8 @@ test('We can check if poll() is called correct amount' +
       const poll = new Poller(testPollingFunction, 1000);
       poll.start();
       setTimeout(() => {
-        expect(clearTimeoutSpy).toHaveBeenCalledTimes(0);
-        expect(setTimeoutSpy).toHaveBeenCalledTimes(6);
-        expect(pollSpy).toHaveBeenCalledTimes(5);
-        expect(poll.getLastResult()).toBe(true);    
+        expect(pollCounter).toBeGreaterThan(4);
+        expect(poll.getLastResult()).toBe(true);   
         done();
       }, 5000);
 });
@@ -39,20 +35,16 @@ test('We can check if poll() is called correct amount' +
 test('stopping before starting', () => {
   const poll = new Poller(testPollingFunction, 1000);
   poll.stop();
-  expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
-  expect(pollSpy).toHaveBeenCalledTimes(0);
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
-  expect(poll.getLastResult()).toBeFalsy();
+  expect(pollCounter).toBe(0);
+  expect(poll.getLastResult()).toBeNull();
 });
 
 test('starting up, immediately stopping', () => {
   const poll = new Poller(testPollingFunction, 1000);
   poll.start();
   poll.stop();
-  expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
-  expect(pollSpy).toHaveBeenCalledTimes(1);
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(1);
-  expect(poll.getLastResult()).toBeTruthy();
+  expect(pollCounter).toBe(1);
+  expect(poll.getLastResult()).toBe(true); 
 });
 
 test('starting up after stopping', (done) => {
@@ -61,14 +53,13 @@ test('starting up after stopping', (done) => {
   poll.stop();
   poll.start();
   setTimeout(() => {
-    expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
-    expect(setTimeoutSpy.mock.calls.length).toBeGreaterThanOrEqual(6);
-    expect(pollSpy.mock.calls.length).toBeGreaterThanOrEqual(5);
-    expect(poll.getLastResult()).toBe(true);    
+    expect(pollCounter).toBeGreaterThan(10);
+    expect(poll.getLastResult()).toBe(true);   
     done();
   }, 5000);
 });
 
 function testPollingFunction() {
+  pollCounter++;
   return true;
 }
