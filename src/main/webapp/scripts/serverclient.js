@@ -1,6 +1,11 @@
 import { SessionCache } from './sessioncache';
 import { Session } from './session';
 
+/**
+ * ServerClient is responsible for keeping up-to-date with the current 
+ * session and handles many of the client-to-server interactions, 
+ * like passing the controller.
+ */
 class ServerClient {
   /**
    * Initalizes a ServerClient object.
