@@ -3,36 +3,16 @@
 // needed to be created in addition to the session class. 
 // The test for this JS class file utilizes Jest.IO
 class Attendee {
-    constructor() {
-    /** @private @const {string} */
-        this.sessionId_;
-    /** @private @const {string} */
-        this.screenName_;
-    /** @private @const {string} */
-        this.timeLastPolled_;
-    }
-    /**
-   * @param @private {string} id A string must be passed so that the function 
-     can set it as the sessionId for the object
-   */   
-    setSessionId_(id) { 
-        this.sessionId = id;
-    }
-    /**
-   * @param @private {string} name A string must be passed so that the function 
-     can set it as the screenName for the object
-   */ 
-    setScreenName_(name) {
-        this.screenName = name;
-    }
-/**
-   * @param @private {string} time A string (may be changed to an obj later) must be passed so that the function 
-     can set it as the timeLastPolled for the object
-   */ 
-    setTimeLastPolled_(time) {
-        this.timeLastPolled = time;
-    }
-
+    constructor(sessionId, screenName, timeLastPolled) {
+    /** @private {string} */
+        this.sessionId_ = sessionId;
+    /** @private {string} */
+        this.screenName_ = screenName;
+    /** @private {string} */
+        this.timeLastPolled_ = timeLastPolled;  
+        
+    } // end of constructor
+    
     getSessionId() {
         return this.sessionId;
     }
@@ -50,9 +30,9 @@ class Attendee {
    */ 
     static fromObject(obj) { 
         const attendee = new Attendee(); 
-        attendee.setSessionId(obj.sessionId);
-        attendee.setScreenName(obj.screenName);
-        attendee.setListOfAttendees(obj.timeLastPolled);
+        attendee.sessionId = obj.sessionId;
+        attendee.screenName = obj.screenName;
+        attendee.timeLastPolled = obj.timeLastPolled;
         return attendee;
     }    
 } 
