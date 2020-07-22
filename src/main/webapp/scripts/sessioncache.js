@@ -50,7 +50,7 @@ class SessionCache {
    * @return {Promise} The Promise object
    */
   async getSession() {
-    const /** Session */ session =
+    const /** ?Object */ session =
         await this.sessionPoller_.getLastResult();
     return new Promise((resolve, reject) => {
       if(session) {

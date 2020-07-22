@@ -1,3 +1,6 @@
+import { SessionCache } from './sessioncache';
+import { Session } from './session';
+
 class ServerClient {
   /**
    * Initalizes a ServerClient object.
@@ -21,16 +24,48 @@ class ServerClient {
           `/get-session-info?name=${name}&session-id=${sessionID}`);
       return await response.json();
     }
+
+    /**
+     * The SessionCache for the current session, it looks for information
+     * about the current session.
+     * @private {SessionCache}
+     */
+    this.sessionCache_ = new SessionCache(sessionRequest_);
+
+    /**
+     * @private {URLSearchParams}
+     */
+    this.urlParams_ = urlParams;
+  }
+
+  /** 
+   * This method starts to cache.
+   */
+  start() {
+    this.sessionPoller_.start();
+  }
+
+  /** 
+   * This method stops caching.
+   */
+  stop() {
+    this.sessionPoller_.stop();
   }
 
   /**
-   * 
+   * This method changes the controller of the current session to the 
+   * Attendee pased in.
    * @param {string} name 
    */
   passController(name) {
     throw new Error('Unimplemented');
   }
 
+  /**
+   * Returns a Session object, given how updated the 
+   * cache is in refreshing.
+   * @return {Session} The Session object
+   */
   getSession() {
     throw new Error('Unimplemented');
   }
