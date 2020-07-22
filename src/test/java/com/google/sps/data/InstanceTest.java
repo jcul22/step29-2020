@@ -31,8 +31,9 @@ public class InstanceTest {
   public void testGetter() {
     // Creates test data. 
     Optional<String> sessionId = Optional.of("12345");
-    InstanceInterface instance = new Instance("vm1", sessionId);
+    InstanceInterface instance = new Instance("vm1","Running", sessionId);
     Assert.assertEquals(instance.getInstanceName(), "vm1");
+    Assert.assertEquals(instance.getStateOfInstance(), "Running");
     Assert.assertEquals(instance.getSessionId(), sessionId);
   }
 
@@ -40,7 +41,7 @@ public class InstanceTest {
   public void testConversionBetweenEntityAndInstance() {
     // Creates test data. 
     Optional<String> sessionId = Optional.of("12345");
-    InstanceInterface instance = new Instance("vm1", sessionId);
+    InstanceInterface instance = new Instance("vm1", "Running", sessionId);
     Entity instanceEntity = instance.toEntity();
     Instance newInstance = Instance.fromEntity(instanceEntity);
     Assert.assertTrue(instance.isEqualTo(newInstance));  
@@ -50,9 +51,9 @@ public class InstanceTest {
   public void testEqualsMethod() {
     // Creates test data.
     Optional<String> sessionId1 = Optional.of("12345");
-    InstanceInterface instance1 = new Instance("vm1", sessionId1);
+    InstanceInterface instance1 = new Instance("vm1", "Staging", sessionId1);
     Optional<String> sessionId2 = Optional.of("54321");
-    InstanceInterface instance2 = new Instance("vm2", sessionId2);
+    InstanceInterface instance2 = new Instance("vm2", "Terminated", sessionId2);
     Assert.assertFalse(instance1.equals(instance2));
   }
 }

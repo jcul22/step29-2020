@@ -6,6 +6,7 @@ import java.util.Optional;
 /** Interface for the Instance class.*/
 public interface InstanceInterface {
   String getInstanceName();
+  String getStateOfInstance();
   Optional<String> getSessionId();
   // Compares an InstanceInterface to itself.
   boolean isEqualTo(InstanceInterface instance);

@@ -10,7 +10,11 @@ public class Instance implements InstanceInterface {
   // The name of this instance.
   private final String instanceName;
 
-  // The session associated with this instance.
+  // The state this instance is in. 
+  private String stateOfInstance;
+
+  // The session associated with this instance. If sessionId is not present,
+  // then the VM is not being used for a session.
   private Optional<String> sessionId;
 
   /** Initializes an Instance object
@@ -18,14 +22,20 @@ public class Instance implements InstanceInterface {
    * @param {Optional<String>} sessionID - the session id 
    *    associated with the instance. 
    */
-  public Instance (String instanceName, Optional<String> sessionId) {
+  public Instance (String instanceName, String stateOfInstance, 
+  Optional<String> sessionId) {
     this.instanceName = instanceName;
+    this.stateOfInstance = stateOfInstance;
     this.sessionId = sessionId;
   }
 
   public String getInstanceName() {
     return instanceName;
   } 
+
+  public String getStateOfInstance() {
+    return stateOfInstance;
+  }
 
   public Optional<String> getSessionId() {
     return sessionId;
@@ -61,6 +71,8 @@ public class Instance implements InstanceInterface {
         new Entity(EntityConstants.InstanceEntity.TABLE_NAME);
     instanceEntity.setProperty
         (EntityConstants.InstanceEntity.INSTANCE_NAME, this.instanceName);
+    instanceEntity.setProperty
+        (EntityConstants.InstanceEntity.STATE_OF_INSTANCE, this.stateOfInstance);
     if (this.getSessionId().isPresent()) {
       instanceEntity.setProperty
         (EntityConstants.InstanceEntity.SESSION_ID, this.sessionId.get());
@@ -77,12 +89,15 @@ public class Instance implements InstanceInterface {
     String instanceName = 
         (String) instanceEntity.getProperty
         (EntityConstants.InstanceEntity.INSTANCE_NAME);
+    String stateOfInstance = 
+        (String) instanceEntity.getProperty
+        (EntityConstants.InstanceEntity.STATE_OF_INSTANCE);
     Optional<String> sessionId = Optional.empty();
     if (instanceEntity.hasProperty
       (EntityConstants.InstanceEntity.SESSION_ID)) {
         sessionId = Optional.of((String) instanceEntity.getProperty
         (EntityConstants.InstanceEntity.SESSION_ID));
     }  
-    return new Instance(instanceName, sessionId);
+    return new Instance(instanceName, stateOfInstance, sessionId);
   }
 }
