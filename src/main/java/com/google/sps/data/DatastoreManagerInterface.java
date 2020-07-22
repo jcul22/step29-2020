@@ -20,7 +20,9 @@ public interface DatastoreManagerInterface {
     void updateIpOfVM(String sessionId, Optional<String> ipOfVM);
     void endSession(String sessionId);
     void stopInstance(String instanceName);
-    void removeAttendee(String screenName,String sessionId);
+    void removeAttendee(String screenName, String sessionId);
     List<String> getListOfAttendeesInSession(String sessionId);
     List<String> getListOfInstance();
+    // Returns the Session object associated with given sessionId
+    Session getSession(String sessionId);
 }
