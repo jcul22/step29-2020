@@ -24,7 +24,7 @@ class SessionCache {
     /** 
      * Poller responsible for contacting the server to retrieve the Session
      * object.
-     * @private {Object} 
+     * @private {Poller} 
      */
     this.sessionPoller_ = 
         new Poller(sessionRequest, refreshCadence);

@@ -20,14 +20,14 @@ class ServerClient {
       const /** string */ name = encodeURI(urlParams.get('name'));
       const /** string */ sessionID = 
           encodeURI(urlParams.get('session-id'));
-      const /** Object */ response = await fetch(
+      const /** Response */ response = await fetch(
           `/get-session-info?name=${name}&session-id=${sessionID}`);
       return await response.json();
     }
 
     /**
-     * The SessionCache for the current session, it looks for information
-     * about the current session.
+     * The SessionCache for the current session, contacts the server for 
+     * the Session object.
      * @private {SessionCache}
      */
     this.sessionCache_ = new SessionCache(sessionRequest_);
@@ -42,14 +42,14 @@ class ServerClient {
    * This method starts to cache.
    */
   start() {
-    this.sessionPoller_.start();
+    throw new Error('Unimplemented');
   }
 
   /** 
    * This method stops caching.
    */
   stop() {
-    this.sessionPoller_.stop();
+    throw new Error('Unimplemented');
   }
 
   /**
@@ -70,3 +70,5 @@ class ServerClient {
     throw new Error('Unimplemented');
   }
 }
+
+export { ServerClient };
