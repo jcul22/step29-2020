@@ -1,5 +1,4 @@
 import { SessionCache } from './sessioncache';
-import { Session } from './session';
 
 /**
  * ServerClient is responsible for keeping up-to-date with the current 
