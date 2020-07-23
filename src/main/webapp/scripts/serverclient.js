@@ -45,15 +45,9 @@ class ServerClient {
 
   /** 
    * This method starts to cache.
+   * @private
    */
-  start() {
-    throw new Error('Unimplemented');
-  }
-
-  /** 
-   * This method stops caching.
-   */
-  stop() {
+  startSessionCache_() {
     throw new Error('Unimplemented');
   }
 
