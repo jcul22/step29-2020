@@ -67,9 +67,9 @@ class ServerClient {
   }
 
   /**
-   * Returns a Session object, given how updated the 
+   * Returns a promise containing the Session object, given how updated the 
    * cache is in refreshing.
-   * @return {Session} The Session object
+   * @return {Promise} The Promise object
    */
   getSession() {
     throw new Error('Unimplemented');
