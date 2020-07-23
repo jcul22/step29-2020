@@ -15,9 +15,9 @@ test('Check for correct value of screenName', () => {
 
 test('Check for correct value of fromObject', () => { 
     var obj = {  
-    sessionId: "JTK614", 
-    screenName:"Jaz",
-    timeLastPolled: "2 minutes ago"
+        sessionId: "JTK614", 
+        screenName:"Jaz",
+        timeLastPolled: "2 minutes ago"
     };
     const newAttendee = Attendee.fromObject(obj);
     expect(newAttendee.getSessionId()).toBe(obj.sessionId);

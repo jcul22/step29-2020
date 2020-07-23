@@ -31,7 +31,7 @@ class Session {
        return this.screenNameOfController; 
     }
     /**
-    * @param {Session} obj A Json Object must be passed so that the function 
+    * @param {Session} obj An Json Object must be passed so that the function 
      can utilize the setters to set the variables of the object into class Session
     */    
     static fromObject(obj) {   
