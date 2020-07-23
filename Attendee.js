@@ -1,38 +1,29 @@
-// The Attendee class can be utilized to keep certain 
-// information of the attendee, a class for the user 
-// needed to be created in addition to the session class. 
-// The test for this JS class file utilizes Jest.IO
+/** Attendee Class */
 class Attendee {
     constructor(sessionId, screenName, timeLastPolled) {
-    /** @private {string} */
+        /** @private {string} */
         this.sessionId_ = sessionId;
-    /** @private {string} */
+        /** @private {string} */
         this.screenName_ = screenName;
-    /** @private {string} */
+        /** @private {string} */
         this.timeLastPolled_ = timeLastPolled;  
         
-    } // end of constructor
-    
+    }
     getSessionId() {
-        return this.sessionId;
+        return this.sessionId_;
     }
-
     getScreenName() {
-        return this.screenName;
+        return this.screenName_;
     }
-
     getTimeLastPolled() {
-        return this.timeLastPolled;
+        return this.timeLastPolled_;
     }
-/**
-   * @param {Attendee} obj An attendee object must be passed so that the function 
-     can utilize the setters to set the variables of the object
-   */ 
+    /**
+    * @param {Attendee} obj An JSON object must be passed so that the function 
+    can utilize the setters to set the variables of the object
+    */ 
     static fromObject(obj) { 
-        const attendee = new Attendee(); 
-        attendee.sessionId = obj.sessionId;
-        attendee.screenName = obj.screenName;
-        attendee.timeLastPolled = obj.timeLastPolled;
+        const attendee = new Attendee(obj.sessionId, obj.screenName, obj.timeLastPolled); 
         return attendee;
     }    
 } 

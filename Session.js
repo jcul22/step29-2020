@@ -1,21 +1,19 @@
-// To be utilized when unwrapping JSON from the future servlets. Will be on the 
-// client side and be used as a buffer for client to server information needed  
-// for other components of Virtual Movie Night.
+/** Attendee Class */
 class Session { 
     constructor(sessionId, ipOfVM, listOfAttendees, screenNameOfController) { 
-    /** @private {string} */
-        this.sessionId = sessionId ;
+        /** @private {string} */
+        this.sessionId_ = sessionId ;
 
-    /** @private {string} */
-        this.ipOfVM = ipOfVM;
+        /** @private {string} */
+        this.ipOfVM_ = ipOfVM;
 
-    /** @private {string} */
-        this.listOfAttendees = listOfAttendees;
+        /** @private {string} */
+        this.listOfAttendees_ = listOfAttendees;
 
-    /** @private  {string} */
-        this.screenNameOfController = screenNameOfController ; 
+        /** @private  {string} */
+        this.screenNameOfController_ = screenNameOfController ; 
     
-    } // end of constructor
+    } 
 
     getSessionId() {
         return this.sessionId;
@@ -32,16 +30,16 @@ class Session {
     getScreenNameOfController() {
        return this.screenNameOfController; 
     }
-/**
-   * @param {Session} obj A Session object must be passed so that the function 
-     can utilize the setters to set the variables of the object
-   */    
+    /**
+    * @param {Session} obj A Json Object must be passed so that the function 
+     can utilize the setters to set the variables of the object into class Session
+    */    
     static fromObject(obj) {   
         const session = new Session();
-        session.sessionId = obj.sessionId;
-        session.ipOfVM = obj.ipOfVM;
-        session.listOfAttendees = obj.listOfAttendees;
-        sess.screenNameOfController = obj.screenNameOfController;
+        session.sessionId_ = obj.sessionId;
+        session.ipOfVM_ = obj.ipOfVM;
+        session.listOfAttendees_ = obj.listOfAttendees;
+        session.screenNameOfController_ = obj.screenNameOfController;
         return session;
     }
     

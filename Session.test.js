@@ -1,48 +1,28 @@
 import { Session } from './Session';
 
 test('Check for correct value of sessionId', () => {
-    sessionId_ = "LYW23902"; 
-    ipOfVM_ = "122.01.231.25"; 
-    listOfAttendees_ = ["Jasmine", "Taniece", "Chris"];
-    screenNameofController = "Jaz";
+    const sessionId = "LYW23902"; 
+    const ipOfVM = "122.01.231.25"; 
+    const listOfAttendees = ["Jasmine", "Taniece", "Chris"];
+    const screenNameofController = "Jaz";
     const sess = new Session(sessionId, ipOfVM, listOfAttendees, screenNameofController);  
-    const id = sess.getSessionId();
-    expect(id).toBe(sess.sessionId); 
-}); 
-
-test('Check for correct value of instanceIp', () => {
-    sessionId_ = "LYW23902"; 
-    ipOfVM_ = "122.01.231.25"; 
-    listOfAttendees_ = ["Jasmine", "Taniece", "Chris"]; 
-    screenNameofController = "Jaz";
-    const sess = new Session(sessionId, ipOfVM, listOfAttendees, screenNameofController);
+    const id = sess.getSessionId(); 
     const ip = sess.getIpOfVM();
-    expect(ip).toBe(sess.ipOfVM);
+    const list = sess.getListOfAttendees();
+    const name = sess.getScreenNameOfController();
+    expect(id).toBe(sessionId); 
+    expect(ip).toBe(ipOfVM);
+    expect(list).toBe(listOfAttendees);
+    expect(name).toBe(screenNameOfController);
 }); 
-
-test('Check for correct value of listOfAttendees', () => {
-    sessionId_ = "LYW23902"; 
-    ipOfVM_ = "122.01.231.25";
-    listOfAttendees_ = ["Jasmine", "Taniece", "Chris"];
-    const sess = new Session(sessionId, ipOfVM, listOfAttendees, screenNameofController); 
-    const list = sess.getListOfAttendees; 
-    expect(list).toBe(sess.listOfAttendees);
-}); 
-
-test('Check for correct value of screenNameOfController', () => {
-    sessionId_ = "LYW23902"; 
-    ipOfVM_ = "122.01.231.25";
-    listOfAttendees_ = ["Jasmine", "Taniece", "Chris"];
-    screenNameofController = "Jaz"
-    const sess = new Session(sessionId, ipOfVM, listOfAttendees, screenNameofController); 
-    const name = sess.getScreenNameOfController; 
-    expect(name).toBe(sess.screenNameOfController);
-});
 
 test('Check for correct value of fromObject', () => {
-    sess.sessionId_ = "LYW23902";
-    ipOfVM = "122.01.231.25"; 
-    sess.listOfAttendees_ = ["Jasmine", "Taniece", "Chris"];
-    const obj = new Session(sessionId, ipOfVM, listOfAttendees); 
-    sess.fromObject(obj);
+    var obj = { 
+        screenNameOfController:"Jaz",
+        sessionId: "JTK614", 
+        ipOfVM: "122.01.231.25", 
+        listOfAttendees:["Jasmine", "Chris", "Taniece"]
+    };
+    const newSession = Session.fromObject(obj);
+    expect(newSession.getSessionId()).toBe(obj.screenName);
 });
