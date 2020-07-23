@@ -33,7 +33,7 @@ public class InstanceTest {
     Optional<String> sessionId = Optional.of("12345");
     InstanceInterface instance = new Instance("vm1","Running", sessionId);
     Assert.assertEquals(instance.getInstanceName(), "vm1");
-    Assert.assertEquals(instance.getStateOfInstance(), "Running");
+    Assert.assertEquals(instance.getState(), "Running");
     Assert.assertEquals(instance.getSessionId(), sessionId);
   }
 

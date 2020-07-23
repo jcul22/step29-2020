@@ -11,7 +11,8 @@ public class Instance implements InstanceInterface {
   private final String instanceName;
 
   // The state this instance is in. 
-  private String stateOfInstance;
+  // https://cloud.google.com/compute/docs/instances/instance-life-cycle
+  private String state;
 
   // The session associated with this instance. If sessionId is not present,
   // then the VM is not being used for a session.
@@ -19,13 +20,14 @@ public class Instance implements InstanceInterface {
 
   /** Initializes an Instance object
    * @param {String} instanceName - the name of the instance.
+   * @param {String} state - the state the instance is in.
    * @param {Optional<String>} sessionID - the session id 
    *    associated with the instance. 
    */
-  public Instance (String instanceName, String stateOfInstance, 
+  public Instance(String instanceName, String state, 
   Optional<String> sessionId) {
     this.instanceName = instanceName;
-    this.stateOfInstance = stateOfInstance;
+    this.state = state;
     this.sessionId = sessionId;
   }
 
@@ -33,8 +35,8 @@ public class Instance implements InstanceInterface {
     return instanceName;
   } 
 
-  public String getStateOfInstance() {
-    return stateOfInstance;
+  public String getState() {
+    return state;
   }
 
   public Optional<String> getSessionId() {
@@ -72,7 +74,7 @@ public class Instance implements InstanceInterface {
     instanceEntity.setProperty
         (EntityConstants.InstanceEntity.INSTANCE_NAME, this.instanceName);
     instanceEntity.setProperty
-        (EntityConstants.InstanceEntity.STATE_OF_INSTANCE, this.stateOfInstance);
+        (EntityConstants.InstanceEntity.STATE, this.state);
     if (this.getSessionId().isPresent()) {
       instanceEntity.setProperty
         (EntityConstants.InstanceEntity.SESSION_ID, this.sessionId.get());
@@ -89,15 +91,15 @@ public class Instance implements InstanceInterface {
     String instanceName = 
         (String) instanceEntity.getProperty
         (EntityConstants.InstanceEntity.INSTANCE_NAME);
-    String stateOfInstance = 
+    String state = 
         (String) instanceEntity.getProperty
-        (EntityConstants.InstanceEntity.STATE_OF_INSTANCE);
+        (EntityConstants.InstanceEntity.STATE);
     Optional<String> sessionId = Optional.empty();
     if (instanceEntity.hasProperty
       (EntityConstants.InstanceEntity.SESSION_ID)) {
         sessionId = Optional.of((String) instanceEntity.getProperty
         (EntityConstants.InstanceEntity.SESSION_ID));
     }  
-    return new Instance(instanceName, stateOfInstance, sessionId);
+    return new Instance(instanceName, state, sessionId);
   }
 }

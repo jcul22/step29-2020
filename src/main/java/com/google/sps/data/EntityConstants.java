@@ -15,7 +15,7 @@ public final class EntityConstants {
   public final static class InstanceEntity {
     public final static String TABLE_NAME = "Instance";
     public final static String INSTANCE_NAME = "InstanceName";
-    public final static String STATE_OF_INSTANCE = "StateOfInstance";
+    public final static String STATE = "State";
     public final static String SESSION_ID = "SessionId";
   }
 
