@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8"/>
+  <title>VMN</title>
+  <link rel="stylesheet" href="styles/session-style.css"/>
+  <script src="scripts/session-script.js"></script>
+  <div id="header-bar">
+    <h1 class="center-text">Virtual Movie Night</h1>
+    <span 
+        id="session-info-span" onclick="openSessionInfo()">
+        <span id="session-info-span-text"><b>Who's here?</b></span></span>
+  </div>
+  <div id="session-status" class="center-text">Connecting...</div>
+  <div id="session-screen"></div>
+  <div id="session-info-div">
+    <span id="close" onclick="closeSessionInfo()">X</span>
+    <div id="session-id-div">
+      <label id="session-id-label" for="session-id-field">Session-ID:
+      </label>
+      <input type="text" id="session-id-field" name="session-id"
+          readonly onclick="copyTextToClipboard()">
+    </div>
+    <div id="session-info-attendees">
+      <h2 class="center-text">Attendees</h2>
+    </div>
+  </div>
+  <div id="alert-membership"></div>
+</html>
