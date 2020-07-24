@@ -46,8 +46,8 @@ public class SessionTest {
     Optional<String> controller = Optional.of("Taniece");
     Optional<String> ipOfVm = Optional.of("123.123.12.1");
     SessionInterface session = new Session("12345", controller, ipOfVm);
-    session.setScreenNameOfController(Optional.of("Jasmine"));
-    session.setIpOfVM(Optional.of("321.123.12.1"));
+    session.setScreenNameOfController("Jasmine");
+    session.setIpOfVM("321.123.12.1");
     Assert.assertEquals(session.getSessionId(), "12345");
     Assert.assertEquals(session.getScreenNameOfController().get(), "Jasmine");
     Assert.assertEquals(session.getIpOfVM().get(), "321.123.12.1");

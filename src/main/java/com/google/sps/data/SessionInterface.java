@@ -11,8 +11,8 @@ public interface SessionInterface {
   Optional<String> getScreenNameOfController();
   Optional<String> getIpOfVM();
   // Setter methods
-  void setScreenNameOfController(Optional<String> screenNameOfController);
-  void setIpOfVM(Optional<String> ipOfVM);
+  void setScreenNameOfController(String screenNameOfController);
+  void setIpOfVM(String ipOfVM);
   // Compares a SessionInterface to itself. 
   boolean isEqualTo(SessionInterface session);
   // Returns a new Entity from a SessionInterface object.

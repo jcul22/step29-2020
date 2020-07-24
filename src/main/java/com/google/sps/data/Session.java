@@ -43,13 +43,12 @@ public class Session implements SessionInterface {
     return ipOfVM;
   }
 
-  public void setScreenNameOfController
-    (Optional<String> screenNameOfController) {
-      this.screenNameOfController = screenNameOfController;
+  public void setScreenNameOfController (String screenNameOfController) {
+      this.screenNameOfController = Optional.of(screenNameOfController);
   }
 
-  public void setIpOfVM(Optional<String> ipOfVM) {
-    this.ipOfVM = ipOfVM;
+  public void setIpOfVM(String ipOfVM) {
+    this.ipOfVM = Optional.of(ipOfVM);
   }
 
   @Override
