@@ -1,5 +1,5 @@
 import { SessionCache } from './sessioncache';
-import { Session } from './session';
+import { Session } from './Session';
 import fetch from 'jest-fetch-mock';
 
 fetch.enableMocks();

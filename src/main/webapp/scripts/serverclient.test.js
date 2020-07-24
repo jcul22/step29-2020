@@ -1,6 +1,6 @@
 import { ServerClient } from './serverclient';
 import fetch from 'jest-fetch-mock';
-import { Session } from './session';
+import { Session } from './Session';
 
 fetch.enableMocks();
 
