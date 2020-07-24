@@ -1,3 +1,5 @@
+package com.google.sps.data;
+
 /** Class that creates constants for tables. **/
 public final class EntityConstants {
 
