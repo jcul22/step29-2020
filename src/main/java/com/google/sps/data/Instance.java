@@ -21,7 +21,7 @@ public class Instance implements InstanceInterface {
   /** Initializes an Instance object
    * @param {String} instanceName - the name of the instance.
    * @param {String} state - the state the instance is in.
-   * @param {Optional<String>} sessionID - the session id 
+   * @param {Optional<String>} sessionId - the session id 
    *    associated with the instance. 
    */
   public Instance(String instanceName, String state, 
@@ -41,6 +41,14 @@ public class Instance implements InstanceInterface {
 
   public Optional<String> getSessionId() {
     return sessionId;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public void setSessionId(Optional<String> sessionId) {
+    this.sessionId = sessionId;
   }
 
   @Override

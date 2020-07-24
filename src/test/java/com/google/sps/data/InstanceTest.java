@@ -38,6 +38,18 @@ public class InstanceTest {
   }
 
   @Test
+  public void testSetters() {
+    // Creates test data. 
+    Optional<String> sessionId = Optional.of("12345");
+    InstanceInterface instance = new Instance("vm1","Running", sessionId);
+    instance.setState("Stopped");
+    instance.setSessionId(Optional.of("54321"));
+    Assert.assertEquals(instance.getInstanceName(), "vm1");
+    Assert.assertEquals(instance.getState(), "Stopped");
+    Assert.assertEquals(instance.getSessionId().get(), "54321");
+  }
+
+  @Test
   public void testConversionBetweenEntityAndInstance() {
     // Creates test data. 
     Optional<String> sessionId = Optional.of("12345");
