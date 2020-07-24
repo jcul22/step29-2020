@@ -11,7 +11,7 @@ public interface InstanceInterface {
   Optional<String> getSessionId();
   // Setter methods
   void setState(String state);
-  void setSessionId(Optional<String> sessionId);
+  void setSessionId(String sessionId);
   // Compares an InstanceInterface to itself.
   boolean isEqualTo(InstanceInterface instance);
   // Returns a new Entity from an InstanceInterface object

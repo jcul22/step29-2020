@@ -47,8 +47,8 @@ public class Instance implements InstanceInterface {
     this.state = state;
   }
 
-  public void setSessionId(Optional<String> sessionId) {
-    this.sessionId = sessionId;
+  public void setSessionId(String sessionId) {
+    this.sessionId = Optional.of(sessionId);
   }
 
   @Override
