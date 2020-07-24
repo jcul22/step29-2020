@@ -40,7 +40,16 @@ public class Session implements SessionInterface {
   }
 
   public Optional<String> getIpOfVM() {
-      return ipOfVM;
+    return ipOfVM;
+  }
+
+  public void setScreenNameOfController
+    (Optional<String> screenNameOfController) {
+      this.screenNameOfController = screenNameOfController;
+  }
+
+  public void setIpOfVM(Optional<String> ipOfVM) {
+    this.ipOfVM = ipOfVM;
   }
 
   @Override

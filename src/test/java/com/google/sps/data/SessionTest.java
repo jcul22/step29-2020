@@ -39,6 +39,19 @@ public class SessionTest {
     Assert.assertEquals(session.getScreenNameOfController(), controller);
     Assert.assertEquals(session.getIpOfVM(), ipOfVm);
   }
+
+  @Test
+  public void testSetter() {
+    // Creates test data. 
+    Optional<String> controller = Optional.of("Taniece");
+    Optional<String> ipOfVm = Optional.of("123.123.12.1");
+    SessionInterface session = new Session("12345", controller, ipOfVm);
+    session.setScreenNameOfController(Optional.of("Jasmine"));
+    session.setIpOfVM(Optional.of("321.123.12.1"));
+    Assert.assertEquals(session.getSessionId(), "12345");
+    Assert.assertEquals(session.getScreenNameOfController().get(), "Jasmine");
+    Assert.assertEquals(session.getIpOfVM().get(), "321.123.12.1");
+  }
   
   // Test if Optional variables are converted properly.
   @Test
