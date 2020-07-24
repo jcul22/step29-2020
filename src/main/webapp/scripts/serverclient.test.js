@@ -1,19 +1,34 @@
 import { ServerClient } from './serverclient';
+import fetch from 'jest-fetch-mock';
+import { Session } from './session';
 
-test('We can check if correct errors are thrown - passController', () => {
-  try {
-    const client = new ServerClient();
-    client.passController('Bob');
-  } catch (e) {
-    expect(e.message).toBe('Unimplemented');
-  }
+fetch.enableMocks();
+
+const testParams =  new URLSearchParams('?session-id=EEEE7&name=chris');
+const expectedResult = {
+  sessionId: 'EEEE7',
+  ipOfVM: '1.2.3.4.5.6.7',
+  screenNameOfController: 'chris',
+  listOfAttendees: ['chris', 'bryan']
+};
+
+afterEach(() => {    
+  jest.clearAllMocks();
+  fetch.resetMocks();
 });
 
-test('We can check if correct errors are thrown - getSession', () => {
-  try {
-    const client = new ServerClient();
-    client.getSession();
-  } catch (e) {
-    expect(e.message).toBe('Unimplemented');
-  }
+test('Checks to make sure the correct URL is called - passController', () => {
+  const urlParamSpy = 
+      jest.spyOn(window.URLSearchParams.prototype, 'get').
+          mockReturnValue('EEEE7');
+  const client = new ServerClient(testParams);
+  client.passController('Jessica');
+  expect(fetch.mock.calls[1][0].url).toEqual('/pass-controller');
+});
+
+test('Tests get session, makes sure the correct Session object returns', async () => {
+  fetch.mockResponse(JSON.stringify(expectedResult));
+  const client = new ServerClient(testParams);
+  await expect(client.getSession()).
+      resolves.toEqual(Session.fromObject(expectedResult)); 
 });
