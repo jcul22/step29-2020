@@ -13,6 +13,25 @@
 // limitations under the License.
 
 /**
+ * Adds an onclick event listener to some of the elements on the
+ * in-session webpage.
+ */
+function addOnClickToElements() {
+  document.getElementById('session-info-span').addEventListener('click', 
+      openSessionInfo);
+  document.querySelectorAll('.close').forEach(element => {
+    element.addEventListener('click', event => {
+      closeDisplay(event.target);
+    });
+  });
+  document.querySelectorAll('.session-id-field').forEach(element => {
+    element.addEventListener('click', event => {
+      copyTextToClipboard(event.target);
+    });
+  });
+}
+
+/**
  * function openSessionInfo() displays the div container
  * that has information about the session.
  */
@@ -21,26 +40,23 @@ function openSessionInfo() {
 }
 
 /**
- * function closeSessionInfo() closes the div container
- * that has information about the session.
+ * function closeDisplay() changes the display of the parent of the element
+ * passed in to 'none'.
+ * @param {HTMLElement} element
  */
-function closeSessionInfo() {
-  document.getElementById('session-info-div').style.display = 'none';
+function closeDisplay(element) {
+  element.parentElement.style.display = 'none';
 }
 
 /**
- * function copyTextToClipboard() copies the text in the input field
- * with the id 'session-id-field' into the clipboard.
+ * function copyTextToClipboard() copies the text of the element passed
+ * in into the clipboard.
+ * @param {HTMLInputElement} element
  */
-function copyTextToClipboard() {
-  const /** HTMLElement */ sessionIdElement =
-      document.getElementById('session-id-field');
-  sessionIdElement.select();
+function copyTextToClipboard(element) {
+  element.select();
   document.execCommand('copy');
 }
 
-module.exports = {
-  openSessionInfo: openSessionInfo,
-  closeSessionInfo: closeSessionInfo,
-  copyTextToClipboard: copyTextToClipboard
-};
+export { openSessionInfo, closeDisplay, copyTextToClipboard };
+
