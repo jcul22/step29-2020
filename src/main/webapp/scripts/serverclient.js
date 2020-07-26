@@ -1,4 +1,4 @@
-import { SessionCache } from './sessioncache';
+import { SessionCache } from './sessioncache.js';
 
 /**
  * ServerClient is responsible for keeping up-to-date with the current 
@@ -54,7 +54,7 @@ class ServerClient {
 
   /**
    * This method changes the controller of the current session to the 
-   * Attendee pased in.
+   * Attendee passed in.
    * @param {string} name 
    */
   passController(name) {
