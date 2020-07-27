@@ -200,5 +200,14 @@ html {
 }
 
 #welcome-message {
+  background: #fff;
+  border: 5px solid #fd5d00;
   display: none;
+  height: auto;
+  left: 50%;
+  padding: 45px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
 }
