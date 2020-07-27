@@ -1,3 +1,5 @@
+package com.google.sps; 
+
 import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
