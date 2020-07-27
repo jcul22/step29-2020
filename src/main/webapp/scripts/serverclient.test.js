@@ -22,8 +22,37 @@ test('Checks to make sure the correct URL is called - passController', () => {
       jest.spyOn(window.URLSearchParams.prototype, 'get').
           mockReturnValue('EEEE7');
   const client = new ServerClient(testParams);
-  client.passController('Jessica');
-  expect(fetch.mock.calls[1][0].url).toEqual('/pass-controller');
+  client.changeController('Jessica');
+  expect(fetch.mock.calls[1][0].url).toEqual('/change-controller');
+});
+
+test('Simulates a failed response on change-controller', () => {
+  fetch.mockReject(new Error('No contact with server,' + 
+  'unsuccessful in changing controller!'));
+  const urlParamSpy = 
+      jest.spyOn(window.URLSearchParams.prototype, 'get').
+          mockReturnValue('EEEE7');
+  const client = new ServerClient(testParams);
+  try {
+    client.changeController('Jessica');
+  } catch (e) {
+    expect(e.message).toBe('No contact with server,' + 
+        'unsuccessful in changing controller!');
+  }
+});
+
+test('Simulates an aborted response on change-controller', () => {
+  fetch.mockAbort();
+  const urlParamSpy = 
+      jest.spyOn(window.URLSearchParams.prototype, 'get').
+          mockReturnValue('EEEE7');
+  const client = new ServerClient(testParams);
+  try {
+    client.changeController('Jessica');
+  } catch (e) {
+    expect(e.message).toBe('No contact with server,' + 
+        'unsuccessful in changing controller!');
+  }
 });
 
 test('Tests get session, makes sure the correct Session object returns', async () => {

@@ -3,7 +3,7 @@ import { SessionCache } from './sessioncache.js';
 /**
  * ServerClient is responsible for keeping up-to-date with the current 
  * session and handles many of the client-to-server interactions, 
- * like passing the controller.
+ * like changing the controller.
  */
 class ServerClient {
   /**
@@ -14,9 +14,23 @@ class ServerClient {
    */
   constructor(urlParams) {
     /**
+     * Specifies the URL pattern of the ChangeControllerServlet
+     * @private @const
+     */
+    this.CHANGE_CONTROLLER_ENDPOINT_ = '/change-controller';
+
+    /**
+     * Specifies the URL pattern of the GetSessionServlet
+     * @private @const
+     */
+    this.GET_SESSION_ENDPOINT_ = '/get-session';
+
+    /**
      * function sessionRequest_() is the fetch api request
      * responsible for contacting the server to retrieve the Session
      * object.
+     * @param {string} getSessionEndpoint the url pattern of the 
+     *    GetSessionServlet
      * @return {function(): Promise<any>} 
      * @private
      */
@@ -24,8 +38,8 @@ class ServerClient {
       const /** string */ name = encodeURI(urlParams.get('name'));
       const /** string */ sessionID = 
           encodeURI(urlParams.get('session-id'));
-      const /** Response */ response = await fetch(
-          `/get-session?name=${name}&session-id=${sessionID}`);
+      const /** Response */ response =
+          await fetch(`/get-session?name=${name}&session-id=${sessionID}`);
       return await response.json();
     }
 
@@ -55,19 +69,25 @@ class ServerClient {
   /**
    * This method changes the controller of the current session to the 
    * Attendee passed in.
-   * @param {string} name 
+   * @param {string} newControllerName 
    */
-  passController(name) {
+  changeController(newControllerName) {
     const /** string */ sessionID = 
         encodeURI(this.urlParams_.get('session-id'));
-    const /** Request */ request = new Request('/pass-controller', {
-      method: 'POST',
-      body: JSON.stringify({
-        "name": encodeURI(name),
-        "session-id": sessionID
-      })
+    const /** Request */ request =
+        new Request(this.CHANGE_CONTROLLER_ENDPOINT_, {
+          method: 'POST',
+          body: JSON.stringify({
+            "name": encodeURI(newControllerName),
+            "session-id": sessionID
+          })
     });
-    fetch(request);
+    fetch(request).then(response => {
+      if(!response.ok) {
+        throw new Error('No contact with server,' + 
+            'unsuccessful in changing controller!');
+      }
+    });
   }
 
   /**
