@@ -18,7 +18,7 @@ test('display block to none', () => {
   div.style.display = 'block';
   div.id = 'session-info-div';
   container.appendChild(div);
-  sessionscript.closeDisplay(div);
+  sessionscript.closeParentDisplay(div);
   expect(container.style.display).toEqual('none');
 });
 
@@ -30,7 +30,7 @@ test('change display using both functions - open then close', () => {
   div.id = 'session-info-div';
   container.appendChild(div);
   sessionscript.openSessionInfo();
-  sessionscript.closeDisplay(div);
+  sessionscript.closeParentDisplay(div);
   expect(div.style.display).toEqual('block');
   expect(container.style.display).toEqual('none');
 });
@@ -63,6 +63,28 @@ test('tests copy and paste', () => {
 });
 
 test('addOnClickTo', () => {
+  addOnClickToPageBuilder();
+  const sessionInfoSpan = document.getElementById('session-info-span');
+  const sessionInfoDiv = document.getElementById('session-info-div');
+  const close = document.getElementsByClassName('close').item(0);
+  const sessionIdInput =
+      document.getElementsByClassName('session-id-input').item(0);
+  sessionscript.addOnClickToElements();
+  sessionInfoSpan.click();
+  expect(sessionInfoDiv.style.display).toEqual('block');
+  close.click();
+  expect(sessionInfoDiv.style.display).toEqual('none');
+  document.execCommand = jest.fn();
+  sessionIdInput.click();
+  expect(document.execCommand).toHaveBeenCalledWith('copy');
+});
+
+/**
+ * Builds a mini-webpage to be used to test addOnClickToElements.
+ * Adds elements with specific ids/class names that the session-script 
+ * function adds onClick listeners to.
+ */
+function addOnClickToPageBuilder() {
   document.body.innerHTML = '';
   const sessionInfoSpan = document.createElement('span');
   sessionInfoSpan.id = 'session-info-span';
@@ -76,12 +98,4 @@ test('addOnClickTo', () => {
   document.body.appendChild(sessionInfoDiv);
   document.body.appendChild(sessionInfoSpan);
   document.body.appendChild(sessionIdInput);
-  sessionscript.addOnClickToElements();
-  sessionInfoSpan.click();
-  expect(sessionInfoDiv.style.display).toEqual('block');
-  close.click();
-  expect(sessionInfoDiv.style.display).toEqual('none');
-  document.execCommand = jest.fn();
-  sessionIdInput.click();
-  expect(document.execCommand).toHaveBeenCalledWith('copy');
-});
+}

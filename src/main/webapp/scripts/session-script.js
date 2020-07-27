@@ -21,7 +21,7 @@ function addOnClickToElements() {
       openSessionInfo);
   document.querySelectorAll('.close').forEach(element => {
     element.addEventListener('click', event => {
-      closeDisplay(event.target);
+      closeParentDisplay(event.target);
     });
   });
   document.querySelectorAll('.session-id-input').forEach(element => {
@@ -40,11 +40,11 @@ function openSessionInfo() {
 }
 
 /**
- * function closeDisplay() changes the display of the parent of the element
- * passed in to 'none'.
+ * function closeParentDisplay() changes the display of the 
+ * parent of the element passed in to 'none'.
  * @param {HTMLElement} element
  */
-function closeDisplay(element) {
+function closeParentDisplay(element) {
   element.parentElement.style.display = 'none';
 }
 
@@ -58,5 +58,5 @@ function copyTextToClipboard(element) {
   document.execCommand('copy');
 }
 
-export { openSessionInfo, closeDisplay, copyTextToClipboard, 
+export { openSessionInfo, closeParentDisplay, copyTextToClipboard, 
   addOnClickToElements };
