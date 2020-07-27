@@ -22,29 +22,35 @@ import com.google.sps.data.Instance;
 import com.google.sps.data.InstanceInterface;
 
 
-// Class that reads from and writes to Datastore.
+/** Class that reads from and writes to Datastore. */
 public class DatastoreClient {
-  // Adds an attendeeInterface object to the Datastore. 
-  // If object already exist, the old one is replaced. 
+  /** 
+   * Adds an attendeeInterface object to the Datastore. If object already
+   * exist, the old one is replaced. 
+   */
   public void insertOrUpdateAttendee(AttendeeInterface attendee) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(attendee.toEntity());
   }
 
-  // Adds an InstanceInterface object to the Datastore. 
-  // If object already exist, the old one with be replaced. 
+  /** 
+   * Adds an InstanceInterface object to the Datastore. If object already
+   * exist, the old one with be replaced. 
+   */
   public void insertOrUpdateInstance(InstanceInterface instance) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(instance.toEntity());
   }
-  // Adds an SessionInterface object to the Datastore.
-  // If object already exist, the old one is replaced. 
+  /** 
+   * Adds an SessionInterface object to the Datastore. If object already
+   * exist, the old one is replaced. 
+   */
   public void insertOrUpdateSession(SessionInterface session) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(session.toEntity());
   }
 
-  // Returns the Session object associated with given sessionId    
+  /** Returns the Session object associated with given sessionId. */
   public Optional<Session> getSession(String sessionId) throws Exception {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getSession = new Query(EntityConstants.SessionEntity.SESSION_ID)
@@ -55,7 +61,7 @@ public class DatastoreClient {
     return Optional.of(Session.fromEntity(sessionEntity));
   }
 
-   // Returns the Instance object associated with given instanceName   
+   /** Returns the Instance object associated with given instanceName. */  
   public Optional<Instance> getInstance(String instanceName) throws Exception {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getInstance = new Query(EntityConstants.InstanceEntity.TABLE_NAME)
@@ -67,7 +73,7 @@ public class DatastoreClient {
     return Optional.of(Instance.fromEntity(instanceEntity));
    }
 
-  // Returns the Attendee object associated with given screenName   
+  /** Returns the Attendee object associated with given screenName. */  
   public Attendee getAttendee(String screenName) throws Exception {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getAttendee = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
@@ -79,7 +85,7 @@ public class DatastoreClient {
     return Attendee.fromEntity(attendeeEntity);
    }
 
-  // Deletes an attendee from the datastore.
+  /** Deletes an attendee from the datastore. */
   public void deleteAttendee(String screenName) throws Exception {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getAttendee = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
@@ -91,7 +97,7 @@ public class DatastoreClient {
     datastore.delete(attendeeEntity.getKey());
     }
 
-  // Returns a list of attendees in a session.
+  /** Returns a list of attendees in a session. */
   public Optional<List<String>> getAttendeesInSession
     (String sessionId) throws Exception {
       DatastoreService datastore = 
@@ -109,7 +115,7 @@ public class DatastoreClient {
       return Optional.of(attendeeList);
   }
 
-  // Returns a list of available instance.
+  /** Returns a list of available instance. */
   public Optional<List<String>> getAvailableInstances() throws Exception {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query(EntityConstants.InstanceEntity.TABLE_NAME)
