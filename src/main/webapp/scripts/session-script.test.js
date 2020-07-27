@@ -69,7 +69,7 @@ test('addOnClickTo', () => {
   const close = document.getElementsByClassName('close').item(0);
   const sessionIdInput =
       document.getElementsByClassName('session-id-input').item(0);
-  sessionscript.addOnClickToElements();
+  sessionscript.addOnClickListenerToElements();
   sessionInfoSpan.click();
   expect(sessionInfoDiv.style.display).toEqual('block');
   close.click();
@@ -80,7 +80,7 @@ test('addOnClickTo', () => {
 });
 
 /**
- * Builds a mini-webpage to be used to test addOnClickToElements.
+ * Builds a mini-webpage to be used to test addOnClickListenerToElements.
  * Adds elements with specific ids/class names that the session-script 
  * function adds onClick listeners to.
  */

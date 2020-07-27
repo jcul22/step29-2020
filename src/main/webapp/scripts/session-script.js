@@ -9,14 +9,14 @@ window.onload = function() { main(); }
  * the behind the scenes operations, like caching.
  */
 function main() {
-  addOnClickToElements();
+  addOnClickListenerToElements();
 }
 
 /**
  * Adds an onclick event listener to some of the elements on the
  * in-session webpage.
  */
-function addOnClickToElements() {
+function addOnClickListenerToElements() {
   document.getElementById('session-info-span').addEventListener('click', 
       openSessionInfo);
   document.querySelectorAll('.close').forEach(element => {
@@ -59,4 +59,4 @@ function copyTextToClipboard(element) {
 }
 
 export { openSessionInfo, closeParentDisplay, copyTextToClipboard, 
-  addOnClickToElements };
+  addOnClickListenerToElements };
