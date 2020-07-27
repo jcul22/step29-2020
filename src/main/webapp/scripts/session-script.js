@@ -24,7 +24,7 @@ function addOnClickToElements() {
       closeDisplay(event.target);
     });
   });
-  document.querySelectorAll('.session-id-field').forEach(element => {
+  document.querySelectorAll('.session-id-input').forEach(element => {
     element.addEventListener('click', event => {
       copyTextToClipboard(event.target);
     });
@@ -58,4 +58,5 @@ function copyTextToClipboard(element) {
   document.execCommand('copy');
 }
 
-export { openSessionInfo, closeDisplay, copyTextToClipboard };
+export { openSessionInfo, closeDisplay, copyTextToClipboard, 
+  addOnClickToElements };

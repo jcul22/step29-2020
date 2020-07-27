@@ -61,3 +61,27 @@ test('tests copy and paste', () => {
   input.click();
   expect(document.execCommand).toHaveBeenCalledWith('copy');
 });
+
+test('addOnClickTo', () => {
+  document.body.innerHTML = '';
+  const sessionInfoSpan = document.createElement('span');
+  sessionInfoSpan.id = 'session-info-span';
+  const sessionInfoDiv = document.createElement('div');
+  sessionInfoDiv.id = 'session-info-div';
+  const close = document.createElement('span');
+  close.className = 'close';
+  sessionInfoDiv.appendChild(close);
+  const sessionIdInput = document.createElement('input');
+  sessionIdInput.className = 'session-id-input';
+  document.body.appendChild(sessionInfoDiv);
+  document.body.appendChild(sessionInfoSpan);
+  document.body.appendChild(sessionIdInput);
+  sessionscript.addOnClickToElements();
+  sessionInfoSpan.click();
+  expect(sessionInfoDiv.style.display).toEqual('block');
+  close.click();
+  expect(sessionInfoDiv.style.display).toEqual('none');
+  document.execCommand = jest.fn();
+  sessionIdInput.click();
+  expect(document.execCommand).toHaveBeenCalledWith('copy');
+});
