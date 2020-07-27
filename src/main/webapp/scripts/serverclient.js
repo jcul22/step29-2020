@@ -1,6 +1,18 @@
 import { SessionCache } from './sessioncache.js';
 
 /**
+ * Specifies the URL pattern of the ChangeControllerServlet.
+ * @private @const
+ */
+const CHANGE_CONTROLLER_ENDPOINT_ = '/change-controller';
+
+/**
+ * Specifies the URL pattern of the GetSessionServlet.
+ * @private @const
+ */
+const GET_SESSION_ENDPOINT_ = '/get-session';
+
+/**
  * ServerClient is responsible for keeping up-to-date with the current 
  * session and handles many of the client-to-server interactions, 
  * like changing the controller.
@@ -14,23 +26,9 @@ class ServerClient {
    */
   constructor(urlParams) {
     /**
-     * Specifies the URL pattern of the ChangeControllerServlet
-     * @private @const
-     */
-    this.CHANGE_CONTROLLER_ENDPOINT_ = '/change-controller';
-
-    /**
-     * Specifies the URL pattern of the GetSessionServlet
-     * @private @const
-     */
-    this.GET_SESSION_ENDPOINT_ = '/get-session';
-
-    /**
      * function sessionRequest_() is the fetch api request
      * responsible for contacting the server to retrieve the Session
      * object.
-     * @param {string} getSessionEndpoint the url pattern of the 
-     *    GetSessionServlet
      * @return {function(): Promise<any>} 
      * @private
      */
@@ -39,7 +37,8 @@ class ServerClient {
       const /** string */ sessionID = 
           encodeURI(urlParams.get('session-id'));
       const /** Response */ response =
-          await fetch(`/get-session?name=${name}&session-id=${sessionID}`);
+          await fetch(GET_SESSION_ENDPOINT_ + '?name=' +
+              name + '&session-id=' + sessionID);
       return await response.json();
     }
 
@@ -75,7 +74,7 @@ class ServerClient {
     const /** string */ sessionID = 
         encodeURI(this.urlParams_.get('session-id'));
     const /** Request */ request =
-        new Request(this.CHANGE_CONTROLLER_ENDPOINT_, {
+        new Request(CHANGE_CONTROLLER_ENDPOINT_, {
           method: 'POST',
           body: JSON.stringify({
             "name": encodeURI(newControllerName),
