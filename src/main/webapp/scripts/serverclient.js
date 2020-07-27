@@ -82,7 +82,7 @@ class ServerClient {
           })
     });
     fetch(request).then(response => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw new Error('No contact with server,' + 
             'unsuccessful in changing controller!');
       }
