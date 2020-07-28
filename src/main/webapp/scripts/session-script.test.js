@@ -63,7 +63,7 @@ test('tests copy and paste', () => {
 });
 
 test('addOnClickTo', () => {
-  addOnClickToPageBuilder();
+  buildTestPage();
   const sessionInfoSpan = document.getElementById('session-info-span');
   const sessionInfoDiv = document.getElementById('session-info-div');
   const close = document.getElementsByClassName('close').item(0);
@@ -84,7 +84,7 @@ test('addOnClickTo', () => {
  * Adds elements with specific ids/class names that the session-script 
  * function adds onClick listeners to.
  */
-function addOnClickToPageBuilder() {
+function buildTestPage() {
   document.body.innerHTML = '';
   const sessionInfoSpan = document.createElement('span');
   sessionInfoSpan.id = 'session-info-span';
