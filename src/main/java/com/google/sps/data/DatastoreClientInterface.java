@@ -17,15 +17,15 @@ public interface DatastoreClientInterface {
   // If object already exist, the old one is replaced. 
   void insertOrUpdateSession(SessionInterface session);
    // Returns the Session object associated with the given sessionId.
-  Optional<Session> getSession(String sessionId);
+  Optional<Session> getSession(String sessionId) throws Exception;
   // Returns the Instance object associated with the given instanceName.
-  Optional<Instance> getInstance(String instanceName);
+  Optional<Instance> getInstance(String instanceName) throws Exception;
   // Returns the Attendee object associated with the given screenName.
-  Optional<Attendee> getAttendee(String screenName);
+  Optional<Attendee> getAttendee(String screenName) throws Exception;
   // Deletes an attendee from Datastore.
-  void deleteAttendee(String screenName);
+  void deleteAttendee(String screenName) throws Exception;
   // Returns a list of attendees in a session.
-  Optional<List<String>> getListOfAttendeesInSession(String sessionId);
+  Optional<List<String>> getAttendeesInSession(String sessionId) throws Exception;
   // Returns a list of available instances.
-  Optional<List<String>> getAvailableInstances();
+  Optional<List<String>> getAvailableInstances() throws Exception;
 }

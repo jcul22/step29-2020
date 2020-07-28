@@ -6,7 +6,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.PreparedQuery;
-//import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -21,9 +20,8 @@ import com.google.sps.data.SessionInterface;
 import com.google.sps.data.Instance;
 import com.google.sps.data.InstanceInterface;
 
-
 /** Class that reads from and writes to Datastore. */
-public class DatastoreClient {
+public class DatastoreClient implements DatastoreClientInterface {
   /** 
    * Adds an attendeeInterface object to the Datastore. If object already
    * exist, the old one is replaced. 
@@ -74,7 +72,7 @@ public class DatastoreClient {
    }
 
   /** Returns the Attendee object associated with given screenName. */  
-  public Attendee getAttendee(String screenName) throws Exception {
+  public Optional<Attendee >getAttendee(String screenName) throws Exception {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getAttendee = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
       .setFilter(new FilterPredicate
@@ -82,7 +80,7 @@ public class DatastoreClient {
       FilterOperator.EQUAL, screenName));
     PreparedQuery pq = datastore.prepare(getAttendee);
     Entity attendeeEntity = pq.asSingleEntity();
-    return Attendee.fromEntity(attendeeEntity);
+    return Optional.of(Attendee.fromEntity(attendeeEntity));
    }
 
   /** Deletes an attendee from the datastore. */
