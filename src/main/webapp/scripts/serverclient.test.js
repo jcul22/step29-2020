@@ -17,7 +17,7 @@ afterEach(() => {
   fetch.resetMocks();
 });
 
-test('Checks to make sure the correct URL is called - passController', () => {
+test('Checks to make sure the correct URL is called - changeController', () => {
   const urlParamSpy = 
       jest.spyOn(window.URLSearchParams.prototype, 'get').
           mockReturnValue('EEEE7');
