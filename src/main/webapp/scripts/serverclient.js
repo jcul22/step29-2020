@@ -1,10 +1,10 @@
 import { SessionCache } from './sessioncache.js';
 
 /**
- * Specifies the URL pattern of the ChangeControllerToServlet.
+ * Specifies the URL pattern of the ChangeControllerServlet.
  * @private @const
  */
-const CHANGE_CONTROLLER_TO_ENDPOINT_ = '/change-controller-to';
+const CHANGE_CONTROLLER_ENDPOINT_ = '/change-controller';
 
 /**
  * Specifies the URL pattern of the GetSessionServlet.
@@ -74,7 +74,7 @@ class ServerClient {
     const /** string */ sessionID = 
         encodeURI(this.urlParams_.get('session-id'));
     const /** Request */ request =
-        new Request(CHANGE_CONTROLLER_TO_ENDPOINT_, {
+        new Request(CHANGE_CONTROLLER_ENDPOINT_, {
           method: 'POST',
           body: JSON.stringify({
             "name": encodeURI(newControllerName),

@@ -23,7 +23,7 @@ test('Checks to make sure the correct URL is called - changeController', () => {
           mockReturnValue('EEEE7');
   const client = new ServerClient(testParams);
   client.changeControllerTo('Jessica');
-  expect(fetch.mock.calls[1][0].url).toEqual('/change-controller-to');
+  expect(fetch.mock.calls[1][0].url).toEqual('/change-controller');
 });
 
 test('Simulates a failed response on change-controller-to', () => {
