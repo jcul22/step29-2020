@@ -23,10 +23,10 @@ test('Checks to make sure the correct URL is called - passController', () => {
           mockReturnValue('EEEE7');
   const client = new ServerClient(testParams);
   client.changeControllerTo('Jessica');
-  expect(fetch.mock.calls[1][0].url).toEqual('/change-controller');
+  expect(fetch.mock.calls[1][0].url).toEqual('/change-controller-to');
 });
 
-test('Simulates a failed response on change-controller', () => {
+test('Simulates a failed response on change-controller-to', () => {
   fetch.mockReject(new Error('No contact with server,' + 
   'unsuccessful in changing controller!'));
   const urlParamSpy = 
@@ -41,7 +41,7 @@ test('Simulates a failed response on change-controller', () => {
   }
 });
 
-test('Simulates an aborted response on change-controller', () => {
+test('Simulates an aborted response on change-controller-to', () => {
   fetch.mockAbort();
   const urlParamSpy = 
       jest.spyOn(window.URLSearchParams.prototype, 'get').
