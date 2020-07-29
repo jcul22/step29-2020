@@ -1,6 +1,6 @@
 import { ServerClient } from './serverclient';
 import fetch from 'jest-fetch-mock';
-import { Session } from './Session';
+import { Session } from './session.js';
 
 fetch.enableMocks();
 
@@ -22,7 +22,7 @@ test('Checks to make sure the correct URL is called - passController', () => {
       jest.spyOn(window.URLSearchParams.prototype, 'get').
           mockReturnValue('EEEE7');
   const client = new ServerClient(testParams);
-  client.changeController('Jessica');
+  client.changeControllerTo('Jessica');
   expect(fetch.mock.calls[1][0].url).toEqual('/change-controller');
 });
 
@@ -34,7 +34,7 @@ test('Simulates a failed response on change-controller', () => {
           mockReturnValue('EEEE7');
   const client = new ServerClient(testParams);
   try {
-    client.changeController('Jessica');
+    client.changeControllerTo('Jessica');
   } catch (e) {
     expect(e.message).toBe('No contact with server,' + 
         'unsuccessful in changing controller!');
@@ -48,7 +48,7 @@ test('Simulates an aborted response on change-controller', () => {
           mockReturnValue('EEEE7');
   const client = new ServerClient(testParams);
   try {
-    client.changeController('Jessica');
+    client.changeControllerTo('Jessica');
   } catch (e) {
     expect(e.message).toBe('No contact with server,' + 
         'unsuccessful in changing controller!');

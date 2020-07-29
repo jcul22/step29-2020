@@ -70,7 +70,7 @@ class ServerClient {
    * Attendee passed in.
    * @param {string} newControllerName 
    */
-  changeController(newControllerName) {
+  changeControllerTo(newControllerName) {
     const /** string */ sessionID = 
         encodeURI(this.urlParams_.get('session-id'));
     const /** Request */ request =
