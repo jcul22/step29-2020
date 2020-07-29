@@ -68,7 +68,8 @@ function changeControllerTo(event, controller) {
   if (urlParameters.get('name') === controller) {
     sessionScreen.viewOnly = true;
     client.changeControllerTo(
-        event.target.parentElement.querySelector('h3').id);
+        /**newControllerName=*/
+            event.target.parentElement.querySelector('h3').id);
   }
 }
 
@@ -98,9 +99,4 @@ function copyTextToClipboard() {
   sessionIdElement.select();
   document.execCommand('copy');
 }
-
-module.exports = {
-  openSessionInfo: openSessionInfo,
-  closeSessionInfo: closeSessionInfo,
-  copyTextToClipboard: copyTextToClipboard
-};
+export { openSessionInfo, closeSessionInfo, copyTextToClipboard, buildAttendeeDiv, changeControllerTo };

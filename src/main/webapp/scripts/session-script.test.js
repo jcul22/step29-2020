@@ -1,5 +1,6 @@
-const {openSessionInfo, closeSessionInfo, copyTextToClipboard} =
-    require('./session-script');
+import * as sessionscript from './session-script';
+import { Session } from './Session';
+import { ServerClient } from './serverclient';
 
 test('display none to block', () => {
   document.body.innerHTML = '<div id="container"></div>';
@@ -73,4 +74,77 @@ test('tests copy and paste', () => {
   input.click();
 
   expect(document.execCommand).toHaveBeenCalledWith('copy');
+});
+
+test('adding an attendee div', () => {
+  document.body.innerHTML = '';
+  const sessionInfoAttendeeDiv =
+      document.createElement('div');
+  sessionInfoAttendeeDiv.id = 'session-info-attendees';
+  document.body.appendChild(sessionInfoAttendeeDiv);
+  const attendeeDivExpected = document.createElement('div');
+  attendeeDivExpected.className = 'attendee-div'
+  const controllerToggle = 
+      document.createElement('span');
+  controllerToggle.className = 'controller-toggle';
+  controllerToggle.addEventListener('click', event => {
+    sessionscript.changeControllerTo(event, 'Bryan');
+  }, false);  
+  const attendeeName = document.createElement('h3');
+  attendeeName.innerHTML = 'hello';
+  attendeeName.className = 'attendee-name'
+  attendeeName.id = 'hello';
+  attendeeDivExpected.appendChild(controllerToggle);
+  attendeeDivExpected.appendChild(attendeeName);
+  sessionscript.buildAttendeeDiv('hello', 'Bryan');
+  expect(sessionInfoAttendeeDiv.childNodes[0]).
+      toEqual(attendeeDivExpected);
+});
+
+test('tests changeControllerTo() - controller clicks', () => {
+  const urlParamSpy = 
+      jest.spyOn(window.URLSearchParams.prototype, 'get').
+          mockReturnValue('Jessica');
+  const changeControllerToSpy = 
+      jest.spyOn(ServerClient.prototype, 'changeControllerTo');
+  const attendeeDiv = document.createElement('div');
+  attendeeDiv.className = 'attendee-div'
+  const controllerToggle = 
+      document.createElement('span');
+  controllerToggle.className = 'controller-toggle';
+  controllerToggle.addEventListener('click', event => {
+    sessionscript.changeControllerTo(event, 'Jessica');
+  }, false);
+  const attendeeName = document.createElement('h3');
+  attendeeName.innerHTML = 'Naomi';
+  attendeeName.className = 'attendee-name';
+  attendeeName.id = 'Naomi';
+  attendeeDiv.appendChild(controllerToggle);
+  attendeeDiv.appendChild(attendeeName);
+  controllerToggle.click();
+  expect(changeControllerToSpy).toBeCalledWith('Naomi');
+});
+
+test('tests changeControllerTo() - controller does not click', () => {
+  const urlParamSpy = 
+      jest.spyOn(window.URLSearchParams.prototype, 'get').
+          mockReturnValue('Jessica');
+  const changeControllerToSpy = 
+      jest.spyOn(ServerClient.prototype, 'changeControllerTo');
+  const attendeeDiv = document.createElement('div');
+  attendeeDiv.className = 'attendee-div'
+  const controllerToggle = 
+      document.createElement('span');
+  controllerToggle.className = 'controller-toggle';
+  controllerToggle.addEventListener('click', 
+      sessionscript.changeControllerTo, false);
+  const attendeeName =
+      document.createElement('h3');
+  attendeeName.innerHTML = 'Bob';
+  attendeeName.className = 'attendee-name'
+  attendeeName.id = 'Bob';
+  attendeeDiv.appendChild(controllerToggle);
+  attendeeDiv.appendChild(attendeeName);
+  controllerToggle.click();
+  expect(changeControllerToSpy).toBeCalledTimes(0);
 });
