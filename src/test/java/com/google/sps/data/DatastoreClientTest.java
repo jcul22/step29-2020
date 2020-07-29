@@ -29,6 +29,10 @@ import java.util.Optional;
 public class DatastoreClientTest  {
   private final LocalServiceTestHelper helper =
     new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+  private final DatastoreClientInterface datastoreClient = 
+    new DatastoreClient();
+  private final DatastoreService datastore = 
+    DatastoreServiceFactory.getDatastoreService();
 
   @Before
   public void setUp() {
@@ -43,13 +47,11 @@ public class DatastoreClientTest  {
   @Test
   public void testAttendeeIsInsertedToDatastore() {
     // Tests that object is inserted to datastore.
-    DatastoreClientInterface datastoreClient = new DatastoreClient();
     AttendeeInterface attendee = new Attendee("12345", "Taniece", new Date());
     datastoreClient.insertOrUpdateAttendee(attendee);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.AttendeeEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 1);
+        .countEntities(), 1);
     // Tests that getAttendee finds and returns attendee.
     AttendeeInterface attendee2 =
         datastoreClient.getAttendee("Taniece").get();
@@ -58,20 +60,18 @@ public class DatastoreClientTest  {
     datastoreClient.insertOrUpdateAttendee(attendee2);
     Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.AttendeeEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 1);
+        .countEntities(), 1);
   }
 
   @Test
   public void testSessionIsInsertedToDatastore() {
     // Tests that object is inserted to datastore.
-    DatastoreClientInterface datastoreClient = new DatastoreClient();
     SessionInterface session = new Session("12345", 
-        Optional.of("Taniece"), Optional.of("12345"));
+        Optional.of("Taniece"), Optional.of("123.123.12.1"));
     datastoreClient.insertOrUpdateSession(session);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.SessionEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 1);
+        .countEntities(), 1);
     // Tests that getSession finds and returns session.
    SessionInterface session2 = datastoreClient.getSession("12345").get();  
     Assert.assertEquals(session, session2);
@@ -80,7 +80,14 @@ public class DatastoreClientTest  {
     datastoreClient.insertOrUpdateSession(session2);
     Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.SessionEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 1);
+        .countEntities(), 1);
+    // Tests that new session is inserted to datastore.
+    SessionInterface session3 = new Session("54321", 
+        Optional.of("Jasmine"), Optional.of("321.123.22.1"));
+    datastoreClient.insertOrUpdateSession(session3);
+    Assert.assertEquals(datastore.prepare(new Query
+        (EntityConstants.SessionEntity.TABLE_NAME))
+        .countEntities(), 2);
   }
 
   @Test 
@@ -88,29 +95,24 @@ public class DatastoreClientTest  {
     // Tests that object is inserted to datastore.
     Optional<String> sessionId = Optional.of("12345");
     InstanceInterface instance = new Instance("vm1","Running", sessionId);
-    DatastoreClientInterface datastoreClient  = new DatastoreClient();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastoreClient.insertOrUpdateInstance(instance);
     Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.InstanceEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 1); 
+        .countEntities(), 1); 
     // Tests that getInstance finds and returns instance.
     InstanceInterface instance1 = datastoreClient.getInstance("vm1").get();
     Assert.assertEquals(instance, instance1);
     // Tests that existing instances are updated after being modified.
     instance.setState("Stopped");
     datastoreClient.insertOrUpdateInstance(instance);
-    DatastoreService data = DatastoreServiceFactory.getDatastoreService();
-    Assert.assertEquals(data.prepare(new Query
+    Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.InstanceEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 1);
+        .countEntities(), 1);
   }
 
   @Test
   public void testAttendeesInASession() {
     // Tests that getAttendeesInSession return attendees in given session.
-    DatastoreClientInterface datastoreClient = new DatastoreClient();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     AttendeeInterface attendee1 = new Attendee("12345", "Taniece", new Date());
     AttendeeInterface attendee3 = new Attendee("54321", "Tan", new Date());
     AttendeeInterface attendee2 = new Attendee("12345", "Jasmine", new Date());
@@ -121,7 +123,7 @@ public class DatastoreClientTest  {
     datastoreClient.insertOrUpdateAttendee(attendee4);
     Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.AttendeeEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 4);
+        .countEntities(), 4);
     List<Attendee> attendeeList = 
         datastoreClient.getAttendeesInSession("12345");
     Assert.assertEquals(attendeeList.size(), 3);
@@ -131,14 +133,13 @@ public class DatastoreClientTest  {
         datastoreClient.getAttendeesInSession("12345");
     Assert.assertEquals(datastore.prepare(new Query
         (EntityConstants.AttendeeEntity.TABLE_NAME))
-        .countEntities(withLimit(10)), 3);
+        .countEntities(), 3);
     Assert.assertEquals(attendeeList2.size(), 2);
   }
 
   @Test
   public void testAvailableInstances() {
-    // Tests that getAvailableInstances returns the available instances.
-    DatastoreClientInterface datastoreClient = new DatastoreClient();
+    // Tests that getAvailableInstances returns instances that are terminated.
     InstanceInterface instance1 = 
         new Instance("vm1","Running", Optional.of("12345"));
     InstanceInterface instance2 = 
@@ -151,5 +152,8 @@ public class DatastoreClientTest  {
     List<Instance> instanceList = datastoreClient.getAvailableInstances();
     Assert.assertEquals(instanceList.size(), 1);
     Assert.assertEquals(instanceList.get(0).getInstanceName(), "vm3");
+    Assert.assertEquals(datastore.prepare(new Query
+        (EntityConstants.InstanceEntity.TABLE_NAME))
+        .countEntities(), 3);
   }
 }
