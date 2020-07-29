@@ -13,6 +13,34 @@
 // limitations under the License.
 
 /**
+ * function buildAttendeeDiv() adds the div element containing
+ * all the elements representing an attendee to the session info
+ * attendees div.
+ * @param {string} nameOfAttendee name of attendee to build
+ * @param {string} controller name of the controller of the session
+ */
+function buildAttendeeDiv(nameOfAttendee, controller) {
+  const /** HTMLElement */ sessionInfoAttendeesDiv =
+      document.getElementById('session-info-attendees');
+  const /** HTMLDivElement */ attendeeDiv = document.createElement('div');
+  attendeeDiv.className = 'attendee-div'
+  const /** HTMLSpanElement */ controllerToggle = 
+      document.createElement('span');
+  controllerToggle.className = 'controller-toggle';
+  controllerToggle.addEventListener('click', event => {
+    passController(event, controller);
+  }, /**AddEventListenerOptions=*/false);
+  const /** HTMLHeadingElement */ attendeeName =
+      document.createElement('h3');
+  attendeeName.innerHTML = nameOfAttendee;
+  attendeeName.className = 'attendee-name'
+  attendeeName.id = nameOfAttendee;
+  attendeeDiv.appendChild(controllerToggle);
+  attendeeDiv.appendChild(attendeeName);
+  sessionInfoAttendeesDiv.appendChild(attendeeDiv);
+}
+
+/**
  * function openSessionInfo() displays the div container
  * that has information about the session.
  */
