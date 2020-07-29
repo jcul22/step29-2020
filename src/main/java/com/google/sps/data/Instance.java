@@ -77,8 +77,9 @@ public class Instance implements InstanceInterface {
 
   /** Returns a new Entity of kind "Instance" from an Instance object. */
   public Entity toEntity() {
+   // Key entityKey = KeyFactory.createKey("Instance", this.instanceName())
     Entity instanceEntity = 
-        new Entity(EntityConstants.InstanceEntity.TABLE_NAME);
+        new Entity(EntityConstants.InstanceEntity.TABLE_NAME, this.instanceName);
     instanceEntity.setProperty
         (EntityConstants.InstanceEntity.INSTANCE_NAME, this.instanceName);
     instanceEntity.setProperty

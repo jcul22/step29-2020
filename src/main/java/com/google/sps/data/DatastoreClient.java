@@ -5,8 +5,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import java.io.IOException;
@@ -24,7 +22,7 @@ import com.google.sps.data.InstanceInterface;
 public class DatastoreClient implements DatastoreClientInterface {
   /** 
    * Adds an attendeeInterface object to the Datastore. If object already
-   * exist, the old one is replaced. 
+   * exists, the old one is replaced. 
    */
   public void insertOrUpdateAttendee(AttendeeInterface attendee) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -33,15 +31,16 @@ public class DatastoreClient implements DatastoreClientInterface {
 
   /** 
    * Adds an InstanceInterface object to the Datastore. If object already
-   * exist, the old one with be replaced. 
+   * exists, the old one is replaced. 
    */
   public void insertOrUpdateInstance(InstanceInterface instance) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(instance.toEntity());
   }
+
   /** 
    * Adds an SessionInterface object to the Datastore. If object already
-   * exist, the old one is replaced. 
+   * exists, the old one is replaced. 
    */
   public void insertOrUpdateSession(SessionInterface session) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -49,9 +48,9 @@ public class DatastoreClient implements DatastoreClientInterface {
   }
 
   /** Returns the Session object associated with given sessionId. */
-  public Optional<Session> getSession(String sessionId) throws Exception {
+  public Optional<Session> getSession(String sessionId) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query getSession = new Query(EntityConstants.SessionEntity.SESSION_ID)
+    Query getSession = new Query(EntityConstants.SessionEntity.TABLE_NAME)
       .setFilter(new FilterPredicate(EntityConstants.SessionEntity.SESSION_ID,
       FilterOperator.EQUAL, sessionId));
     PreparedQuery pq = datastore.prepare(getSession);
@@ -60,7 +59,7 @@ public class DatastoreClient implements DatastoreClientInterface {
   }
 
    /** Returns the Instance object associated with given instanceName. */  
-  public Optional<Instance> getInstance(String instanceName) throws Exception {
+  public Optional<Instance> getInstance(String instanceName) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getInstance = new Query(EntityConstants.InstanceEntity.TABLE_NAME)
       .setFilter(new FilterPredicate
@@ -72,7 +71,7 @@ public class DatastoreClient implements DatastoreClientInterface {
    }
 
   /** Returns the Attendee object associated with given screenName. */  
-  public Optional<Attendee >getAttendee(String screenName) throws Exception {
+  public Optional<Attendee >getAttendee(String screenName) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getAttendee = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
       .setFilter(new FilterPredicate
@@ -84,7 +83,7 @@ public class DatastoreClient implements DatastoreClientInterface {
    }
 
   /** Deletes an attendee from the datastore. */
-  public void deleteAttendee(String screenName) throws Exception {
+  public void deleteAttendee(String screenName) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query getAttendee = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
       .setFilter(new FilterPredicate
@@ -96,8 +95,8 @@ public class DatastoreClient implements DatastoreClientInterface {
     }
 
   /** Returns a list of attendees in a session. */
-  public Optional<List<String>> getAttendeesInSession
-    (String sessionId) throws Exception {
+  public List<String> getAttendeesInSession
+    (String sessionId) {
       DatastoreService datastore = 
         DatastoreServiceFactory.getDatastoreService();
       Query query = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
@@ -110,11 +109,11 @@ public class DatastoreClient implements DatastoreClientInterface {
         attendeeList.add((String) attendeeEntity.getProperty
         (EntityConstants.AttendeeEntity.SCREEN_NAME));
       }
-      return Optional.of(attendeeList);
+      return attendeeList;
   }
 
   /** Returns a list of available instance. */
-  public Optional<List<String>> getAvailableInstances() throws Exception {
+  public List<String> getAvailableInstances() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query(EntityConstants.InstanceEntity.TABLE_NAME)
       .setFilter(new FilterPredicate(EntityConstants.InstanceEntity.STATE, 
@@ -125,6 +124,6 @@ public class DatastoreClient implements DatastoreClientInterface {
       instanceList.add((String) instanceEntity.getProperty
         (EntityConstants.InstanceEntity.INSTANCE_NAME));
     }
-    return Optional.of(instanceList);
+    return instanceList;
   }
 } 

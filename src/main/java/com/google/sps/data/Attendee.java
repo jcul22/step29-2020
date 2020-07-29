@@ -67,7 +67,7 @@ public class Attendee implements AttendeeInterface {
   /** Returns a new Entity of kind "Attendee" from an Attendee object. */
   public Entity toEntity() {
     Entity attendeeEntity = 
-        new Entity(EntityConstants.AttendeeEntity.TABLE_NAME);
+        new Entity(EntityConstants.AttendeeEntity.TABLE_NAME, this.screenName);
     attendeeEntity.setProperty 
         (EntityConstants.AttendeeEntity.SESSION_ID, this.sessionId);
     attendeeEntity.setProperty
