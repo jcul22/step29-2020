@@ -28,7 +28,7 @@ function buildAttendeeDiv(nameOfAttendee, controller) {
       document.createElement('span');
   controllerToggle.className = 'controller-toggle';
   controllerToggle.addEventListener('click', event => {
-    passController(event, controller);
+    changeControllerTo(event, controller);
   }, /**AddEventListenerOptions=*/false);
   const /** HTMLHeadingElement */ attendeeName =
       document.createElement('h3');
@@ -38,6 +38,21 @@ function buildAttendeeDiv(nameOfAttendee, controller) {
   attendeeDiv.appendChild(controllerToggle);
   attendeeDiv.appendChild(attendeeName);
   sessionInfoAttendeesDiv.appendChild(attendeeDiv);
+}
+
+/**
+ * If the current controller of the session clicks on the controller 
+ * toggle, their controller status is revoked and the server is updated
+ * with information on the new controller.
+ * @param {MouseEvent} event
+ * @param {string} controller
+ */
+function changeControllerTo(event, controller) {
+  if (urlParameters.get('name') === controller) {
+    sessionScreen.viewOnly = true;
+    client.changeControllerTo(
+        event.target.parentElement.querySelector('h3').id);
+  }
 }
 
 /**
