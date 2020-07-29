@@ -6,11 +6,28 @@
 //
 //     https://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/**
+ * Represents the noVNC client object; the single connection to the 
+ * VNC server.
+ * @type {RFB}
+ */
+let sessionScreen;
+
+/**
+ * Represents the URLSearchParams of the
+ * the client is in, holds information such as the
+ * session ID and the screen name of the current user.
+ * @type {URLSearchParams}
+ */
+const urlParameters = new URLSearchParams(window.location.search);
+
+/**
+ * Represents the ServerClient object responsible for
+ * keeping up-to-date with the current session and handles many
+ * of the client-to-server interactions, like passing the controller.
+ * @type {ServerClient}
+ */
+const client = new ServerClient(urlParameters);
 
 /**
  * function buildAttendeeDiv() adds the div element containing
