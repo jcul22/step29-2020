@@ -7,10 +7,10 @@ class noVNCClient {
    * @param {ServerClient} serverClient Represents the ServerClient object 
    *    responsible for keeping up-to-date with the current session and
    *    handles many of the client-to-server interactions, 
-   *    like passing the controller.
+   *    like changing the controller.
    * @param {number=} [reconnectCadence = 30000] Represents the rate at 
-   *    which the noVNC RFB object attempts to reconnect if it goes down.
-   *    By default, is 30,000 milliseconds
+   *    which the noVNC RFB object attempts to reconnect if it disconnects.
+   *    By default, the rate is 30,000 milliseconds.
    */
   constructor(serverClient, reconnectCadence = 30000) {
     /**
@@ -37,8 +37,6 @@ class noVNCClient {
      * @private {boolean}
      */
     this.isConnected_ = false;
-
-    this.remoteToSession_();
   }
 
   /**
@@ -48,14 +46,7 @@ class noVNCClient {
    * @param {string} sessionId
    */
   remoteToSession_(ipOfVM, sessionId) {
-    const /** string */ url = `wss://${ipOfVM}:6080`;
-    this.sessionScreen_ = 
-        new RFB(document.getElementById('session-screen'), url,
-            { credentials: { password: sessionId } });
-    this.sessionScreen_.addEventListener('connect', connectedToSession);
-    this.sessionScreen_.addEventListener('disconnect', disconnectedFromSession);
-    this.sessionScreen_.viewOnly = true;
-    document.getElementById('welcome-message').style.display = 'block';
+    throw new Error('Unimplemented');
   }
 
   /**
@@ -64,8 +55,7 @@ class noVNCClient {
    * @private
    */
   connectedToSession_() {
-    document.getElementById('session-status').style.display = 'none';
-    this.isConnected_ = true;
+    throw new Error('Unimplemented');
   }
 
   /**
@@ -74,19 +64,7 @@ class noVNCClient {
    * @private
    */
   disconnectedFromSession_() {
-    document.getElementById('session-status').style.display = 'block';
-    this.isConnected_ = false;
-    let /** number */ setIntervalId = setInterval(() => {
-      if(!this.isConnected_) {
-        client.getSession().then(session => {
-          remoteToSession(session.getIpOfVM(), session.getSessionId());
-        }).catch(error => {
-          window.alert(error);
-        });
-      } else {
-        clearInterval(setIntervalId);
-      }
-    }, this.RECONNECT_CADENCE_MS_);
+    throw new Error('Unimplemented');
   }
 
   /**
