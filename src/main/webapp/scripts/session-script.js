@@ -1,9 +1,9 @@
 import { ServerClient } from './serverclient.js';
 
 /**
- * Represents the URLSearchParams of the
- * the client is in, holds information such as the
- * session ID and the screen name of the current user.
+ * Represents the URLSearchParams the client is in, 
+ * holds information such as the session ID and 
+ * the screen name of the current user.
  * @type {URLSearchParams}
  */
 let urlParameters;
@@ -11,7 +11,7 @@ let urlParameters;
 /**
  * Represents the ServerClient object responsible for
  * keeping up-to-date with the current session and handles many
- * of the client-to-server interactions, like passing the controller.
+ * of the client-to-server interactions, like changing the controller.
  * @type {ServerClient}
  */
 let client;
