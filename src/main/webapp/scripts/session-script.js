@@ -53,6 +53,24 @@ function addOnClickListenerToElements() {
 }
 
 /**
+ * function changetoReadOnly() changes the two inputs
+ * (one on the welcome message) and the other in the session 
+ * information div to show the session ID and then changes them
+ * to read only.
+ * @param {string} sessionId
+ */
+function changeToReadOnly(sessionId) {
+  const /** HTMLElement */ sessionInfoInput = 
+  document.getElementById('session-info-input');
+  sessionInfoInput.value = sessionId;
+  sessionInfoInput.readOnly = true;
+  const /** HTMLElement */ welcomeMessageInput = 
+      document.getElementById('welcome-message-input');
+  welcomeMessageInput.value = sessionId;
+  welcomeMessageInput.readOnly = true;
+}
+
+/**
  * function openSessionInfo() displays the div container
  * that has information about the session.
  */
