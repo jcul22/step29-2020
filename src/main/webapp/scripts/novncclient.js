@@ -77,7 +77,7 @@ class noVNCClient {
 
   /**
    * Method changeViewOnlyToTrue() changes the viewOnly property 
-   * of the current RFB object to true if connected.
+   * of the current RFB object to be true if connected.
    */
   changeViewOnlyToTrue() {
     throw new Error('Unimpleneted');
