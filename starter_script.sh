@@ -11,7 +11,7 @@ PASSWRD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attri
 VNCPASSWD_PATH=~/.vnc/passwd
 export USER=/root
 apt-get update
-sudo apt install -y xfce4 xfce4-goodies tightvncserver chromium-browser
+sudo apt install -y xfce4 xfce4-goodies tightvncserver
 git clone https://github.com/novnc/noVNC.git
 mkdir ~/.vnc
 echo "${PASSWRD}" | vncpasswd -f > ${VNCPASSWD_PATH}
