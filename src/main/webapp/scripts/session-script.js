@@ -98,4 +98,4 @@ function copyTextToClipboard(element) {
 }
 
 export { openSessionInfo, closeParentDisplay, copyTextToClipboard, 
-  addOnClickListenerToElements };
+  addOnClickListenerToElements, changeToReadOnly };
