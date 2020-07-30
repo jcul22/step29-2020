@@ -1,3 +1,21 @@
+import { ServerClient } from './serverclient.js';
+
+/**
+ * Represents the URLSearchParams of the
+ * the client is in, holds information such as the
+ * session ID and the screen name of the current user.
+ * @type {URLSearchParams}
+ */
+const urlParameters = new URLSearchParams(window.location.search);
+
+/**
+ * Represents the ServerClient object responsible for
+ * keeping up-to-date with the current session and handles many
+ * of the client-to-server interactions, like passing the controller.
+ * @type {ServerClient}
+ */
+const client = new ServerClient(urlParameters);
+
 /**
  * This waits until the webpage loads and then it calls the
  * anonymous function, which calls main.
@@ -9,7 +27,10 @@ window.onload = function() { main(); }
  * the behind the scenes operations, like caching.
  */
 function main() {
-  addOnClickListenerToElements();
+  addOnClickToElements();
+  client.getSession().then(session => {
+    changeToReadOnly(session.getSessionId());
+  });
 }
 
 /**
