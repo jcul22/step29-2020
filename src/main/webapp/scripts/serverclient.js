@@ -39,7 +39,7 @@ class ServerClient {
       const /** Response */ response =
           await fetch(GET_SESSION_ENDPOINT_ + '?name=' +
               name + '&session-id=' + sessionID);
-      return await response.json();
+      return response.json();
     }
 
     /**
@@ -54,14 +54,6 @@ class ServerClient {
      */
     this.urlParams_ = urlParams;
 
-    this.startSessionCache_();
-  }
-
-  /** 
-   * This method starts to cache.
-   * @private
-   */
-  startSessionCache_() {
     this.sessionCache_.start();
   }
 
