@@ -72,7 +72,7 @@ test('tests copy and paste', () => {
   expect(document.execCommand).toHaveBeenCalledWith('copy');
 });
 
-test('tests changeToReadOnly()', () => {
+test('tests changeElementsToReadOnly()', () => {
   document.body.innerHTML = '';
   const sessionInfoInput = document.createElement('input');
   sessionInfoInput.id = 'session-info-input';
@@ -80,7 +80,7 @@ test('tests changeToReadOnly()', () => {
   welcomeMessageInput.id = 'welcome-message-input';
   document.body.appendChild(sessionInfoInput);
   document.body.appendChild(welcomeMessageInput);
-  sessionscript.changeToReadOnly('leee3414123');
+  sessionscript.changeElementsToReadOnly('leee3414123');
   expect(sessionInfoInput.readOnly).toBe(true);
   expect(welcomeMessageInput.readOnly).toBe(true);
   expect(sessionInfoInput.value).toEqual('leee3414123');

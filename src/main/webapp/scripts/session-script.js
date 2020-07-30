@@ -29,7 +29,9 @@ window.onload = function() { main(); }
 function main() {
   addOnClickToElements();
   client.getSession().then(session => {
-    changeToReadOnly(session.getSessionId());
+    changeElementsToReadOnly(session.getSessionId());
+  }).catch(error => {
+    window.alert('No contact with the server!');
   });
 }
 
@@ -53,13 +55,13 @@ function addOnClickListenerToElements() {
 }
 
 /**
- * function changetoReadOnly() changes the two inputs
+ * function changeElementsToReadOnly() changes the two inputs
  * (one on the welcome message) and the other in the session 
  * information div to show the session ID and then changes them
  * to read only.
  * @param {string} sessionId
  */
-function changeToReadOnly(sessionId) {
+function changeElementsToReadOnly(sessionId) {
   const /** HTMLElement */ sessionInfoInput = 
   document.getElementById('session-info-input');
   sessionInfoInput.value = sessionId;
@@ -98,4 +100,4 @@ function copyTextToClipboard(element) {
 }
 
 export { openSessionInfo, closeParentDisplay, copyTextToClipboard, 
-  addOnClickListenerToElements, changeToReadOnly };
+  addOnClickListenerToElements, changeElementsToReadOnly };
