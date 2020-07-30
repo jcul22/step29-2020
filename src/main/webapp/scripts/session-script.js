@@ -6,7 +6,7 @@ import { ServerClient } from './serverclient.js';
  * session ID and the screen name of the current user.
  * @type {URLSearchParams}
  */
-let urlParameters
+let urlParameters;
 
 /**
  * Represents the ServerClient object responsible for
@@ -14,7 +14,7 @@ let urlParameters
  * of the client-to-server interactions, like passing the controller.
  * @type {ServerClient}
  */
-let client
+let client;
 
 /**
  * This waits until the webpage loads and then it calls the
@@ -65,7 +65,7 @@ function addOnClickListenerToElements() {
  */
 function changeElementsToReadOnly(sessionId) {
   const /** HTMLElement */ sessionInfoInput = 
-  document.getElementById('session-info-input');
+      document.getElementById('session-info-input');
   sessionInfoInput.value = sessionId;
   sessionInfoInput.readOnly = true;
   const /** HTMLElement */ welcomeMessageInput = 
