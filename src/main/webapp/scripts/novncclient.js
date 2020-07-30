@@ -50,28 +50,36 @@ class noVNCClient {
   }
 
   /**
-   * Method connectedToSession() is called on once the sessionScreen 
-   * connects.
+   * Method callWhenConnectedToSession() is called on once the 
+   * sessionScreen connects.
    * @private
    */
-  connectedToSession_() {
+  callWhenConnectedToSession_() {
     throw new Error('Unimplemented');
   }
 
   /**
-   * Method disconnectedFromSession() is called on once the sessionScreen
-   * disconnects.
+   * Method callWhenDisconnectedFromSession() is called on once 
+   * the sessionScreen disconnects.
    * @private
    */
-  disconnectedFromSession_() {
+  callWhenDisconnectedFromSession_() {
     throw new Error('Unimplemented');
   }
 
   /**
-   * Method changeViewOnly() changes the view only of the current RFB object
-   * to be opposite of what it currently is.
+   * Method changeViewOnlyToFalse() changes the viewOnly property of the 
+   * current RFB object to be false if connected.
    */
-  changeViewOnly() {
+  changeViewOnlyToFalse() {
+    throw new Error('Unimpleneted');
+  }
+
+  /**
+   * Method changeViewOnlyToTrue() changes the viewOnly property 
+   * of the current RFB object to true if connected.
+   */
+  changeViewOnlyToTrue() {
     throw new Error('Unimpleneted');
   }
 
