@@ -1,7 +1,6 @@
 package com.google.sps.data;
 
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.Assert;
 import org.junit.Test;
 import com.google.appengine.api.datastore.Query;
