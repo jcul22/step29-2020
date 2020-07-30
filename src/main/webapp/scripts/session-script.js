@@ -6,7 +6,7 @@ import { ServerClient } from './serverclient.js';
  * session ID and the screen name of the current user.
  * @type {URLSearchParams}
  */
-const urlParameters = new URLSearchParams(window.location.search);
+let urlParameters
 
 /**
  * Represents the ServerClient object responsible for
@@ -14,7 +14,7 @@ const urlParameters = new URLSearchParams(window.location.search);
  * of the client-to-server interactions, like passing the controller.
  * @type {ServerClient}
  */
-const client = new ServerClient(urlParameters);
+let client
 
 /**
  * This waits until the webpage loads and then it calls the
@@ -27,7 +27,9 @@ window.onload = function() { main(); }
  * the behind the scenes operations, like caching.
  */
 function main() {
-  addOnClickToElements();
+  urlParameters = new URLSearchParams(window.location.search);
+  client = new ServerClient(urlParameters);
+  addOnClickListenerToElements();
   client.getSession().then(session => {
     changeElementsToReadOnly(session.getSessionId());
   }).catch(error => {
@@ -55,10 +57,10 @@ function addOnClickListenerToElements() {
 }
 
 /**
- * function changeElementsToReadOnly() changes the two inputs
- * (one on the welcome message) and the other in the session 
- * information div to show the session ID and then changes them
- * to read only.
+ * function changeElementsToReadOnly() changes the two inputs,
+ * one on the welcome message and the other in the session 
+ * information div, to show the session ID and then changes them
+ * to read only (meaning they cannot be changed once set).
  * @param {string} sessionId
  */
 function changeElementsToReadOnly(sessionId) {
