@@ -81,8 +81,8 @@ function buildAttendeeDiv(nameOfAttendee, controller) {
  * If the current controller of the session clicks on the controller 
  * toggle, their controller status is revoked and the server is updated
  * with information on the new controller.
- * @param {MouseEvent} event
- * @param {string} controller
+ * @param {MouseEvent} event the event that captures what was clicked on
+ * @param {string} controller name of the controller of the session
  */
 function changeControllerTo(event, controller) {
   if (urlParameters.get('name') === controller) {
