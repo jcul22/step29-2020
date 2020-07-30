@@ -24,7 +24,7 @@ class noVNCClient {
     /**
      * @private {number}
      */
-    this.reconnectCadenceMS_ = reconnectCadence;
+    this.reconnectCadence_ = reconnectCadence;
 
     /**
      * @private {ServerClient}
@@ -84,5 +84,5 @@ class noVNCClient {
   }
 }
 
-export { novncClient }
+export { noVNCClient }
 
