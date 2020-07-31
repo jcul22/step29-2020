@@ -1,4 +1,3 @@
-import { ServerClient } from './serverclient.js';
 import RFB from 'https://cdn.jsdelivr.net/npm/@novnc/novnc@1.1.0/core/rfb.js';
 
 /**
@@ -12,66 +11,70 @@ import RFB from 'https://cdn.jsdelivr.net/npm/@novnc/novnc@1.1.0/core/rfb.js';
 class NoVNCClient {
   /**
    * Initalizes a NoVNCClient object.
-   * @param {ServerClient} serverClient Represents the ServerClient object 
-   *    responsible for keeping up-to-date with the current session and
-   *    handles many of the client-to-server interactions, 
-   *    like changing the controller.
+   * @param {function(): void} connectCallback this function is called 
+   *    once the sessionScreen connects.
+   * @param {function(): void} disconnectCallback this function is called
+   *    once the sessionScreen disconnects.
    * @param {number=} [reconnectCadenceMs = 30000] Represents the rate at 
    *    which the noVNC RFB object attempts to reconnect if it disconnects.
    *    By default, the rate is 30,000 milliseconds.
    */
-  constructor(serverClient, reconnectCadenceMs = 30000) {
-    /**
-     * Represents the current noVNC RFB object of the 
-     * session, the single connection to the VNC server of the
-     * VM assigned to the session.
-     * @private {RFB}
-     */
-    this.sessionScreen_ = null; 
+  constructor(connectCallback, disconnectCallback,
+      reconnectCadenceMs = 30000) {
+        /**
+         * Represents the current noVNC RFB object of the 
+         * session, the single connection to the VNC server of the
+         * VM assigned to the session.
+         * @private {RFB}
+         */
+        this.sessionScreen_ = null; 
 
-    /**
-     * @private {number}
-     */
-    this.reconnectCadenceMs_ = reconnectCadenceMs;
+        /**
+         * @private {number}
+         */
+        this.reconnectCadenceMs_ = reconnectCadenceMs;
 
-    /**
-     * @private {ServerClient}
-     */
-    this.serverClient_ = serverClient;
+        /**
+         * connectCallback is called once the sessionScreen connects.
+         * @private {function(): void}
+         */
+        this.connectCallback_ = connectCallback;
 
-    /**
-     * Represents the current state of the sessionScreen in terms of 
-     * whether or not it is connected.
-     * @private {boolean}
-     */
-    this.isConnected_ = false;
+        /** 
+         * disconnectCallback is called once the sessionScreen disconnects.
+         * @private {function(): void}
+         */
+        this.disconnectCallback_ = disconnectCallback;
   }
 
   /**
    * Method remoteToSession() uses the noVNC library
    * in order to connect to a session.
-   * @param {string} ipOfVM
-   * @param {string} sessionId
+   * @param {string} ipOfVM the ip adress of the VM assigned to the 
+   *    session
+   * @param {string} sessionId represents the id of the current session
    */
-  remoteToSession_(ipOfVM, sessionId) {
+  remoteToSession(ipOfVM, sessionId) {
     throw new Error('Unimplemented');
   }
 
   /**
-   * Method onConnectCallback() is called on once the 
-   * sessionScreen connects.
-   * @private
+   * Method setConnectCallback() sets the connectCallback to be that
+   * passed in.
+   * @param {function(): void} connectCallback this function is called 
+   *    once the sessionScreen connects.
    */
-  onConnectCallback_() {
+  setConnectCallback(connectCallback) {
     throw new Error('Unimplemented');
   }
 
   /**
-   * Method onDisconnectCallback() is called on once 
-   * the sessionScreen disconnects.
-   * @private
+   * Method setDisconnectCallback() sets the disconnectCallback to be that
+   * passed in.
+   * @param {function(): void} disconnectCallback this function is called 
+   *    once the sessionScreen disconnects.
    */
-  onDisconnectCallback_() {
+  setDisconnectCallback(disconnectCallback) {
     throw new Error('Unimplemented');
   }
 
@@ -83,7 +86,7 @@ class NoVNCClient {
    *    being sent to the server.
    */
   setViewOnly(viewOnly) {
-    throw new Error('Unimpleneted');
+    throw new Error('Unimplemented');
   }
 }
 
