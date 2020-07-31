@@ -86,8 +86,12 @@ function buildAttendeeDiv(nameOfAttendee, controller) {
  */
 function changeControllerTo(event, controller) {
   if (urlParameters.get('name') === controller) {
-    client.changeControllerTo(/**newControllerName=*/
+    try {
+      client.changeControllerTo(/**newControllerName=*/
         event.target.parentElement.querySelector('h3').id);
+    } catch (e) {
+      window.alert('No contact with the server!');
+    }
   }
 }
 /**
