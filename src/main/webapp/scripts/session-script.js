@@ -88,7 +88,7 @@ function changeControllerTo(event, controller) {
   if (urlParameters.get('name') === controller) {
     try {
       client.changeControllerTo(/**newControllerName=*/
-        event.target.parentElement.querySelector('h3').id);
+          event.target.parentElement.querySelector('h3').id);
     } catch (e) {
       window.alert('No contact with the server!');
     }
