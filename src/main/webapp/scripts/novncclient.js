@@ -76,8 +76,8 @@ class NoVNCClient {
   }
 
   /**
-   * Method changeViewOnlyToFalse() changes the viewOnly property of the 
-   * current RFB object to be false if connected.
+   * Method setViewOnly changes the viewOnly property of the current
+   * sessionScreen to be what is passed in.
    * @param {boolean} viewOnly is a boolean indicating if any events
    *    (e.g. key presses or mouse movement) should be prevented from 
    *    being sent to the server.
