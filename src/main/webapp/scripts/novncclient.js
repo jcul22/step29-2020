@@ -1,18 +1,26 @@
 import { ServerClient } from './serverclient.js';
 import RFB from 'https://cdn.jsdelivr.net/npm/@novnc/novnc@1.1.0/core/rfb.js';
 
-class noVNCClient {
+/**
+ * The NoVNCClient class essentially surrounds the RFB object of the noVNC
+ * library, taking care of remoting, what happens if someone connects, 
+ * and what happens if someone disconnects. The class also allows for 
+ * additional functionality that are specific to the scope of Virtual Movie
+ * Night, like changing the viewOnly property of the RFB object (or all
+ * owing who is able to controll).
+ */
+class NoVNCClient {
   /**
-   * Initalizes a noVNCClient object.
+   * Initalizes a NoVNCClient object.
    * @param {ServerClient} serverClient Represents the ServerClient object 
    *    responsible for keeping up-to-date with the current session and
    *    handles many of the client-to-server interactions, 
    *    like changing the controller.
-   * @param {number=} [reconnectCadence = 30000] Represents the rate at 
+   * @param {number=} [reconnectCadenceMs = 30000] Represents the rate at 
    *    which the noVNC RFB object attempts to reconnect if it disconnects.
    *    By default, the rate is 30,000 milliseconds.
    */
-  constructor(serverClient, reconnectCadence = 30000) {
+  constructor(serverClient, reconnectCadenceMs = 30000) {
     /**
      * Represents the current noVNC RFB object of the 
      * session, the single connection to the VNC server of the
@@ -24,7 +32,7 @@ class noVNCClient {
     /**
      * @private {number}
      */
-    this.reconnectCadence_ = reconnectCadence;
+    this.reconnectCadenceMs_ = reconnectCadenceMs;
 
     /**
      * @private {ServerClient}
@@ -50,47 +58,34 @@ class noVNCClient {
   }
 
   /**
-   * Method callWhenConnectedToSession() is called on once the 
+   * Method onConnectCallback() is called on once the 
    * sessionScreen connects.
    * @private
    */
-  callWhenConnectedToSession_() {
+  onConnectCallback_() {
     throw new Error('Unimplemented');
   }
 
   /**
-   * Method callWhenDisconnectedFromSession() is called on once 
+   * Method onDisconnectCallback() is called on once 
    * the sessionScreen disconnects.
    * @private
    */
-  callWhenDisconnectedFromSession_() {
+  onDisconnectCallback_() {
     throw new Error('Unimplemented');
   }
 
   /**
    * Method changeViewOnlyToFalse() changes the viewOnly property of the 
    * current RFB object to be false if connected.
+   * @param {boolean} viewOnly is a boolean indicating if any events
+   *    (e.g. key presses or mouse movement) should be prevented from 
+   *    being sent to the server.
    */
-  changeViewOnlyToFalse() {
-    throw new Error('Unimpleneted');
-  }
-
-  /**
-   * Method changeViewOnlyToTrue() changes the viewOnly property 
-   * of the current RFB object to be true if connected.
-   */
-  changeViewOnlyToTrue() {
-    throw new Error('Unimpleneted');
-  }
-
-  /**
-   * Method getConnectionStatus() returns the current status of the 
-   * current RFB object.
-   */
-  getConnectionStatus() {
+  setViewOnly(viewOnly) {
     throw new Error('Unimpleneted');
   }
 }
 
-export { noVNCClient }
+export { NoVNCClient }
 
