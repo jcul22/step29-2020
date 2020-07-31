@@ -15,11 +15,13 @@ class NoVNCClient {
    *    once the sessionScreen connects.
    * @param {function(): void} disconnectCallback this function is called
    *    once the sessionScreen disconnects.
+   * @param {HTMLElement} sessionScreenElement A block HTMLElement that 
+   *    specifies where the RFB object should attach itself.
    * @param {number=} [reconnectCadenceMs = 30000] Represents the rate at 
    *    which the noVNC RFB object attempts to reconnect if it disconnects.
    *    By default, the rate is 30,000 milliseconds.
    */
-  constructor(connectCallback, disconnectCallback,
+  constructor(connectCallback, disconnectCallback, sessionScreenElement,
       reconnectCadenceMs = 30000) {
         /**
          * Represents the current noVNC RFB object of the 
@@ -30,18 +32,21 @@ class NoVNCClient {
         this.sessionScreen_ = null; 
 
         /**
+         * @private {HTMLElement}
+         */
+        this.sessionScreenElement_ = sessionScreenElement;
+
+        /**
          * @private {number}
          */
         this.reconnectCadenceMs_ = reconnectCadenceMs;
 
-        /**
-         * connectCallback is called once the sessionScreen connects.
+        /** 
          * @private {function(): void}
          */
         this.connectCallback_ = connectCallback;
 
         /** 
-         * disconnectCallback is called once the sessionScreen disconnects.
          * @private {function(): void}
          */
         this.disconnectCallback_ = disconnectCallback;
@@ -51,11 +56,18 @@ class NoVNCClient {
    * Method remoteToSession() uses the noVNC library
    * in order to connect to a session.
    * @param {string} ipOfVM the ip adress of the VM assigned to the 
-   *    session
-   * @param {string} sessionId represents the id of the current session
+   *    session.
+   * @param {string} sessionId represents the id of the current session.
    */
   remoteToSession(ipOfVM, sessionId) {
     throw new Error('Unimplemented');
+  }
+
+  /**
+   * Method disconnect() disconnects from the server.
+   */
+  disconnect() {
+    throw new Error('Unimplemeted');
   }
 
   /**

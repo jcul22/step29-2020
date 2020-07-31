@@ -44,6 +44,16 @@ test('We can check if setDisconnectCallback throws an error', () => {
   }
 });
 
+test('We can check if setDisconnectCallback throws an error', () => {
+  try {
+    const novncClient = 
+        new NoVNCClient(testConnectCallback, testDisconnectCallback);
+    novncClient.disconnect();
+  } catch (e) {
+    expect(e.message).toBe('Unimplemented');
+  }
+});
+
 function testConnectCallback() {
   const hello = 'Hello!';
 }
