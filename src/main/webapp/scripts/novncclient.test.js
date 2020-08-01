@@ -20,30 +20,6 @@ test('We can check if remoteToSession throws an error', () => {
   }
 });
 
-test('We can check if setConnectCallback throws an error', () => {
-  try {
-    const novncClient = 
-        new NoVNCClient(testConnectCallback, testDisconnectCallback);
-    novncClient.setConnectCallback(() => { 
-      const goodbye = 'Goodbye!';
-    });
-  } catch (e) {
-    expect(e.message).toBe('Unimplemented');
-  }
-});
-
-test('We can check if setDisconnectCallback throws an error', () => {
-  try {
-    const novncClient = 
-        new NoVNCClient(testConnectCallback, testDisconnectCallback);
-    novncClient.setConnectCallback(() => { 
-      const hello = 'Hello!';
-    });
-  } catch (e) {
-    expect(e.message).toBe('Unimplemented');
-  }
-});
-
 test('We can check if setDisconnectCallback throws an error', () => {
   try {
     const novncClient = 

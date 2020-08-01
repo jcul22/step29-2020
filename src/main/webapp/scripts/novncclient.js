@@ -71,26 +71,6 @@ class NoVNCClient {
   }
 
   /**
-   * Method setConnectCallback() sets the connectCallback to be that
-   * passed in.
-   * @param {function(): void} connectCallback this function is called 
-   *    once the sessionScreen connects.
-   */
-  setConnectCallback(connectCallback) {
-    throw new Error('Unimplemented');
-  }
-
-  /**
-   * Method setDisconnectCallback() sets the disconnectCallback to be that
-   * passed in.
-   * @param {function(): void} disconnectCallback this function is called 
-   *    once the sessionScreen disconnects.
-   */
-  setDisconnectCallback(disconnectCallback) {
-    throw new Error('Unimplemented');
-  }
-
-  /**
    * Method setViewOnly changes the viewOnly property of the current
    * sessionScreen to be what is passed in.
    * @param {boolean} viewOnly is a boolean indicating if any events
