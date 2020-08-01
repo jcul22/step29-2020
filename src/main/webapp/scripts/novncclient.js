@@ -17,39 +17,30 @@ class NoVNCClient {
    *    once the sessionScreen disconnects.
    * @param {HTMLElement} sessionScreenElement A block HTMLElement that 
    *    specifies where the RFB object should attach itself.
-   * @param {number=} [reconnectCadenceMs = 30000] Represents the rate at 
-   *    which the noVNC RFB object attempts to reconnect if it disconnects.
-   *    By default, the rate is 30,000 milliseconds.
    */
-  constructor(connectCallback, disconnectCallback, sessionScreenElement,
-      reconnectCadenceMs = 30000) {
-        /**
-         * Represents the current noVNC RFB object of the 
-         * session, the single connection to the VNC server of the
-         * VM assigned to the session.
-         * @private {RFB}
-         */
-        this.sessionScreen_ = null; 
+  constructor(connectCallback, disconnectCallback, sessionScreenElement) {
+    /**
+     * Represents the current noVNC RFB object of the 
+     * session, the single connection to the VNC server of the
+     * VM assigned to the session.
+     * @private {RFB}
+     */
+    this.sessionScreen_ = null; 
 
-        /**
-         * @private {HTMLElement}
-         */
-        this.sessionScreenElement_ = sessionScreenElement;
+    /** 
+     * @private {function(): void}
+     */
+    this.connectCallback_ = connectCallback;
 
-        /**
-         * @private {number}
-         */
-        this.reconnectCadenceMs_ = reconnectCadenceMs;
+    /** 
+     * @private {function(): void}
+     */
+    this.disconnectCallback_ = disconnectCallback;
 
-        /** 
-         * @private {function(): void}
-         */
-        this.connectCallback_ = connectCallback;
-
-        /** 
-         * @private {function(): void}
-         */
-        this.disconnectCallback_ = disconnectCallback;
+    /**
+     * @private {HTMLElement}
+     */
+    this.sessionScreenElement_ = sessionScreenElement;
   }
 
   /**
@@ -71,7 +62,7 @@ class NoVNCClient {
   }
 
   /**
-   * Method setViewOnly changes the viewOnly property of the current
+   * Method setViewOnly() changes the viewOnly property of the current
    * sessionScreen to be what is passed in.
    * @param {boolean} viewOnly is a boolean indicating if any events
    *    (e.g. key presses or mouse movement) should be prevented from 
