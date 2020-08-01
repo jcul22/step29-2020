@@ -20,7 +20,7 @@ test('We can check if remoteToSession throws an error', () => {
   }
 });
 
-test('We can check if setDisconnectCallback throws an error', () => {
+test('We can check if disconnect throws an error', () => {
   try {
     const novncClient = 
         new NoVNCClient(testConnectCallback, testDisconnectCallback);
