@@ -154,6 +154,13 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
         PROJECT_ID, ZONE_NAME));
       disk.setInitializeParams(params);
       instance.setDisks(Collections.singletonList(disk));
+      // Adds startup script to be used by VM Instance.
+      Metadata meta = new Metadata();
+      Metadata.Items item = new Metadata.Items();
+      item.setKey("startup-script-url");
+      item.setValue(String.format("gs://%s/starter_script.sh", PROJECT_ID));
+      meta.setItems(Collections.singletonList(item));
+      instance.setMetadata(meta);
       ServiceAccount account = new ServiceAccount();
       account.setEmail("default");
       List<String> scopes = new ArrayList<>();
@@ -191,7 +198,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   public static Operation.Error blockUntilComplete(
     Compute compute, Operation operation, long timeout) throws Exception {
       long start = System.currentTimeMillis();
-      final long pollInterval = 5 * 1000;
+      final long pollIntervalMs = 5 * 1000;
       String zone = operation.getZone(); // null for global/regional operations
       if (zone != null) {
         String[] bits = zone.split("/");
@@ -200,7 +207,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       String status = operation.getStatus();
       String opId = operation.getName();
       while (operation != null && !status.equals("DONE")) {
-        Thread.sleep(pollInterval);
+        Thread.sleep(pollIntervalMs);
         long elapsed = System.currentTimeMillis() - start;
         if (elapsed >= timeout) {
           throw new InterruptedException(
