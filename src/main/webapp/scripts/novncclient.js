@@ -11,21 +11,23 @@ import RFB from 'https://cdn.jsdelivr.net/npm/@novnc/novnc@1.1.0/core/rfb.js';
 class NoVNCClient {
   /**
    * Initalizes a NoVNCClient object.
-   * @param {function(): void} connectCallback this function is called 
-   *    once the sessionScreen connects.
-   * @param {function(): void} disconnectCallback this function is called
-   *    once the sessionScreen disconnects.
-   * @param {HTMLElement} sessionScreenElement A block HTMLElement that 
+   * @param {function(): void} connectCallback This function is called 
+   *    once the rfbConnection connects.
+   * @param {function(): void} disconnectCallback This function is called
+   *    once the rfbConnection disconnects.
+   * @param {HTMLElement} rfbConnectionElement A block HTMLElement that 
    *    specifies where the RFB object should attach itself.
    */
-  constructor(connectCallback, disconnectCallback, sessionScreenElement) {
+  constructor(connectCallback, disconnectCallback, rfbConnectionElement) {
     /**
      * Represents the current noVNC RFB object of the 
      * session, the single connection to the VNC server of the
-     * VM assigned to the session.
+     * VM assigned to the session. The interface of the noVNC client 
+     * consists of this single RFB object and all of the functionality of
+     * the library resides in this object. 
      * @private {RFB}
      */
-    this.sessionScreen_ = null; 
+    this.rfbConnection_ = null; 
 
     /** 
      * @private {function(): void}
@@ -40,7 +42,7 @@ class NoVNCClient {
     /**
      * @private {HTMLElement}
      */
-    this.sessionScreenElement_ = sessionScreenElement;
+    this.rfbConnectionElement_ = rfbConnectionElement;
   }
 
   /**
@@ -63,7 +65,7 @@ class NoVNCClient {
 
   /**
    * Method setViewOnly() changes the viewOnly property of the current
-   * sessionScreen to be what is passed in.
+   * rfbConnection to be what is passed in.
    * @param {boolean} viewOnly is a boolean indicating if any events
    *    (e.g. key presses or mouse movement) should be prevented from 
    *    being sent to the server.
