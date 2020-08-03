@@ -14,7 +14,7 @@ let urlParameters;
  * of the client-to-server interactions, like changing the controller.
  * @type {ServerClient}
  */
-let client;
+let serverClient;
 
 /**
  * This waits until the webpage loads and then it calls the
@@ -28,7 +28,7 @@ window.onload = function() { main(); }
  */
 function main() {
   urlParameters = new URLSearchParams(window.location.search);
-  client = new ServerClient(urlParameters);
+  serverClient = new ServerClient(urlParameters);
   addOnClickListenerToElements();
 }
 
@@ -89,7 +89,7 @@ function buildAttendeeDiv(nameOfAttendee, controller) {
 function changeControllerTo(event, controller) {
   if (urlParameters.get('name') === controller) {
     try {
-      client.changeControllerTo(/**newControllerName=*/
+      serverClient.changeControllerTo(/**newControllerName=*/
           event.target.parentElement.querySelector('h3').id);
     } catch (e) {
       window.alert('No contact with the server!');
