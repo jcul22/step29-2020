@@ -68,7 +68,7 @@ public class Attendee implements AttendeeInterface {
   public Entity toEntity() {
     Entity attendeeEntity = 
         new Entity(/*kind=*/EntityConstants.AttendeeEntity.TABLE_NAME, 
-        /*keyName=*/this.screenName);
+        /*keyName=*/this.screenName + this.sessionId);
     attendeeEntity.setProperty 
         (EntityConstants.AttendeeEntity.SESSION_ID, this.sessionId);
     attendeeEntity.setProperty

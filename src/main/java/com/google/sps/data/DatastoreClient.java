@@ -5,6 +5,8 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import java.io.IOException;
@@ -55,21 +57,36 @@ public class DatastoreClient implements DatastoreClientInterface {
     return Optional.of(Instance.fromEntity(instanceEntity));
    }
 
-  public Optional<AttendeeInterface> getAttendee(String screenName) {
-    Query getAttendee = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
-      .setFilter(new FilterPredicate
-      (EntityConstants.AttendeeEntity.SCREEN_NAME,
-      FilterOperator.EQUAL, screenName));
-    PreparedQuery pq = datastoreService.prepare(getAttendee);
-    Entity attendeeEntity = pq.asSingleEntity();
-    return Optional.of(Attendee.fromEntity(attendeeEntity));
+  public Optional<AttendeeInterface> getAttendee
+    (String screenName,String sessionId) {
+      Filter filterByScreenName = new FilterPredicate
+        (EntityConstants.AttendeeEntity.SCREEN_NAME, FilterOperator.EQUAL,
+        screenName);
+      Filter filterBySessionID = new FilterPredicate
+        (EntityConstants.AttendeeEntity.SESSION_ID, FilterOperator.EQUAL, 
+        sessionId);
+      Filter filterByScreenNameAndSessionId = 
+        CompositeFilterOperator.and(filterByScreenName, filterBySessionID);
+      Query getAttendee = new Query
+        (EntityConstants.AttendeeEntity.TABLE_NAME)
+        .setFilter(filterByScreenNameAndSessionId);
+      PreparedQuery pq = datastoreService.prepare(getAttendee);
+      Entity attendeeEntity = pq.asSingleEntity();
+      return Optional.of(Attendee.fromEntity(attendeeEntity));
    }
 
-  public void deleteAttendee(String screenName) {
-    Query getAttendee = new Query(EntityConstants.AttendeeEntity.TABLE_NAME)
-      .setFilter(new FilterPredicate
-      (EntityConstants.AttendeeEntity.SCREEN_NAME,
-      FilterOperator.EQUAL, screenName));
+  public void deleteAttendee(String screenName, String sessionId) {
+    Filter filterByScreenName = new FilterPredicate
+      (EntityConstants.AttendeeEntity.SCREEN_NAME, FilterOperator.EQUAL,
+       screenName);
+    Filter filterBySessionID = new FilterPredicate
+      (EntityConstants.AttendeeEntity.SESSION_ID, FilterOperator.EQUAL, 
+      sessionId);
+    Filter filterByScreenNameAndSessionId = 
+      CompositeFilterOperator.and(filterByScreenName, filterBySessionID);
+    Query getAttendee = new Query
+      (EntityConstants.AttendeeEntity.TABLE_NAME)
+      .setFilter(filterByScreenNameAndSessionId);
     PreparedQuery pq = datastoreService.prepare(getAttendee);
     Entity attendeeEntity = pq.asSingleEntity();
     datastoreService.delete(attendeeEntity.getKey());

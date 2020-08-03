@@ -49,14 +49,16 @@ public interface DatastoreClientInterface {
    * Returns the AttendeeInterface object associated with the given screenName.
    * If return Optional is empty, then no object exists with given parameter.
    * @param {String} screenName - the name used to look up the Attendeee.
+   * @param {String} sessionId - the session the attendee is attached to.
    */ 
-  Optional<AttendeeInterface> getAttendee(String screenName);
+  Optional<AttendeeInterface> getAttendee(String screenName, String sessionId);
 
   /**
    * Deletes an Attendee from Datastore. 
    * @param {String} screenName - the name used to look up the Attendee.
+   * @param {String} sessionId - the session the attendee is attached to.
    */
-  void deleteAttendee(String screenName);
+  void deleteAttendee(String screenName, String sessionId);
 
   /**
    * Deletes an Instance from Datastore. 

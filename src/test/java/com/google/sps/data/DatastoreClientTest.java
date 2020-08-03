@@ -45,20 +45,28 @@ public class DatastoreClientTest  {
   @Test
   public void testAttendeeIsInsertedToDatastore() {
     // Tests that object is inserted to datastore.
-    AttendeeInterface attendee = new Attendee("12345", "Taniece", new Date());
-    datastoreClient.insertOrUpdateAttendee(attendee);
+    AttendeeInterface attendee1 = new Attendee("12345", "Taniece", new Date());
+    datastoreClient.insertOrUpdateAttendee(attendee1);
     Assert.assertEquals(DatastoreService.prepare(new Query
         (EntityConstants.AttendeeEntity.TABLE_NAME))
         .countEntities(), 1);
+    // Tests the attendees with the same screenName but different sessionId are
+    // inserted as seperate entries.
+    AttendeeInterface attendee2 = new Attendee("54321", "Taniece", new Date());
+    datastoreClient.insertOrUpdateAttendee(attendee2);
+    Assert.assertEquals(DatastoreService.prepare(new Query
+        (EntityConstants.AttendeeEntity.TABLE_NAME))
+        .countEntities(), 2);    
     // Tests that getAttendee finds and returns attendee.
-    AttendeeInterface attendee2 =
-        datastoreClient.getAttendee("Taniece").get();
-    Assert.assertEquals(attendee, attendee2);
+    AttendeeInterface attendee3 =
+        datastoreClient.getAttendee("Taniece", "12345").get();
+    Assert.assertEquals(attendee1, attendee3);
+    Assert.assertNotEquals(attendee1,attendee2);
     // Tests that existing attendees are updated after being modified.
     datastoreClient.insertOrUpdateAttendee(attendee2);
     Assert.assertEquals(DatastoreService.prepare(new Query
         (EntityConstants.AttendeeEntity.TABLE_NAME))
-        .countEntities(), 1);
+        .countEntities(), 2);
   }
 
   @Test
@@ -117,7 +125,7 @@ public class DatastoreClientTest  {
   public void testAttendeesInASession() {
     // Tests that getAttendeesInSession return attendees in given session.
     AttendeeInterface attendee1 = new Attendee("12345", "Taniece", new Date());
-    AttendeeInterface attendee3 = new Attendee("54321", "Tan", new Date());
+    AttendeeInterface attendee3 = new Attendee("54321", "Taniece", new Date());
     AttendeeInterface attendee2 = new Attendee("12345", "Jasmine", new Date());
     AttendeeInterface attendee4 = new Attendee("12345", "Chris", new Date());
     datastoreClient.insertOrUpdateAttendee(attendee1);
@@ -131,7 +139,7 @@ public class DatastoreClientTest  {
         datastoreClient.getAttendeesInSession("12345");
     Assert.assertEquals(attendeeList.size(), 3);
     // Tests deleteAttendee removes entity from datastore
-    datastoreClient.deleteAttendee("Chris");
+    datastoreClient.deleteAttendee("Taniece", "12345");
     List<AttendeeInterface> attendeeList2 = 
         datastoreClient.getAttendeesInSession("12345");
     Assert.assertEquals(DatastoreService.prepare(new Query
