@@ -17,7 +17,7 @@ let urlParameters;
 let serverClient;
 
 /**
- * This object represents the two keys that are apart 
+ * This object represents the two keys that are a part 
  * of the URLSearchParams of the given session. They convey the current
  * screen name of the current user and the session-id they are in.
  * @type {object}
