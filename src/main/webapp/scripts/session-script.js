@@ -31,7 +31,7 @@ function main() {
   serverClient = new ServerClient(urlParameters);
   addOnClickListenerToElements();
   serverClient.getSession().then(session => {
-    changeElementsToReadOnly(session.getSessionId());
+    setReadOnlyInputs(session.getSessionId());
   }).catch(error => {
     window.alert('No contact with the server!');
   });
