@@ -57,13 +57,13 @@ function addOnClickListenerToElements() {
 }
 
 /**
- * function changeElementsToReadOnly() changes the two inputs,
+ * function setReadOnlyInputs() changes the two inputs,
  * one on the welcome message and the other in the session 
  * information div, to show the session ID and then changes them
  * to read only (meaning they cannot be changed once set).
  * @param {string} sessionId
  */
-function changeElementsToReadOnly(sessionId) {
+function setReadOnlyInputs(sessionId) {
   const /** HTMLElement */ sessionInfoInput = 
       document.getElementById('session-info-input');
   sessionInfoInput.value = sessionId;
@@ -102,4 +102,4 @@ function copyTextToClipboard(element) {
 }
 
 export { openSessionInfo, closeParentDisplay, copyTextToClipboard, 
-  addOnClickListenerToElements, changeElementsToReadOnly };
+  addOnClickListenerToElements, setReadOnlyInputs };
