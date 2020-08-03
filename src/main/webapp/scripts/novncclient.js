@@ -20,8 +20,8 @@ class NoVNCClient {
    */
   constructor(connectCallback, disconnectCallback, rfbConnectionElement) {
     /**
-     * Represents the current noVNC RFB object of the 
-     * session, the single connection to the VNC server of the
+     * Represents the current noVNC RFB object of the session. The RFB
+     * object is defined as the single connection to the VNC server of the
      * VM assigned to the session. The interface of the noVNC client 
      * consists of this single RFB object and all of the functionality of
      * the library resides in this object. 
