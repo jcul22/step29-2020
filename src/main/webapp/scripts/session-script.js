@@ -14,7 +14,7 @@ let urlParameters;
  * of the client-to-server interactions, like changing the controller.
  * @type {ServerClient}
  */
-let client;
+let serverClient;
 
 /**
  * This waits until the webpage loads and then it calls the
@@ -28,9 +28,9 @@ window.onload = function() { main(); }
  */
 function main() {
   urlParameters = new URLSearchParams(window.location.search);
-  client = new ServerClient(urlParameters);
+  serverClient = new ServerClient(urlParameters);
   addOnClickListenerToElements();
-  client.getSession().then(session => {
+  serverClient.getSession().then(session => {
     changeElementsToReadOnly(session.getSessionId());
   }).catch(error => {
     window.alert('No contact with the server!');
