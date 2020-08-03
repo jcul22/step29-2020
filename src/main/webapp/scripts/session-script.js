@@ -17,6 +17,17 @@ let urlParameters;
 let serverClient;
 
 /**
+ * This object represents the two keys that are apart 
+ * of the URLSearchParams of the given session. They convey the current
+ * screen name of the current user and the session-id they are in.
+ * @type {object}
+ */
+const URL_PARAM_KEY = {
+  SCREEN_NAME: 'name',
+  SESSION_ID: 'session-id'
+};
+
+/**
  * This waits until the webpage loads and then it calls the
  * anonymous function, which calls main.
  */
@@ -87,7 +98,7 @@ function buildAttendeeDiv(nameOfAttendee, controller) {
  * @param {string} controller name of the controller of the session
  */
 function changeControllerTo(event, controller) {
-  if (urlParameters.get('name') === controller) {
+  if (urlParameters.get(URL_PARAM_KEY.SCREEN_NAME) === controller) {
     try {
       serverClient.changeControllerTo(/**newControllerName=*/
           event.target.parentElement.querySelector('h3').id);
