@@ -58,18 +58,17 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   private static final JsonFactory JSON_FACTORY = 
     JacksonFactory.getDefaultInstance();
   private static GoogleCredentials credential;
-  private  Compute compute;
+  private Compute compute;
+  private final String OPERATION_STATUS_DONE = "DONE";
 
-  /** 
-   * Creates an environment, calls each operation and tracks to see if they 
-   * are executed.
-   * @param {String} operation - the name of the method that should be called.
-   * @param {String} instanceName - the name of the instance being operated on.
-   * @param {Optional<String>} password - the password needed to access this 
-   *    instance. Not all operations requires a password.
+  /**
+   * Example of how to use computeManager
+   * ComputeAPIClientInterface example = new ComputeAPIClient();
+   * example.computeManager("createInstance", "vm1", Optional.of("12345"));
+   * example.computeManager("deleteInstance","testvm", null);
    */
-  public void helper(String operation, String instanceName,
-    Optional<String> password) {
+  public void computeManager(String operation, String instanceName,
+    Optional<String> sessionId) {
       try {
         httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         credential = GoogleCredentials.getApplicationDefault();
@@ -88,7 +87,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
           .build();
         Operation op = null;
         if (operation == "createInstance") {
-          op = createInstance(instanceName, password.get());
+          op = createInstance(instanceName, sessionId.get());
         }
         else if (operation == "deleteInstance") {
           op = deleteInstance(instanceName);
@@ -97,7 +96,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
           op = stopInstance(instanceName);
         }
         else if (operation == "restartInstance") {
-          op = restartInstance(instanceName, password.get());
+          op = restartInstance(instanceName, sessionId.get());
         }
         else {
           System.out.println("Operation not found!");
@@ -121,16 +120,13 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
     }
     
   // [START create_instances]
-  public Operation createInstance(String instanceName, String password)
+  public Operation createInstance(String instanceName, String sessionId)
     throws IOException {
       Instance instance = new Instance();
       instance.setName(instanceName);
       instance.setMachineType(String.format(
         "projects/taniecer-step-2020/zones/us-central1-f/machineTypes/n1-standard-1",
         PROJECT_ID, ZONE_NAME));
-      CustomerEncryptionKey key = new CustomerEncryptionKey();
-      key.setRawKey(password);
-      // Add Network Interface to be used by VM Instance.
       NetworkInterface ifc = new NetworkInterface();
       ifc.setNetwork(String.format(
         "https://www.googleapis.com/compute/v1/projects/%s/global/networks/default",
@@ -160,6 +156,10 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       item.setKey("startup-script-url");
       item.setValue(String.format("gs://%s/starter_script.sh", PROJECT_ID));
       meta.setItems(Collections.singletonList(item));
+      Metadata.Items item2 = new Metadata.Items();
+      item2.setKey("session-id");
+      item2.setValue(sessionId);
+      meta.setItems(Collections.singletonList(item2));
       instance.setMetadata(meta);
       ServiceAccount account = new ServiceAccount();
       account.setEmail("default");
@@ -177,25 +177,36 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   public Operation stopInstance(String instanceName) throws Exception {
     Compute.Instances.Stop stop =
       compute.instances().stop(PROJECT_ID, ZONE_NAME, instanceName);
-      return stop.execute();
+    return stop.execute();
   }
 
-  public Operation restartInstance(String instanceName, String password) 
+  public Operation restartInstance(String instanceName, String sessionId) 
     throws Exception {
-      CustomerEncryptionKey key = new CustomerEncryptionKey();
-      key.setRawKey(password);
+      // Adds startup script to be used by VM Instance.
+      Instance instance = new Instance();
+      instance.setName(instanceName);
+      Metadata meta = new Metadata();
+      Metadata.Items item = new Metadata.Items();
+      item.setKey("startup-script-url");
+      item.setValue(String.format("gs://%s/starter_script.sh", PROJECT_ID));
+      Metadata.Items item2 = new Metadata.Items();
+      item2.setKey("session-id");
+      item2.setValue(sessionId);
+      meta.setItems(Collections.singletonList(item));
+      meta.setItems(Collections.singletonList(item2));
+      instance.setMetadata(meta);
       Compute.Instances.Start restart =
         compute.instances().start(PROJECT_ID, ZONE_NAME, instanceName);
-        return restart.execute();
+      return restart.execute();
     }
 
   public Operation deleteInstance(String instanceName) throws Exception {
     Compute.Instances.Delete delete =
       compute.instances().delete(PROJECT_ID, ZONE_NAME, instanceName);
-      return delete.execute();
+    return delete.execute();
   }
 
-  public static Operation.Error blockUntilComplete(
+  public Operation.Error blockUntilComplete(
     Compute compute, Operation operation, long timeout) throws Exception {
       long start = System.currentTimeMillis();
       final long pollIntervalMs = 5 * 1000;
@@ -206,7 +217,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       }
       String status = operation.getStatus();
       String opId = operation.getName();
-      while (operation != null && !status.equals("DONE")) {
+      while (operation != null && !status.equals(OPERATION_STATUS_DONE)) {
         Thread.sleep(pollIntervalMs);
         long elapsed = System.currentTimeMillis() - start;
         if (elapsed >= timeout) {
