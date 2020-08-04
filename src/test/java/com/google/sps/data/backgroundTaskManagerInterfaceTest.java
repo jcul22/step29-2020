@@ -9,8 +9,8 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import org.junit.After;
 import org.junit.Before;
-import com.google.sps.data.Instance;
-import com.google.sps.data.InstanceInterface;
+import com.google.sps.data.backgroundTaskManagerServlet;
+import com.google.sps.data.backgroundTaskManagerInterface;
 import java.util.Optional;
 
 /** Class that test the methods in the BackgroundTaskManagerInterface class. */
@@ -32,8 +32,22 @@ public class InstanceTest {
   @Test
   public void testGetter() {
     // Creates test data. 
+    BackgroundTaskManagerInterface backgroundManager = new backgroundManager(); 
+    String response = backgroundManager.updateInstances();
+    Assert.assertEquals(response, "Unimplemented");
+  } 
+  @Test
+  public void testGetter() {
+    // Creates test data. 
     BackgroundTaskManagerInterface backgroundManager = new backgroundManager();
-    Assert.assertEquals(backgroundManager.updateInstances(), "Unimplemented");
-    Assert.assertEquals(backgroundManager.deleteInactiveAttendees(), "Unimplemented");
+    String response = backgroundManager.deleteInactiveAttendees();
+    Assert.assertEquals(response, "Unimplemented"); 
+
+  } 
+  @Test
+  public void testGetter() {
+    // Creates test data. 
+    BackgroundTaskManagerInterface backgroundManager = new backgroundManager();
+    String response = backgroundManager.replaceFaultyInstances();
     Assert.assertEquals(backgroundManager.replaceFaultyInstances(), "Unimplemented");
-  }
+  }  
