@@ -1,3 +1,5 @@
+package com.google.sps; 
+
 import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,7 +45,7 @@ public class AttendeeTest {
     AttendeeInterface attendee = new Attendee("12345", "Taniece", new Date());
     Entity testEntity = attendee.toEntity();
     AttendeeInterface newAttendee = Attendee.fromEntity(testEntity);
-    Assert.assertTrue(attendee.equals(newAttendee));
+    Assert.assertEquals(attendee, newAttendee);
   }
 
   @Test
