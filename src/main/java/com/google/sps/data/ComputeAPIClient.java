@@ -44,6 +44,7 @@ import java.lang.reflect.*;
 
 /** Class that creates, stops and deletes VM instances. */
 public class ComputeAPIClient implements ComputeAPIClientInterface {
+  // Constants
   private static final String APPLICATION_NAME = "VMN";
   private static final String PROJECT_ID = "cdesir-step-2020";
   private static final String ZONE_NAME = "us-central1-f";
@@ -54,15 +55,30 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   private static final String NETWORK_INTERFACE_CONFIG = "ONE_TO_ONE_NAT";
   private static final String NETWORK_ACCESS_CONFIG = "External NAT";
   private static final long OPERATION_TIMEOUT_MILLIS = 60 * 1000;
-  private static HttpTransport httpTransport;
   private static final JsonFactory JSON_FACTORY = 
     JacksonFactory.getDefaultInstance();
+  private final String OPERATION_STATUS_DONE = "DONE";
+  private final String VNC_SERVER_PASSWORD_KEY = "vnc-server-password";
+  private final String STARTUP_SCRIPT_URL_KEY = "startup-script-url";
+  private final String SCOPE_FULL_CONTROL = 
+    "https://www.googleapis.com/auth/devstorage.full_control";
+  private final String SCOPE_COMPUTE = 
+    "https://www.googleapis.com/auth/compute";
+  // Member variables 
   private static GoogleCredentials credential;
   private Compute compute;
-  private Operation op;
-  private final String OPERATION_STATUS_DONE = "DONE";
+  private static HttpTransport httpTransport;  
+
+  /** Create environment for Compute Engine object. */
+  public ComputeAPIClient() {
+    createComputeEngineObject();
+  }
   
-  private void createEnvironment() {
+  /** 
+   * Create Compute Engine object and authenticate using Google Application
+   * Default Credentials
+   */
+  private void createComputeEngineObject() {
     try {
       httpTransport = GoogleNetHttpTransport.newTrustedTransport();
       credential = GoogleCredentials.getApplicationDefault();
@@ -86,38 +102,34 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
         t.printStackTrace();
       }
   }
-    
-  // [START create_instances]
+
   public void createInstance(String instanceName, String vncServerPassword)
     throws IOException {
-      createEnvironment();
       Instance instance = new Instance();
       instance.setName(instanceName);
       instance.setMachineType(String.format(
-        "projects/cdesir-step-2020/zones/us-central1-f/machineTypes/n1-standard-1",
+        "projects/%s/zones/%s/machineTypes/n1-standard-1",
         PROJECT_ID, ZONE_NAME));
       setUpNetworkInterace(instance);
-      SetUpDisk(instance);
-      SetUpMetadata(instance, vncServerPassword);
-      SetUpServiceAccounts(instance);
+      setUpDisk(instance);
+      setUpMetadata(instance, vncServerPassword);
+      setUpServiceAccounts(instance);
       System.out.println(instance.toPrettyString());
       Compute.Instances.Insert create = 
         compute.instances().insert(PROJECT_ID, ZONE_NAME, instance);
-      op = create.execute();
-      waitForOperationCompletion();
+      Operation op = create.execute();
+      waitForOperationCompletion(op);
     } 
 
   public void stopInstance(String instanceName) throws Exception {
-    createEnvironment();
     Compute.Instances.Stop stop =
       compute.instances().stop(PROJECT_ID, ZONE_NAME, instanceName);
-    op = stop.execute();
-    waitForOperationCompletion();
+    Operation op = stop.execute();
+    waitForOperationCompletion(op);
   }
 
-  public void restartInstance(String instanceName, String vncServerPassword) 
+  public void restartInstance(String instanceName, String vncServerPassword)
     throws Exception {
-      createEnvironment();
       Compute.Instances.Get getInstance = 
         compute.instances().get(PROJECT_ID, ZONE_NAME, instanceName);
       Instance instance = getInstance.execute();
@@ -130,18 +142,28 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       setMeta.execute();
       Compute.Instances.Start restart =
         compute.instances().start(PROJECT_ID, ZONE_NAME, instanceName);
-      op = restart.execute();
-      waitForOperationCompletion();
+      Operation op = restart.execute();
+      waitForOperationCompletion(op);
     }
 
   public void deleteInstance(String instanceName) throws Exception {
-    createEnvironment();
     Compute.Instances.Delete delete =
       compute.instances().delete(PROJECT_ID, ZONE_NAME, instanceName);
-    op = delete.execute();
-    waitForOperationCompletion();
+    Operation op = delete.execute();
+    waitForOperationCompletion(op);
   }
 
+  /**
+   * Waits until {@code operation} is completed.
+   * @param {Compute} compute - the {@code Compute} object
+   * @param {Operation} operation - the operation returned by the 
+   *    original request
+   * @param {long} timeout - the timeout, in millis
+   * @return the error, if any, else {@code null} if there was no error
+   * @throws InterruptedException if we timed out waiting for the operation
+   *    to complete
+   * @throws IOException if we had trouble connecting
+   */
   private Operation.Error blockUntilComplete(
     Compute compute, Operation operation, long timeout) throws Exception {
       long start = System.currentTimeMillis();
@@ -177,6 +199,10 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       return operation == null ? null : operation.getError();
     }
 
+  /**
+   * Set up Network Interface on VM Instance.
+   * @param {Instance} instance - the instance the interface will be added to.
+   */
   private void setUpNetworkInterace(Instance instance) {
     NetworkInterface ifc = new NetworkInterface();
     ifc.setNetwork(String.format(
@@ -191,7 +217,11 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
     instance.setNetworkInterfaces(Collections.singletonList(ifc));
   }
 
-  private void SetUpDisk(Instance instance) {
+  /**
+   * Adds attached Persistent Disk to VM Instance.
+   * @param {Instance} instance - the instance the disk will be added to.
+   */
+  private void setUpDisk(Instance instance) {
     AttachedDisk disk = new AttachedDisk();
     disk.setBoot(true);
     disk.setAutoDelete(true);
@@ -200,34 +230,51 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
     params.setDiskName(instance.getName());
     params.setSourceImage(SOURCE_IMAGE_PREFIX + SOURCE_IMAGE_PATH);
     params.setDiskType(String.format(
-      "projects/cdesir-step-2020/zones/us-central1-a/diskTypes/pd-standard",
+      "projects/%s/zones/%s/diskTypes/pd-standard",
       PROJECT_ID, ZONE_NAME));
     disk.setInitializeParams(params);
     instance.setDisks(Collections.singletonList(disk));
   }
-  
-  private void SetUpMetadata(Instance instance, String vncServerPassword) {
+
+  /**
+   * Adds created metadata for startup script and vncServerPassword to 
+   * VM instance.
+   * @param {Instance} instance - the instance the metadata will be added to.
+   * @param {String} vncServerPassword - the password needed to access to
+   *    vnc server.
+   */
+  private void setUpMetadata(Instance instance, String vncServerPassword) {
     instance.setMetadata(createMetadata(vncServerPassword));
   }
 
+  /** 
+   * Creates metadata for startup script and vncServerPassword.
+   * @param {String} vncServerPassword - the password needed to access to
+   *    vnc server.
+   */
   private Metadata createMetadata(String vncServerPassword) {
     Metadata meta = new Metadata();
     Metadata.Items item = new Metadata.Items();
-    item.setKey("startup-script-url");
+    item.setKey(STARTUP_SCRIPT_URL_KEY);
     item.setValue(String.format("gs://%s/starter_script.sh", PROJECT_ID));
     Metadata.Items item2 = new Metadata.Items();
-    item2.setKey("vnc-server-password");
+    item2.setKey(VNC_SERVER_PASSWORD_KEY);
     item2.setValue(vncServerPassword);
     meta.setItems(Arrays.asList(item, item2 )); 
     return meta;
   }
 
-  private void SetUpServiceAccounts(Instance instance) {
+  /** 
+   * Initialize the service account to be used by the VM Instance and set
+   * the API access scopes.
+   * @param {Instance} instance - the instance the account will be assigned to.
+   */
+  private void setUpServiceAccounts(Instance instance) {
     ServiceAccount account = new ServiceAccount();
     account.setEmail("default");
     List<String> scopes = new ArrayList<>();
-    scopes.add("https://www.googleapis.com/auth/devstorage.full_control");
-    scopes.add("https://www.googleapis.com/auth/compute");
+    scopes.add(SCOPE_FULL_CONTROL);
+    scopes.add(SCOPE_COMPUTE);
     account.setScopes(scopes);
     instance.setServiceAccounts(Collections.singletonList(account));
   }
@@ -236,22 +283,22 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
    * Call Compute Engine API operation and poll for operation completion
    * status. 
    */
-  private void waitForOperationCompletion() {
+  private void waitForOperationCompletion(Operation op) {
     try {
-    
-    System.out.println("Waiting for operation completion...");
-    Operation.Error error = blockUntilComplete
-      (compute, op, OPERATION_TIMEOUT_MILLIS);
-    if (error == null) {
-      System.out.println("Success!");
-    } else {
-      System.out.println(error.toPrettyString());
-    }
-  }catch (IOException e) {
+      System.out.println("Waiting for operation completion...");
+      Operation.Error error = blockUntilComplete
+        (compute, op, OPERATION_TIMEOUT_MILLIS);
+      if (error == null) {
+        System.out.println("Success!");
+      } 
+      else {
+        System.out.println(error.toPrettyString());
+      }
+    } catch (IOException e) {
         System.out.println("Got error!");
         System.err.println(e.getMessage());
     } catch (Throwable t) {
         t.printStackTrace();
-      }
+    }
   }
 }
