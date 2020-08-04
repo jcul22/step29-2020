@@ -57,28 +57,30 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   private static final long OPERATION_TIMEOUT_MILLIS = 60 * 1000;
   private static final JsonFactory JSON_FACTORY = 
     JacksonFactory.getDefaultInstance();
-  private final String OPERATION_STATUS_DONE = "DONE";
-  private final String VNC_SERVER_PASSWORD_KEY = "vnc-server-password";
-  private final String STARTUP_SCRIPT_URL_KEY = "startup-script-url";
-  private final String SCOPE_FULL_CONTROL = 
+  private static final String OPERATION_STATUS_DONE = "DONE";
+  private static final String VNC_SERVER_PASSWORD_KEY = "vnc-server-password";
+  private static final String STARTUP_SCRIPT_URL_KEY = "startup-script-url";
+  private static final String SCOPE_FULL_CONTROL = 
     "https://www.googleapis.com/auth/devstorage.full_control";
-  private final String SCOPE_COMPUTE = 
+  private static final String SCOPE_COMPUTE = 
     "https://www.googleapis.com/auth/compute";
+  private static final int POLL_INTERVAL_MS = 5 * 1000; // 5 seconds
+  private static final String MACHINE_TYPE = "n1-standard-1";
   // Member variables 
-  private static GoogleCredentials credential;
+  private GoogleCredentials credential;
   private Compute compute;
-  private static HttpTransport httpTransport;  
+  private HttpTransport httpTransport;  
 
   /** Create environment for Compute Engine object. */
   public ComputeAPIClient() {
-    createComputeEngineObject();
+    initializeComputeEnvironment();
   }
   
   /** 
    * Create Compute Engine object and authenticate using Google Application
    * Default Credentials
    */
-  private void createComputeEngineObject() {
+  private void initializeComputeEnvironment() {
     try {
       httpTransport = GoogleNetHttpTransport.newTrustedTransport();
       credential = GoogleCredentials.getApplicationDefault();
@@ -96,8 +98,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
         .setApplicationName(APPLICATION_NAME)
         .build();
     } catch (IOException e) {
-        System.out.println("Got error!");
-        System.err.println(e.getMessage());
+       e.printStackTrace();
     } catch (Throwable t) {
         t.printStackTrace();
       }
@@ -108,8 +109,8 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       Instance instance = new Instance();
       instance.setName(instanceName);
       instance.setMachineType(String.format(
-        "projects/%s/zones/%s/machineTypes/n1-standard-1",
-        PROJECT_ID, ZONE_NAME));
+        "projects/%s/zones/%s/machineTypes/%s",
+        PROJECT_ID, ZONE_NAME, MACHINE_TYPE));
       setUpNetworkInterace(instance);
       setUpDisk(instance);
       setUpMetadata(instance, vncServerPassword);
@@ -117,15 +118,13 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       System.out.println(instance.toPrettyString());
       Compute.Instances.Insert create = 
         compute.instances().insert(PROJECT_ID, ZONE_NAME, instance);
-      Operation op = create.execute();
-      waitForOperationCompletion(op);
+      waitForOperationCompletion(create.execute());
     } 
 
   public void stopInstance(String instanceName) throws Exception {
     Compute.Instances.Stop stop =
       compute.instances().stop(PROJECT_ID, ZONE_NAME, instanceName);
-    Operation op = stop.execute();
-    waitForOperationCompletion(op);
+    waitForOperationCompletion(stop.execute());
   }
 
   public void restartInstance(String instanceName, String vncServerPassword)
@@ -142,15 +141,13 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       setMeta.execute();
       Compute.Instances.Start restart =
         compute.instances().start(PROJECT_ID, ZONE_NAME, instanceName);
-      Operation op = restart.execute();
-      waitForOperationCompletion(op);
+      waitForOperationCompletion(restart.execute());
     }
 
   public void deleteInstance(String instanceName) throws Exception {
     Compute.Instances.Delete delete =
       compute.instances().delete(PROJECT_ID, ZONE_NAME, instanceName);
-    Operation op = delete.execute();
-    waitForOperationCompletion(op);
+    waitForOperationCompletion(delete.execute());
   }
 
   /**
@@ -167,7 +164,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   private Operation.Error blockUntilComplete(
     Compute compute, Operation operation, long timeout) throws Exception {
       long start = System.currentTimeMillis();
-      final long pollIntervalMs = 5 * 1000;
+      final long pollIntervalMs = POLL_INTERVAL_MS;
       String zone = operation.getZone(); // null for global/regional operations
       if (zone != null) {
         String[] bits = zone.split("/");
