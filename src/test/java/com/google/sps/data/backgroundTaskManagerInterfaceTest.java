@@ -30,14 +30,14 @@ public class InstanceTest {
   }
 
   @Test
-  public void testGetter() {
+  public void updateInstanceTest() {
     // Creates test data. 
     BackgroundTaskManagerInterface backgroundManager = new backgroundManager(); 
     String response = backgroundManager.updateInstances();
     Assert.assertEquals(response, "Unimplemented");
   } 
   @Test
-  public void testGetter() {
+  public void deleteInactiveAttendeesTest() {
     // Creates test data. 
     BackgroundTaskManagerInterface backgroundManager = new backgroundManager();
     String response = backgroundManager.deleteInactiveAttendees();
@@ -45,7 +45,7 @@ public class InstanceTest {
 
   } 
   @Test
-  public void testGetter() {
+  public void replaceFaultyInstanceTest() {
     // Creates test data. 
     BackgroundTaskManagerInterface backgroundManager = new backgroundManager();
     String response = backgroundManager.replaceFaultyInstances();
