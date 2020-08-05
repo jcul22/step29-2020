@@ -43,7 +43,7 @@ import java.util.Optional;
 import java.lang.reflect.*;
 
 /** Class that handles interactions with Google Compute Engine.  */
-public class ComputeAPIClient implements ComputeAPIClientInterface {
+public class ComputeEngineClient implements ComputeEngineClientInterface {
   // Constants
   private static final String APPLICATION_NAME = "VMN";
   private static final String PROJECT_ID = "cdesir-step-2020";
@@ -72,7 +72,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   private HttpTransport httpTransport;  
 
   /** Create environment for Compute Engine object. */
-  public ComputeAPIClient() {
+  public ComputeEngineClient() {
     initializeComputeEnvironment();
   }
   
@@ -292,8 +292,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
         System.out.println(error.toPrettyString());
       }
     } catch (IOException e) {
-        System.out.println("Got error!");
-        System.err.println(e.getMessage());
+        e.printStackTrace();
     } catch (Throwable t) {
         t.printStackTrace();
     }

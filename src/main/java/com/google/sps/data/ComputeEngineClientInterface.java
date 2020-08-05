@@ -4,8 +4,8 @@ import com.google.api.services.compute.model.Operation;
 import java.io.IOException;
 import java.util.Optional;
 
-/** Interface for the ComputerAPIClient class. */
-public interface ComputeAPIClientInterface {
+/** Interface for the ComputerEngineClient class. */
+public interface ComputeEngineClientInterface {
   /** 
    * Creates a new Instance.
    * @param {String} instanceName - the name of the new Instance.
@@ -14,7 +14,7 @@ public interface ComputeAPIClientInterface {
    */
   void createInstance(String instanceName, String vncServerPassword) 
     throws Exception;
-
+    
   /**
    * Stops an Instance.
    * @param {String} instanceName - the name of the instance that will 
