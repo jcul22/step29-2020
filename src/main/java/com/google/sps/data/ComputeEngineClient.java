@@ -83,7 +83,7 @@ public class ComputeEngineClient implements ComputeEngineClientInterface {
   private void initializeComputeEnvironment() {
     try {
       httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-      credentials= GoogleCredentials.getApplicationDefault();
+      credentials = GoogleCredentials.getApplicationDefault();
       if (credentials.createScopedRequired()) {
         List<String> scopes = new ArrayList<>();
         scopes.add(ComputeScopes.DEVSTORAGE_FULL_CONTROL);
