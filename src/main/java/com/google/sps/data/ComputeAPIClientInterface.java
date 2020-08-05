@@ -13,7 +13,7 @@ public interface ComputeAPIClientInterface {
    *    to vnc server.
    */
   void createInstance(String instanceName, String vncServerPassword) 
-    throws IOException;
+    throws Exception;
 
   /**
    * Stops an Instance.

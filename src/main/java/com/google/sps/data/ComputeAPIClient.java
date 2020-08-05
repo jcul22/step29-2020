@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Optional;
 import java.lang.reflect.*;
 
-/** Class that creates, stops and deletes VM instances. */
+/** Class that handles interactions with Google Compute Engine.  */
 public class ComputeAPIClient implements ComputeAPIClientInterface {
   // Constants
   private static final String APPLICATION_NAME = "VMN";
@@ -54,7 +54,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
     "cdesir-step-2020/global/images/vmn-image";
   private static final String NETWORK_INTERFACE_CONFIG = "ONE_TO_ONE_NAT";
   private static final String NETWORK_ACCESS_CONFIG = "External NAT";
-  private static final long OPERATION_TIMEOUT_MILLIS = 60 * 1000;
+  private static final long OPERATION_TIMEOUT_MILLIS = 60 * 1000; // 60 seconds
   private static final JsonFactory JSON_FACTORY = 
     JacksonFactory.getDefaultInstance();
   private static final String OPERATION_STATUS_DONE = "DONE";
@@ -67,7 +67,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   private static final int POLL_INTERVAL_MS = 5 * 1000; // 5 seconds
   private static final String MACHINE_TYPE = "n1-standard-1";
   // Member variables 
-  private GoogleCredentials credential;
+  private GoogleCredentials credentials;
   private Compute compute;
   private HttpTransport httpTransport;  
 
@@ -83,29 +83,29 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
   private void initializeComputeEnvironment() {
     try {
       httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-      credential = GoogleCredentials.getApplicationDefault();
-      if (credential.createScopedRequired()) {
+      credentials= GoogleCredentials.getApplicationDefault();
+      if (credentials.createScopedRequired()) {
         List<String> scopes = new ArrayList<>();
         scopes.add(ComputeScopes.DEVSTORAGE_FULL_CONTROL);
         scopes.add(ComputeScopes.COMPUTE);
-        credential = credential.createScoped(scopes);
+        credentials = credentials.createScoped(scopes);
       }
       HttpRequestInitializer requestInitializer = 
-        new HttpCredentialsAdapter(credential);
+        new HttpCredentialsAdapter(credentials);
       // Create Compute Engine object.
       compute = new Compute.Builder
         (httpTransport, JSON_FACTORY, requestInitializer)
         .setApplicationName(APPLICATION_NAME)
         .build();
     } catch (IOException e) {
-       e.printStackTrace();
+        e.printStackTrace();
     } catch (Throwable t) {
         t.printStackTrace();
-      }
+    }
   }
 
   public void createInstance(String instanceName, String vncServerPassword)
-    throws IOException {
+    throws Exception {
       Instance instance = new Instance();
       instance.setName(instanceName);
       instance.setMachineType(String.format(
@@ -133,7 +133,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
         compute.instances().get(PROJECT_ID, ZONE_NAME, instanceName);
       Instance instance = getInstance.execute();
       String getFingerPrints = instance.getMetadata().getFingerprint();
-      Metadata metadata = createMetadata(vncServerPassword);
+      Metadata metadata = buildMetadata(vncServerPassword);
       metadata.setFingerprint(getFingerPrints);
       Compute.Instances.SetMetadata setMeta = 
         compute.instances().setMetadata
@@ -155,15 +155,15 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
    * @param {Compute} compute - the {@code Compute} object
    * @param {Operation} operation - the operation returned by the 
    *    original request
-   * @param {long} timeout - the timeout, in millis
-   * @return the error, if any, else {@code null} if there was no error
+   * @param {long} timeout_ms - the timeout, in millis
+   * @return Operation.Error, if any, else {@code null} if there was no error
    * @throws InterruptedException if we timed out waiting for the operation
    *    to complete
    * @throws IOException if we had trouble connecting
    */
   private Operation.Error blockUntilComplete(
-    Compute compute, Operation operation, long timeout) throws Exception {
-      long start = System.currentTimeMillis();
+    Compute compute, Operation operation, long timeout_ms) throws Exception {
+      long start_ms = System.currentTimeMillis();
       final long pollIntervalMs = POLL_INTERVAL_MS;
       String zone = operation.getZone(); // null for global/regional operations
       if (zone != null) {
@@ -174,8 +174,8 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
       String opId = operation.getName();
       while (operation != null && !status.equals(OPERATION_STATUS_DONE)) {
         Thread.sleep(pollIntervalMs);
-        long elapsed = System.currentTimeMillis() - start;
-        if (elapsed >= timeout) {
+        long elapsed_ms = System.currentTimeMillis() - start_ms;
+        if (elapsed_ms >= timeout_ms) {
           throw new InterruptedException(
             "Timed out waiting for operation to complete");
         }
@@ -241,7 +241,7 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
    *    vnc server.
    */
   private void setUpMetadata(Instance instance, String vncServerPassword) {
-    instance.setMetadata(createMetadata(vncServerPassword));
+    instance.setMetadata(buildMetadata(vncServerPassword));
   }
 
   /** 
@@ -249,15 +249,15 @@ public class ComputeAPIClient implements ComputeAPIClientInterface {
    * @param {String} vncServerPassword - the password needed to access to
    *    vnc server.
    */
-  private Metadata createMetadata(String vncServerPassword) {
+  private Metadata buildMetadata(String vncServerPassword) {
     Metadata meta = new Metadata();
-    Metadata.Items item = new Metadata.Items();
-    item.setKey(STARTUP_SCRIPT_URL_KEY);
-    item.setValue(String.format("gs://%s/starter_script.sh", PROJECT_ID));
-    Metadata.Items item2 = new Metadata.Items();
-    item2.setKey(VNC_SERVER_PASSWORD_KEY);
-    item2.setValue(vncServerPassword);
-    meta.setItems(Arrays.asList(item, item2 )); 
+    Metadata.Items startupScriptItem = new Metadata.Items();
+    startupScriptItem.setKey(STARTUP_SCRIPT_URL_KEY);
+    startupScriptItem.setValue(String.format("gs://%s/starter_script.sh", PROJECT_ID));
+    Metadata.Items vncServerPasswordItem = new Metadata.Items();
+    vncServerPasswordItem.setKey(VNC_SERVER_PASSWORD_KEY);
+    vncServerPasswordItem.setValue(vncServerPassword);
+    meta.setItems(Arrays.asList(startupScriptItem, vncServerPasswordItem )); 
     return meta;
   }
 
