@@ -10,6 +10,9 @@ import com.google.sps.data.DatastoreClientInterface;
 import com.google.sps.data.DatastoreClient;
 import com.google.sps.data.BackgroundTaskManagerInterface;
 
+/** 
+* Implements the interface for the BackgroundTaskManager class. 
+*/ 
 public class BackgroundTaskManager implements BackgroundTaskManagerInterface {
    
     @Override

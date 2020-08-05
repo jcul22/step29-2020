@@ -2,7 +2,10 @@ package com.google.sps.data;
 import java.util.Optional;
 import java.util.List;
 
-// Interface for the BackgroundTaskManager class.
+/** 
+* An Interface that describes the different types of 
+* background work that can be performed on entities of the datastore. 
+*/
 public interface BackgroundTaskManagerInterface { 
 
     /** 

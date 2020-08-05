@@ -13,7 +13,7 @@ import com.google.sps.data.BackgroundTaskManager;
 import com.google.sps.data.BackgroundTaskManagerInterface;
 import java.util.Optional;
 
-/** Class that test the methods in the BackgroundTaskManagerInterface class. */
+/** Class that test the BackgroundTaskManager. */
 @RunWith(JUnit4.class)
 public class BackgroundTaskManagerTest {
   private final LocalServiceTestHelper helper =
@@ -31,7 +31,6 @@ public class BackgroundTaskManagerTest {
 
   @Test
   public void updateInstanceTest() {
-    // Creates test data.
     BackgroundTaskManagerInterface backgroundManager = new BackgroundTaskManager();  
     try {
         backgroundManager.updateInstances();
@@ -41,7 +40,6 @@ public class BackgroundTaskManagerTest {
   } 
   @Test
   public void deleteInactiveAttendeesTest() {
-    // Creates test data. 
     BackgroundTaskManagerInterface backgroundManager = new BackgroundTaskManager();
     try {
         backgroundManager.deleteInactiveAttendees();
@@ -52,7 +50,6 @@ public class BackgroundTaskManagerTest {
   } 
   @Test
   public void replaceFaultyInstancesTest() {
-    // Creates test data. 
     BackgroundTaskManagerInterface backgroundManager = new BackgroundTaskManager();
     try {
         backgroundManager.replaceFaultyInstances();
